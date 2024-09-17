@@ -1,0 +1,30 @@
+/* PAGINATION BUTTONS */
+
+.paginationBttns{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+    list-style: none;
+    padding: 0;
+}
+
+.paginationBttns a {
+	padding: 5px;
+	margin: 4px;
+    font-size: 28px;
+	color: #808080;
+
+}
+
+.paginationBttns a:hover{
+	color:  #df78e3;
+}
+ 
+.activeBttn a{
+	color: #df78e3;
+}
+
+.page-item-none{
+    display: none;
+}

@@ -1,0 +1,7 @@
+/root/Github/Game_bloc/contract/target/wasm32-unknown-unknown/release/deps/memory_units-ec5a7b8a5f807132.rmeta: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/memory_units-0.4.0/src/lib.rs
+
+/root/Github/Game_bloc/contract/target/wasm32-unknown-unknown/release/deps/libmemory_units-ec5a7b8a5f807132.rlib: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/memory_units-0.4.0/src/lib.rs
+
+/root/Github/Game_bloc/contract/target/wasm32-unknown-unknown/release/deps/memory_units-ec5a7b8a5f807132.d: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/memory_units-0.4.0/src/lib.rs
+
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/memory_units-0.4.0/src/lib.rs:

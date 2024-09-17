@@ -1,0 +1,1 @@
+/Users/ola/Documents/Github/Game_bloc/contract/target/wasm32-unknown-unknown/release/game_bloc.wasm: /Users/ola/Documents/Github/Game_bloc/contract/src/crowd_funded_tournaments.rs /Users/ola/Documents/Github/Game_bloc/contract/src/lib.rs /Users/ola/Documents/Github/Game_bloc/contract/src/token_transfer.rs /Users/ola/Documents/Github/Game_bloc/contract/src/tournaments.rs
