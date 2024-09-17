@@ -65,7 +65,7 @@ impl BugBounty {
             users: LookupMap::new(b"c"),
             bounty_ids: UnorderedSet::new(b"u"),
             crowd_funded_bounties: LookupMap::new(b"c"),
-            crowd_funded_bounty_ids: UnorderedSet::new(b"u"),
+            // crowd_funded_bounty_ids: UnorderedSet::new(b"u"),
         }
     }
 

@@ -1,6 +1,8 @@
-/Users/ola/Documents/Github/Game_bloc/contract/target/debug/deps/libgame_bloc.dylib: src/lib.rs src/token_transfer.rs
+/home/dunsin/gh/bugbounty/near_bug_bounty/contract/target/debug/deps/libgame_bloc.so: src/lib.rs src/crowd_funded_bounties.rs src/token_transfer.rs src/bounties.rs
 
-/Users/ola/Documents/Github/Game_bloc/contract/target/debug/deps/game_bloc.d: src/lib.rs src/token_transfer.rs
+/home/dunsin/gh/bugbounty/near_bug_bounty/contract/target/debug/deps/game_bloc.d: src/lib.rs src/crowd_funded_bounties.rs src/token_transfer.rs src/bounties.rs
 
 src/lib.rs:
+src/crowd_funded_bounties.rs:
 src/token_transfer.rs:
+src/bounties.rs:
