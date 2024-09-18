@@ -23,4 +23,9 @@ impl BugBounty {
     pub fn create_user(&mut self, user: User) {
         self.users.insert(&user.id, &user);
     }
+
+    pub fn get_user(&self, id: AccountId) -> Option<User> {
+        self.users.get(&id)
+    }
+    // pub fn edit_user(&mut self, )
 }
