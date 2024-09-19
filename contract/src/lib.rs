@@ -1,4 +1,5 @@
-use crate::tournaments::*;
+use crate::bounties::*;
+use crate::token_transfer::*;
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::{LookupMap, UnorderedMap, UnorderedSet};
 use near_sdk::json_types::U128;
@@ -6,7 +7,6 @@ use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::Promise;
 use near_sdk::{env, log, near_bindgen, AccountId};
 
-mod crowd_funded_bounties;
 mod token_transfer;
 mod bounties;
 
@@ -21,21 +21,33 @@ pub struct BugBounty {
     pub payments: UnorderedMap<AccountId, u128>,
     accounts: UnorderedMap<AccountId, UnorderedSet<String>>,
     users: LookupMap<AccountId, User>,
-    bounties: LookupMap<String, Tournament>,
+    bounties: LookupMap<String, bounties::BountyAccount>,
     bounty_ids: UnorderedSet<String>,
-    crowd_funded_bounties: LookupMap<String, Tournament>,
-    crowd_funded_bounties_ids: UnorderedSet<String>,
 }
 
 #[derive(BorshDeserialize, BorshSerialize, Deserialize, Serialize, Debug)]
 #[serde(crate = "near_sdk::serde")]
 pub struct User {
-    user_id: AccountId,
-    age: u8,
-    status: Status,
-    // ⟵ Another struct we've defined
-    wins: u8,
-    username: String,
+    pub id_hash: String,
+    pub age: u8,
+    pub date: String,
+    pub status: Status,
+    pub bounties_wons: u8,
+    pub bountys_created:u8,
+    pub points: Option<u128>,
+    pub username: String,
+    pub is_mod: bool,
+    pub principal_id: String,
+    pub account_id : String,
+    pub canister_id: String,
+    pub guild_badge: String,
+}
+
+#[derive(BorshDeserialize, BorshSerialize, Deserialize, Serialize, Debug)]
+#[serde(crate = "near_sdk::serde")]
+pub enum Status {
+    Online,
+    Offline,
 }
 
 impl Default for BugBounty {
@@ -47,8 +59,6 @@ impl Default for BugBounty {
             bounties: LookupMap::new(b"c"),
             users: LookupMap::new(b"c"),
             bounty_ids: UnorderedSet::new(b"u"),
-            crowd_funded_bounties: LookupMap::new(b"c"),
-            crowd_funded_bounty_ids: UnorderedSet::new(b"u"),
         }
     }
 }
@@ -64,8 +74,6 @@ impl BugBounty {
             bounties: LookupMap::new(b"c"),
             users: LookupMap::new(b"c"),
             bounty_ids: UnorderedSet::new(b"u"),
-            crowd_funded_bounties: LookupMap::new(b"c"),
-            crowd_funded_bounty_ids: UnorderedSet::new(b"u"),
         }
     }
 

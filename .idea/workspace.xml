@@ -5,9 +5,128 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a3167d5-f9fa-42f7-9783-029709633b6b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/contract/src/crowd_funded_tournaments.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/crowd_funded_bounties.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/lib.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contract/src/tournaments.rs" beforeDir="false" afterPath="$PROJECT_DIR$/contract/src/bounties.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/frontend.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.parcelrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/@types/tournament.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Accordion.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Accordionitem.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/ActiveTournament.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Activestream.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/AllTournaments.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/CardView.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Chat.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Chathome.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/GameCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Header.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/HomeSlider.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Hub.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Imagedata.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Loader/Loader.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Loader/Loader.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Matchmaking.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/PopularGame.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Popup/LoginModal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/Popup/SoonPopUp.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/SearchBox.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Components/TournamentList.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Context/UserContext.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Activeapi.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Api.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Comment/Comm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Comment/Comment.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Data.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/GameData.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Hubdata.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/ImageData/CodImg/CodImgData.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Pagination.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Portaldata.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/TournamentData.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Videos/creed.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Videos/elden.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Videos/god.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Videos/gotham.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Videos/kombat.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Videos/trailer_hd.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/Videos/videoplayback (1).mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/cardSlice.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Features/detailSlice.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pages/CreateTournament.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pages/Dashboard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pages/Home.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pages/Tournament.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/Pages/TournamentView.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/1209131.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/God-of-War.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/God_of_War_Ragnarök_cover.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/User 2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/User 4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/addfriends.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/artemis-cybernetic-organism-3d-wallpaper_3840x2400.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/check.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/coins.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/desktop.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/dollar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/duty_icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/elden-ring.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/elden-ring2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/fencing.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/filter.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/gamelogo.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/gotham-knights.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/halo-infinite-master-chief.webp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/hamburger.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/logo game.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/logo2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/logo3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/magnifying-glass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/menu.PNG" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/message.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/mode.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/money.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/mortal.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/near-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/pads.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/playstation.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/pugb.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/scifi.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/search.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/spiderman.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/turbooverkill.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/u.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/u2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/u3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/u4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/u5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/u6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/u7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/user.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/videogamer.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/virtual.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/war.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/assets/wukong-3d-wallpaper.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/declaration.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/global.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/near-interface.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/near-wallet.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/react-app-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/start.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/store.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,19 +149,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.rust.reset.selective.auto.import": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/ola/Documents/Github/Game_bloc",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "org.rust.cargo.project.model.PROJECT_DISCOVERY": "true",
-    "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": ""
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.rust.reset.selective.auto.import&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/ola/Documents/Github/bug_baunty&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;org.rust.cargo.project.model.PROJECT_DISCOVERY&quot;: &quot;true&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;
   }
-}]]></component>
+}</component>
   <component name="RustProjectSettings">
     <option name="toolchainHomeDirectory" value="$USER_HOME$/.cargo/bin" />
   </component>
@@ -56,6 +175,11 @@
       <updated>1725891848106</updated>
       <workItem from="1725891849647" duration="4407000" />
       <workItem from="1726030845348" duration="13384000" />
+      <workItem from="1726580718134" duration="1554000" />
+      <workItem from="1726583069446" duration="255000" />
+      <workItem from="1726583575425" duration="38000" />
+      <workItem from="1726605932212" duration="3365000" />
+      <workItem from="1726645953295" duration="599000" />
     </task>
     <servers />
   </component>

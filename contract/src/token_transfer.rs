@@ -1,5 +1,5 @@
-use crate::GameBloc;
-use crate::GameBlocExt;
+use crate::BugBounty;
+use crate::BugBountyExt;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::json_types::U128;
@@ -16,7 +16,7 @@ pub struct Payment {
 }
 
 #[near_bindgen]
-impl GameBloc {
+impl BugBounty {
     #[payable] // Public - People can attach money
     pub fn pay(&mut self, beneficiary: AccountId) -> U128 {
         // Get who is calling the method and how much $NEAR they attached

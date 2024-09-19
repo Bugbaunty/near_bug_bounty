@@ -1,8 +1,7 @@
-/Users/deonorla/Documents/Github/Game_bloc/contract/target/wasm32-unknown-unknown/release/deps/game_bloc.wasm: src/lib.rs src/crowd_funded_tournaments.rs src/token_transfer.rs src/tournaments.rs
+/Users/ola/Documents/Github/bug_baunty/contract/target/wasm32-unknown-unknown/release/deps/game_bloc.wasm: src/lib.rs src/token_transfer.rs src/bounties.rs
 
-/Users/deonorla/Documents/Github/Game_bloc/contract/target/wasm32-unknown-unknown/release/deps/game_bloc.d: src/lib.rs src/crowd_funded_tournaments.rs src/token_transfer.rs src/tournaments.rs
+/Users/ola/Documents/Github/bug_baunty/contract/target/wasm32-unknown-unknown/release/deps/game_bloc.d: src/lib.rs src/token_transfer.rs src/bounties.rs
 
 src/lib.rs:
-src/crowd_funded_tournaments.rs:
 src/token_transfer.rs:
-src/tournaments.rs:
+src/bounties.rs:
