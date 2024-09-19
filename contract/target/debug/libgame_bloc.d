@@ -1,1 +1,0 @@
-/Users/ola/Documents/Github/Game_bloc/contract/target/debug/libgame_bloc.dylib: /Users/ola/Documents/Github/Game_bloc/contract/src/lib.rs /Users/ola/Documents/Github/Game_bloc/contract/src/token_transfer.rs

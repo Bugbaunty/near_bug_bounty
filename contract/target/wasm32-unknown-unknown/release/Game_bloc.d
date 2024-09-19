@@ -1,1 +1,0 @@
-/Users/ola/Documents/Github/bug_baunty/contract/target/wasm32-unknown-unknown/release/game_bloc.wasm: /Users/ola/Documents/Github/bug_baunty/contract/src/bounties.rs /Users/ola/Documents/Github/bug_baunty/contract/src/lib.rs /Users/ola/Documents/Github/bug_baunty/contract/src/token_transfer.rs
