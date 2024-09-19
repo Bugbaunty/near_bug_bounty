@@ -14,13 +14,14 @@ pub struct BugBounty {
     pub payments: UnorderedMap<AccountId, u128>,
     accounts: UnorderedMap<AccountId, UnorderedSet<String>>,
     users: LookupMap<AccountId, User>,
-    bounties: LookupMap<String, Bounty>,
+    bounties: LookupMap<u32, Bounty>,
     bounty_ids: UnorderedSet<String>,
     // crowd_funded_bounties: LookupMap<String, Tournament>,
     crowd_funded_bounties_ids: UnorderedSet<String>,
 }
 
 impl BugBounty {
+    //--------------------USER----------------------//
     pub fn new(beneficiary: AccountId) -> Self {
         BugBounty {
             beneficiary,
@@ -60,24 +61,43 @@ impl BugBounty {
             None => todo!(),
         }
     }
+
+    //--------------------BOUNTY----------------------//
+
+    pub fn create_bounty(&mut self, bounty: Bounty) {
+        self.bounties.insert(&bounty.id, &bounty);
+    }
+
+    pub fn get_bounty(&mut self, id: u32) -> Option<Bounty> {
+        self.bounties.get(&id)
+    }
+
+    pub fn get_bounties_by_account(&mut self, account_id: AccountId) {
+        let mut result = Vec::new();
+
+        for (_, bounty) in self.bounties.iter() {
+            if bounty.poster == account_id || bounty.solver == Some(account_id.clone()) {
+                result.push(bounty);
+            }
+        }
+        result
+    }
+
+    pub fn update_bounty(&mut self, id: u32, title: String, description: String, deadline: String) {
+        let bounty = self.get_bounty(id.clone());
+        match bounty {
+            Some(data) => {
+
+                //TODO
+                // call Bounty::update_bounty
+
+                // data.title = title;
+                // data.description = description;
+                // data.deadline = deadline;
+
+                // self.bounties.insert(&id, &data);
+            }
+            None => todo!(),
+        }
+    }
 }
-
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-//     use near_sdk::test_utils::accounts;
-
-//     #[test]
-//     fn test_new_bug_bounty() {
-//         let beneficiary = accounts(0);
-//         let bug_bounty = BugBounty::new(beneficiary.clone());
-
-//         // Check that the beneficiary is set correctly
-//         assert_eq!(bug_bounty.get_beneficiary(), &beneficiary);
-
-//         // Ensure the UnorderedMaps and UnorderedSets are initialized empty
-//         assert!(bug_bounty.payments.is_empty());
-//         assert!(bug_bounty.accounts.is_empty());
-//         assert!(bug_bounty.bounty_ids.is_empty());
-//     }
-// }

@@ -5,7 +5,7 @@ use near_sdk::AccountId;
 #[derive(BorshDeserialize, BorshSerialize, Deserialize, Serialize, Debug, Clone)]
 #[serde(crate = "near_sdk::serde")]
 pub struct Bounty {
-    pub id: String,
+    pub id: u32,
     pub poster: AccountId,
     pub title: String,
     pub description: String,
@@ -20,7 +20,7 @@ pub struct Bounty {
 
 impl Bounty {
     pub fn new(
-        id: String,
+        id: u32,
         poster: AccountId,
         title: String,
         description: String,
