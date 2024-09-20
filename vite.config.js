@@ -7,7 +7,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: "../../.env" });
 
 export default defineConfig({
-  root: "src/bug_bounty_frontend",
+  root: "frontend",
   build: {
     outDir: "dist",
     emptyOutDir: true,

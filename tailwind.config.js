@@ -12,8 +12,8 @@ const {
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "./public/assets/**/*.{js,ts,jsx,tsx}",
+    "./frontend/**/*.{jsx,tsx}",
+    "./frontend/public/**/*.{jsx,tsx}",
   ],
   theme: {
     extend: {
