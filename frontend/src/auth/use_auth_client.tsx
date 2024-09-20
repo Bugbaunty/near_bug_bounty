@@ -1,13 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthClient } from "@dfinity/auth-client";
-import {
-  canisterId,
-  createActor,
-  bug_bounty_backend,
-} from "../../../declarations/bug_bounty_backend";
-// import { canisterId as iiCanId } from "../../../declarations/internet_identity";
-import { _SERVICE } from "../../../declarations/bug_bounty_backend/bug_bounty_backend.did";
-import { ActorSubclass } from "@dfinity/agent";
+
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = React.createContext<{
@@ -18,7 +10,7 @@ const AuthContext = React.createContext<{
   authClient: any;
   identity: any;
   principal: any;
-  whoamiActor: ActorSubclass<_SERVICE> | null;
+  whoamiActor: any;
 }>({
   isAuthenticated: false,
   loginII: null,
@@ -30,7 +22,7 @@ const AuthContext = React.createContext<{
   whoamiActor: null,
 });
 
-const network = process.env.DFX_NETWORK || "local";
+const network = "local";
 const APPLICATION_NAME = "BugBounty";
 const APPLICATION_LOGO_URL = "https://i.postimg.cc/zBMQpTJn/Asset-51.png";
 const iiCanId = "http://bkyz2-fmaaa-aaaaa-qaaaq-cai.localhost:4943";
@@ -45,18 +37,13 @@ const AUTH_PATH =
   "#authorize";
 
 const defaultOptions = {
-  /**
-   *  @type {import("@dfinity/auth-client").AuthClientCreateOptions}
-   */
   createOptions: {
     idleOptions: {
       // Set to true if you do not want idle functionality
       disableIdle: true,
     },
   },
-  /**
-   * @type {import("@dfinity/auth-client").AuthClientLoginOptions}
-   */
+
   loginOptions: {
     identityProvider: network === "ic" ? "https://identity.ic0.app" : iiCanId,
   },
@@ -73,68 +60,58 @@ export const useAuthClient = (options = defaultOptions) => {
   const [authClient, setAuthClient] = useState(null);
   const [identity, setIdentity] = useState(null);
   const [principal, setPrincipal] = useState(null);
-  const [whoamiActor, setWhoamiActor] = useState<ActorSubclass<_SERVICE>>();
+  const [whoamiActor, setWhoamiActor] = useState();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Initialize AuthClient
-    AuthClient.create(options.createOptions).then(async (client) => {
-      updateClient(client);
-    });
-  }, []);
-
   const loginII = async () => {
-    console.log("II url", iiCanId);
-    await authClient.login({
-      ...options.loginOptions,
-      onSuccess: () => {
-        updateClient(authClient);
-        navigate("/dashboard");
-      },
-    });
+    // console.log("II url", iiCanId);
+    // await authClient.login({
+    //   ...options.loginOptions,
+    //   onSuccess: () => {
+    //     updateClient(authClient);
+    //     navigate("/dashboard");
+    //   },
+    // });
   };
 
   const loginNFID = async () => {
-    await authClient.login({
-      ...options.loginNFID,
-      onSuccess: () => {
-        updateClient(authClient);
-        navigate("/dashboard");
-      },
-    });
+    // await authClient.login({
+    //   ...options.loginNFID,
+    //   onSuccess: () => {
+    //     updateClient(authClient);
+    //     navigate("/dashboard");
+    //   },
+    // });
   };
 
   const updateClient = async (client: any) => {
-    try {
-      const isAuthenticated = await client.isAuthenticated();
-      setIsAuthenticated(isAuthenticated);
-
-      const identity = client.getIdentity();
-      setIdentity(identity);
-      // console.log("identity", identity)
-      const principal = identity.getPrincipal();
-
-      setPrincipal(principal);
-      // console.log("Principal", principal)
-      setAuthClient(client);
-
-      const actor = createActor(canisterId, {
-        agentOptions: {
-          identity,
-        },
-      });
-      setWhoamiActor(actor);
-    } catch (err) {
-      console.log("Error on auth:", err);
-      // navigate("/dashboard");
-    }
+    // try {
+    //   const isAuthenticated = await client.isAuthenticated();
+    //   setIsAuthenticated(isAuthenticated);
+    //   const identity = client.getIdentity();
+    //   setIdentity(identity);
+    //   // console.log("identity", identity)
+    //   const principal = identity.getPrincipal();
+    //   setPrincipal(principal);
+    //   // console.log("Principal", principal)
+    //   setAuthClient(client);
+    //   const actor = createActor(canisterId, {
+    //     agentOptions: {
+    //       identity,
+    //     },
+    //   });
+    //   setWhoamiActor(actor);
+    // } catch (err) {
+    //   console.log("Error on auth:", err);
+    //   // navigate("/dashboard");
+    // }
   };
 
   async function logout() {
-    await authClient?.logout();
-    await updateClient(authClient);
-    setIsAuthenticated(false);
-    setIdentity(null);
+    // await authClient?.logout();
+    // await updateClient(authClient);
+    // setIsAuthenticated(false);
+    // setIdentity(null);
   }
 
   return {

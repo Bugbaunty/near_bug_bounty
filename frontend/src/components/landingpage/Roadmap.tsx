@@ -1,3 +1,4 @@
+import React from "react";
 import Heading from "../design/Heading";
 import Section from "./Section";
 import Tagline from "../design/TagLine";
