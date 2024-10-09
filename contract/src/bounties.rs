@@ -198,15 +198,15 @@ pub enum GuildType {
 impl BugBounty {
     //bounties
     pub fn insert_bounty(&mut self, bounty_id: String, value: BountyAccount) {
-        self.bounties.insert(&bounty_id, &value);
+        self.bounties.insert(bounty_id, value);
     }
 
     pub fn remove_bounty(&mut self, bounty_id: String,) {
         self.bounties.remove(&bounty_id);
     }
 
-    pub fn get_bounty(&self, bounty_id: String) -> Option<BountyAccount> {
-        self.bounties.get(&bounty_id)
+    pub fn get_bounty(&self, bounty_id: String) -> BountyAccount {
+        *self.bounties[&bounty_id]
     }
 
     pub fn does_bounty_exist(&self, bounty_id: String) -> bool {
@@ -216,15 +216,15 @@ impl BugBounty {
 
     //guilds
     pub fn insert_guild(&mut self, guild_id: String, value: Guild) {
-        self.guilds.insert(&guild_id, &value);
+        self.guilds.insert(guild_id, value);
     }
 
     pub fn remove_guild(&mut self, guild_id: String,) {
         self.guilds.remove(&guild_id);
     }
 
-    pub fn get_guild(&self, guild_id: String) -> Option<Guild> {
-        self.guilds.get(&guild_id)
+    pub fn get_guild(&self, guild_id: String) -> Guild {
+        *self.guilds[&guild_id]
     }
 
     pub fn does_guild_exist(&self, guild_id: String) -> bool {
@@ -233,7 +233,7 @@ impl BugBounty {
 
     //chats
     pub fn insert_chat(&mut self, chat_id: String, value: Chat) {
-        self.chats.insert(&chat_id, &value);
+        self.chats.insert(chat_id, value);
     }
 
     pub fn remove_chat(&mut self, chat_id: String,) {
@@ -241,7 +241,7 @@ impl BugBounty {
     }
 
     pub fn get_chat(&self, chat_id: String) -> Option<Chat> {
-        self.chats.get(&chat_id)
+        *self.chats[&chat_id]
     }
 
     pub fn does_chat_exist(&self, chat_id: String) -> bool {
@@ -252,15 +252,15 @@ impl BugBounty {
 
     //bugs
     pub fn insert_bug(&mut self, bug_id: String, value: BugAccount) {
-        self.bugs.insert(&bug_id, &value);
+        self.bugs.insert(bug_id, value);
     }
 
     pub fn remove_bug(&mut self, bug_id: String,) {
         self.bugs.remove(&bug_id);
     }
 
-    pub fn get_bug(&self, bug_id: String) -> Option<BugAccount> {
-        self.bugs.get(&bug_id)
+    pub fn get_bug(&self, bug_id: String) -> BugAccount {
+        *self.bugs[&bug_id]
     }
 
     pub fn does_chat_bug(&self, bug_id: String) -> bool {
@@ -269,15 +269,15 @@ impl BugBounty {
 
     //builds
     pub fn insert_build(&mut self, build_id: String, value: BuildAccount) {
-        self.builds.insert(&build_id, &value);
+        self.builds.insert(build_id, value);
     }
 
     pub fn remove_build(&mut self, build_id: String,) {
         self.builds.remove(&build_id);
     }
 
-    pub fn get_build(&self, build_id: String) -> Option<BuildAccount> {
-        self.builds.get(&build_id)
+    pub fn get_build(&self, build_id: String) -> BuildAccount {
+        *self.builds[&build_id]
     }
 
     pub fn does_build_exist(&self, build_id: String) -> bool {
