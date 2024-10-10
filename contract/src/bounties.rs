@@ -182,4 +182,89 @@ pub enum GuildType {
 }
 
 #[near]
-impl BugBounty {}
+impl BugBounty {
+    //bounties
+    pub fn insert_bounty(&mut self, bounty_id: String, value: BountyAccount) {
+        self.bounties.insert(bounty_id, value);
+    }
+
+    pub fn remove_bounty(&mut self, bounty_id: String) {
+        self.bounties.remove(&bounty_id);
+    }
+
+    pub fn get_bounty(&self, bounty_id: String) -> BountyAccount {
+        self.bounties[&bounty_id].clone()
+    }
+
+    pub fn does_bounty_exist(&self, bounty_id: String) -> bool {
+        self.bounties.contains_key(&bounty_id)
+    }
+
+    //guilds
+    pub fn insert_guild(&mut self, guild_id: String, value: Guild) {
+        self.guilds.insert(guild_id, value);
+    }
+
+    pub fn remove_guild(&mut self, guild_id: String) {
+        self.guilds.remove(&guild_id);
+    }
+
+    pub fn get_guild(&self, guild_id: String) -> Guild {
+        self.guilds[&guild_id].clone()
+    }
+
+    pub fn does_guild_exist(&self, guild_id: String) -> bool {
+        self.guilds.contains_key(&guild_id)
+    }
+
+    //chats
+    pub fn insert_chat(&mut self, chat_id: String, value: Chat) {
+        self.chats.insert(chat_id, value);
+    }
+
+    pub fn remove_chat(&mut self, chat_id: String) {
+        self.chats.remove(&chat_id);
+    }
+
+    pub fn get_chat(&self, chat_id: String) -> Chat {
+        self.chats[&chat_id].clone()
+    }
+
+    pub fn does_chat_exist(&self, chat_id: String) -> bool {
+        self.chats.contains_key(&chat_id)
+    }
+
+    //bugs
+    pub fn insert_bug(&mut self, bug_id: String, value: BugAccount) {
+        self.bugs.insert(bug_id, value);
+    }
+
+    pub fn remove_bug(&mut self, bug_id: String) {
+        self.bugs.remove(&bug_id);
+    }
+
+    pub fn get_bug(&self, bug_id: String) -> BugAccount {
+        self.bugs[&bug_id].clone()
+    }
+
+    pub fn does_chat_bug(&self, bug_id: String) -> bool {
+        self.bugs.contains_key(&bug_id)
+    }
+
+    //builds
+    pub fn insert_build(&mut self, build_id: String, value: BuildAccount) {
+        self.builds.insert(build_id, value);
+    }
+
+    pub fn remove_build(&mut self, build_id: String) {
+        self.builds.remove(&build_id);
+    }
+
+    pub fn get_build(&self, build_id: String) -> BuildAccount {
+        self.builds[&build_id].clone()
+    }
+
+    pub fn does_build_exist(&self, build_id: String) -> bool {
+        self.builds.contains_key(&build_id)
+    }
+}
