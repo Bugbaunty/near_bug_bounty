@@ -1,89 +1,96 @@
-use crate::BugBounty;
-use crate::BugBountyExt;
+use crate::*;
+use near_sdk::{env, log, Promise};
 
-use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::json_types::U128;
-use near_sdk::serde::Serialize;
-use near_sdk::{env, log, near_bindgen, AccountId, Balance, Promise};
+pub const STORAGE_COST: NearToken = NearToken::from_millinear(1);
 
-pub const STORAGE_COST: u128 = 1_000_000_000_000_000_000_000;
-
-#[derive(BorshDeserialize, BorshSerialize, Serialize)]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct Payment {
     pub account_id: AccountId,
     pub total_amount: U128,
 }
 
-#[near_bindgen]
+#[near]
 impl BugBounty {
-    #[payable] // Public - People can attach money
-    pub fn pay(&mut self, beneficiary: AccountId) -> U128 {
-        // Get who is calling the method and how much $NEAR they attached
-        let payer: AccountId = env::predecessor_account_id();
-        let payable_amount: Balance = env::attached_deposit();
+    #[payable]
+    pub fn donate(&mut self) -> String {
+        // Get who is calling the method and how much NEAR they attached
+        let donor: AccountId = env::predecessor_account_id();
+        let payment_amount = env::attached_deposit();
 
-        let mut payed_so_far = self.payments.get(&payer).unwrap_or(0);
-
-        let to_transfer: Balance = if payed_so_far == 0 {
-            // This is the user's first donation, lets register it, which increases storage
-            assert!(
-                payable_amount > STORAGE_COST,
-                "Attach at least {} yoctoNEAR",
+        require!(
+            payment_amount > STORAGE_COST,
+            format!(
+                "Attach at least {} yoctoNEAR to cover for the storage cost",
                 STORAGE_COST
-            );
+            )
+        );
 
+        let mut donated_so_far: NearToken = self
+            .payments
+            .get(&donor)
+            .cloned()
+            .unwrap_or(NearToken::from_near(0));
+
+        let to_transfer = if donated_so_far.is_zero() {
+            // This is the user's first payment, lets register it, which increases storage
             // Subtract the storage cost to the amount to transfer
-            payable_amount - STORAGE_COST
+            payment_amount.saturating_sub(STORAGE_COST).to_owned()
         } else {
-            payable_amount
+            payment_amount
         };
 
         // Persist in storage the amount donated so far
-        payed_so_far += payable_amount;
-        self.payments.insert(&payer, &payed_so_far);
+        donated_so_far = donated_so_far.saturating_add(payment_amount);
+
+        self.payments.insert(donor.clone(), donated_so_far);
 
         log!(
             "Thank you {} for donating {}! You donated a total of {}",
-            payer.clone(),
-            payable_amount,
-            payed_so_far
+            donor.clone(),
+            payment_amount,
+            donated_so_far
         );
 
-        // Send the money to the beneficiary
-        Promise::new(beneficiary.clone()).transfer(to_transfer);
+        // Send the NEAR to the beneficiary
+        Promise::new(self.beneficiary.clone()).transfer(to_transfer);
 
         // Return the total amount donated so far
-        U128(payed_so_far)
+        donated_so_far.to_string()
     }
 
-    // Public - get donation by account ID
-    pub fn get_payments_for_account(&self, account_id: AccountId) -> Payment {
+    pub fn get_payment_for_account(&self, account_id: AccountId) -> Payment {
+        let amount = self
+            .payments
+            .get(&account_id)
+            .cloned()
+            .unwrap_or(NearToken::from_near(0))
+            .as_yoctonear();
+
         Payment {
             account_id: account_id.clone(),
-            total_amount: U128(self.payments.get(&account_id).unwrap_or(0)),
+            total_amount: U128::from(amount),
         }
     }
 
-    // Public - get total number of donors
-    pub fn number_of_payments(&self) -> u64 {
-        self.payments.len()
+    // Public Method - get total number of donors
+    pub fn number_of_donors(&self) -> U64 {
+        U64::from(self.payments.len() as u64)
     }
 
-    // Public - paginate through all donations on the contract
-    pub fn get_payments(&self, from_index: Option<U128>, limit: Option<u64>) -> Vec<Payment> {
-        //where to start pagination - if we have a from_index, we'll use that - otherwise start from 0 index
-        let start = u128::from(from_index.unwrap_or(U128(0)));
+    // Public Method - paginate through all payments on the contract
+    pub fn get_payments(&self, from_index: Option<u32>, limit: Option<u32>) -> Vec<Payment> {
+        // where to start pagination - if we have a from_index, we'll use that - otherwise start from 0 index
+        let start = from_index.unwrap_or(0);
 
-        //iterate through donation
         self.payments
-            .keys()
-            //skip to the index we specified in the start variable
+            .into_iter()
             .skip(start as usize)
-            //take the first "limit" elements in the vector. If we didn't specify a limit, use 50
-            .take(limit.unwrap_or(50) as usize)
-            .map(|account| self.get_payments_for_account(account))
-            //since we turned map into an iterator, we need to turn it back into a vector to return
+            .take(limit.unwrap_or(10) as usize)
+            .map(|(account_id, total_amount)| Payment {
+                account_id: account_id.clone(),
+                total_amount: U128::from(total_amount.as_yoctonear()),
+            })
             .collect()
     }
 }
