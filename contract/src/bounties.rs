@@ -200,6 +200,14 @@ impl BugBounty {
         self.bounties.contains_key(&bounty_id)
     }
 
+    pub fn get_all_bounties(&self, from_index: i32, limit: i32) -> Vec<(&String, &BountyAccount)> {
+        self.bounties
+            .iter()
+            .skip(from_index as usize)
+            .take(limit as usize)
+            .collect()
+    }
+
     //guilds
     pub fn insert_guild(&mut self, guild_id: String, value: Guild) {
         self.guilds.insert(guild_id, value);
@@ -217,6 +225,14 @@ impl BugBounty {
         self.guilds.contains_key(&guild_id)
     }
 
+    pub fn get_all_guilds(&self, from_index: i32, limit: i32) -> Vec<(&String, &Guild)> {
+        self.guilds
+            .iter()
+            .skip(from_index as usize)
+            .take(limit as usize)
+            .collect()
+    }
+
     //chats
     pub fn insert_chat(&mut self, chat_id: String, value: Chat) {
         self.chats.insert(chat_id, value);
@@ -232,6 +248,13 @@ impl BugBounty {
 
     pub fn does_chat_exist(&self, chat_id: String) -> bool {
         self.chats.contains_key(&chat_id)
+    }
+    pub fn get_all_chat(&self, from_index: i32, limit: i32) -> Vec<(&String, &Chat)> {
+        self.chats
+            .iter()
+            .skip(from_index as usize)
+            .take(limit as usize)
+            .collect()
     }
 
     //bugs
@@ -251,6 +274,14 @@ impl BugBounty {
         self.bugs.contains_key(&bug_id)
     }
 
+    pub fn get_all_bugs(&self, from_index: i32, limit: i32) -> Vec<(&String, &BugAccount)> {
+        self.bugs
+            .iter()
+            .skip(from_index as usize)
+            .take(limit as usize)
+            .collect()
+    }
+
     //builds
     pub fn insert_build(&mut self, build_id: String, value: BuildAccount) {
         self.builds.insert(build_id, value);
@@ -266,5 +297,13 @@ impl BugBounty {
 
     pub fn does_build_exist(&self, build_id: String) -> bool {
         self.builds.contains_key(&build_id)
+    }
+
+    pub fn get_all_builds(&self, from_index: i32, limit: i32) -> Vec<(&String, &BuildAccount)> {
+        self.builds
+            .iter()
+            .skip(from_index as usize)
+            .take(limit as usize)
+            .collect()
     }
 }
