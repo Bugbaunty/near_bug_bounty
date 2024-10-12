@@ -8,7 +8,7 @@ export const selector = await setupWalletSelector({
 });
 
 export const modal = setupModal(selector, {
-  contractId: "test.testnet",
+  contractId: "dunsinn.testnet",
 });
-
+// const contract_address =  Bzvks7ZA5C79dNDAzZX2rdY8AknEGwxakJgShAevLKqE
 // modal.show();
