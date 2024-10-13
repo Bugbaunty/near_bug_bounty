@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { navigation } from "../constants/index";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "./utils/Button";
@@ -6,6 +5,9 @@ import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { modal } from "../wallet-setup/index";
+import { useEffect, useState, useContext } from 'react';
+
+import { NearContext } from '../wallets/near';
 
 const Header = () => {
   const pathname = useLocation();
@@ -27,6 +29,22 @@ const Header = () => {
     enablePageScroll();
     setOpenNavigation(false);
   };
+  
+  const { signedAccountId, wallet } = useContext(NearContext);
+  const [action, setAction] = useState(() => { });
+  const [label, setLabel] = useState('Loading...');
+
+  useEffect(() => {
+    if (!wallet) return;
+
+    if (signedAccountId) {
+      setAction(() => wallet.signOut);
+      setLabel(`Logout ${signedAccountId}`);
+    } else {
+      setAction(() => wallet.signIn);
+      setLabel('Login');
+    }
+  }, [signedAccountId, wallet]);
   return (
     <div
       className={`fixed top-0 left-0 w-full z-50  border-b border-n-6 ${
@@ -61,9 +79,9 @@ const Header = () => {
                 } lg:leading-5 `}
                 key={item.id}
                 href={item.url}
-                onClick={() => handleClick()}
+                onClick={action} 
               >
-                {item.title}
+                {label} 
               </a>
             ))}
           </div>

@@ -42,7 +42,7 @@ export default defineConfig({
         replacement: fileURLToPath(
           new URL("../src/declarations", import.meta.url)
         ),
-      },
+      }
     ],
   },
 });
