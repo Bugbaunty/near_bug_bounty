@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Wallet, NearContext } from './near';
-import { NetworkId } from './config';
+import { NetworkId } from '../config';
 
 
 const wallet = new Wallet({ networkId: NetworkId , createAccessKeyFor : undefined });

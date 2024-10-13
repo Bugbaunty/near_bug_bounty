@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import environment from "vite-plugin-environment";
 import dotenv from "dotenv";
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 
 dotenv.config({ path: "../../.env" });
 
@@ -18,6 +20,12 @@ export default defineConfig({
         global: "globalThis",
       },
     },
+    plugins: [
+      NodeGlobalsPolyfillPlugin({
+        process: true,
+        buffer: true,
+      }),
+    ],
   },
   define: {
     "process.env": process.env,
@@ -34,6 +42,11 @@ export default defineConfig({
     react(),
     environment("all", { prefix: "CANISTER_" }),
     environment("all", { prefix: "DFX_" }),
+    NodeGlobalsPolyfillPlugin({
+      process: true,
+      buffer: true,
+    }),
+    NodeModulesPolyfillPlugin(),
   ],
   resolve: {
     alias: [
@@ -42,7 +55,7 @@ export default defineConfig({
         replacement: fileURLToPath(
           new URL("../src/declarations", import.meta.url)
         ),
-      }
+      },
     ],
   },
 });

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "baseUrl": ".",  // Points to the frontend folder
+    "paths": {
+      "@/*": ["src/*"]  // Correct alias for src directory
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.js",  "**/*.jsx","**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
