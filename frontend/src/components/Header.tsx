@@ -1,3 +1,4 @@
+import React, { useEffect, useState, useContext } from 'react';
 import { navigation } from "../constants/index";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "./utils/Button";
@@ -5,7 +6,6 @@ import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { modal } from "../wallet-setup/index";
-import { useEffect, useState, useContext } from 'react';
 
 import { NearContext } from '../wallets/near';
 
@@ -29,9 +29,9 @@ const Header = () => {
     enablePageScroll();
     setOpenNavigation(false);
   };
-  
+
   const { signedAccountId, wallet } = useContext(NearContext);
-  const [action, setAction] = useState(() => { });
+  const [action, setAction] = useState<(_e: any) => void>(() => {});
   const [label, setLabel] = useState('Loading...');
 
   useEffect(() => {

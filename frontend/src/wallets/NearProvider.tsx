@@ -3,7 +3,7 @@ import { Wallet, NearContext } from './near';
 import { NetworkId } from './config';
 
 
-const wallet = new Wallet({ networkId: NetworkId });
+const wallet = new Wallet({ networkId: NetworkId , createAccessKeyFor : undefined });
 
 
 function NearProvider ({children}) {
