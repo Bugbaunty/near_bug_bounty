@@ -9,11 +9,11 @@ const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
   content: [
-    "./src/**/*.{jsx,tsx}",
-    "./public/**/*.{jsx,tsx}",
+    "./index.html",
+    "./frontend/**/*.{jsx,tsx}",
+    "./frontend/public/**/*.{jsx,tsx}",
   ],
   theme: {
     extend: {

@@ -11,6 +11,7 @@ import Heading from "../design/Heading";
 import Button from "../utils/Button";
 import { socials } from "../../constants";
 import { BackgroundBeams } from "../ui/background-beams";
+import Image from "next/image";
 
 const BugModel = (props: any) => {
   const { scene, animations } = useGLTF(`/hunter2.glb`);
@@ -96,7 +97,7 @@ const Footer = () => {
               target="_blank"
               className="flex items-center w-10 h-10 bg-n-7 justify-center rounded-full transition-colors hover:bg-n-6 "
             >
-              <img src={item.iconUrl} width={16} height={16} alt={item.title} />
+              <Image src={item.iconUrl} width={16} height={16} alt={item.title} />
             </a>
           ))}
         </ul>

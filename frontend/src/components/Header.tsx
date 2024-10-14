@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { navigation } from "../constants/index";
 import {useRouter} from "next/router"
 import Button from "./utils/Button";
-import MenuSvg from "../assets/svg/MenuSvg";
+import MenuSvg from "@/assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 

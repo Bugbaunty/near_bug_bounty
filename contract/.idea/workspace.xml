@@ -18,6 +18,24 @@
     <list default="true" id="555166f5-0049-44ad-84c8-46237a68a5ea" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/cards.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Features.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Features.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Footer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Footer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Roadmap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Roadmap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Section.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Section.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingPageSection/Services.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingpage/Roadmap.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingpage/Roadmap.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingpage/Section.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingpage/Section.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/landingpage/Services.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/landingpage/Services.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/navigation.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/utils/Button.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/utils/Button.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/constants/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/constants/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/app.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/styles/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/styles/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +137,7 @@
       <workItem from="1727403101509" duration="4962000" />
       <workItem from="1727648898451" duration="6119000" />
       <workItem from="1727698510791" duration="1910000" />
-      <workItem from="1728892174388" duration="4227000" />
+      <workItem from="1728892174388" duration="6376000" />
     </task>
     <servers />
   </component>
