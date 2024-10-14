@@ -5,7 +5,7 @@ import Button from "./utils/Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-import { modal } from "../wallet-setup/index";
+
 
 import { NearContext } from '../wallets/near';
 
@@ -90,7 +90,7 @@ const Header = () => {
         <p
           // href=""
           className="button hidden mr-8 text-color-7 transistion-colors hover:text-n-1 lg:block"
-          onClick={() => modal.show()}
+   
         >
           Login
         </p>
