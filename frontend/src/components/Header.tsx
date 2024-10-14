@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { navigation } from "../constants/index";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useRouter} from "next/router"
 import Button from "./utils/Button";
 import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
@@ -10,8 +10,8 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { NearContext } from '../wallets/near';
 
 const Header = () => {
-  const pathname = useLocation();
-  const navigate = useNavigate();
+  const router = useRouter()
+  const pathname = router.pathname
   const [openNavigation, setOpenNavigation] = useState<boolean>(false);
 
   const toggleNavigation = () => {
@@ -95,7 +95,7 @@ const Header = () => {
           Login
         </p>
         <Button
-          onClick={() => navigate("/signup")}
+          onClick={() => router.push("/signup")}
           className="hidden lg:flex "
           href="#login"
         >

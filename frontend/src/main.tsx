@@ -16,7 +16,7 @@ window.Buffer = window.Buffer || Buffer;
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <NearProvider>ß
+    <NearProvider>
     <Router>
       <AuthProvider>
         <App />
