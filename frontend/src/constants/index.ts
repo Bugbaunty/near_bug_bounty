@@ -1,34 +1,19 @@
-import discord from "../assets/socials/discord.svg"
+import benefitImage2 from "@/assets/benefits/image-2.png"
+import chromecast from "@/assets/chrome-cast.svg"
+import  disc02  from "@/assets/disc-02.svg";
 import {
-  benefitImage2,
-  chromecast,
-  disc02,
-  discordBlack,
-  facebook,
   figma,
   file02,
-  framer,
   homeSmile,
-  // instagram,
   notification2,
   notification3,
   notification4,
   notion,
-  photoshop,
   plusSquare,
-  protopie,
-  raindrop,
   recording01,
   recording03,
-  roadmap1,
-  roadmap2,
-  roadmap3,
-  roadmap4,
   searchMd,
-  slack,
   sliders04,
-  telegram,
-  // twitter,
   yourlogo,
 } from "../assets";
 
