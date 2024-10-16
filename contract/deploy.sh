@@ -11,7 +11,7 @@ echo ">> Deploying contract"
 
 # https://docs.near.org/tools/near-cli#near-dev-deploy
 # rm -rf neardev &&
-near contract deploy  dunsin1234.testnet use-file ./target/wasm32-unknown-unknown/release/contract.wasm without-init-call network-config testnet sign-with-keychain send
+near contract deploy dunsinabisuwa.testnet use-file ./target/wasm32-unknown-unknown/release/contract.wasm without-init-call network-config testnet sign-with-keychain send
 
 
 # steps to crate account

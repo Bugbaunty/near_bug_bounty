@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "(MIT AND Apache-2.0)",
   "scripts": {
-    "dev": "next dev ./frontend",
+    "dev": "next dev ./frontend --port 3001",
     "start": "next start ./frontend",
     "deploy": "cd contract && ./deploy.sh",
     "build": "npm run build:web",
@@ -57,6 +57,7 @@
     "@react-three/fiber": "^8.16.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.12.7",
+     "@wagmi/core": "2.13.8",
     "antd": "^5.19.3",
     "clsx": "^2.1.1",
     "env-cmd": "^10.1.0",
@@ -81,6 +82,8 @@
     "typescript": "^4.9.4",
     "ulid": "^2.3.0",
     "wagmi": "^2.12.16",
+    "viem": "2.21.27",
+
     "next": "14.2.13",
     "bootstrap": "^5",
     "bootstrap-icons": "^1.11.3"
