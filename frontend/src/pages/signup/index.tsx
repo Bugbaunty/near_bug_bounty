@@ -1,14 +1,17 @@
+"use client"
 import React from "react";
-import bounty from "../assets/bounty.jpg";
+import bounty from "@/assets/bounty.jpg";
 import Heading from "@/components/design/Heading";
 import { useAuth } from "@/auth/use_auth_client";
+import Image from "next/image";
+
 const SignUp = () => {
   const { loginII, loginNFID } = useAuth();
 
   return (
     <div className="">
       <div className="relative flex justify-center items-center ">
-        <img
+        <Image
           className="w-full h-screen object-cover md:object-left opacity-5"
           src={bounty}
           alt="bounty "

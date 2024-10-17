@@ -36,10 +36,13 @@ const Header = () => {
 
   useEffect(() => {
     if (!wallet) return;
+    console.log("WALLET", wallet);
+    console.log("SIGNEDACC", signedAccountId)
 
     if (signedAccountId) {
       setAction(() => wallet.signOut);
-      setLabel(`Logout ${signedAccountId}`);
+      setLabel(`Logout`);
+      router.push("/create-bounty")
     } else {
       setAction(() => wallet.signIn);
       setLabel('Login');
@@ -79,9 +82,8 @@ const Header = () => {
                 } lg:leading-5 `}
                 key={item.id}
                 href={item.url}
-                onClick={action} 
-              >
-                {label} 
+                >
+               {item.title}
               </a>
             ))}
           </div>
@@ -89,10 +91,11 @@ const Header = () => {
         </nav>
         <p
           // href=""
+          onClick={action} 
           className="button hidden mr-8 text-color-7 transistion-colors hover:text-n-1 lg:block"
    
         >
-          Login
+          {label} 
         </p>
         <Button
           onClick={() => router.push("/signup")}
