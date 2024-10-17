@@ -3,7 +3,7 @@ import Section from "./Section";
 import Heading from "../design/Heading";
 import { PresentationControls, Stage, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import bounty from "../../assets/bounty.jpg";
+import bounty from "@/assets/bounty.jpg";
 import { bugbountyServices, brainwaveServicesIcons } from "../../constants";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import Generating from "../design/Generating";

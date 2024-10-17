@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from 'react';
 import { navigation } from "../constants/index";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useRouter} from "next/router"
 import Button from "./utils/Button";
-import MenuSvg from "../assets/svg/MenuSvg";
+import MenuSvg from "@/assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-import { modal } from "../wallet-setup/index";
+
+
+import { NearContext } from '../wallets/near';
 
 const Header = () => {
-  const pathname = useLocation();
-  const navigate = useNavigate();
+  const router = useRouter()
+  const pathname = router.pathname
   const [openNavigation, setOpenNavigation] = useState<boolean>(false);
 
   const toggleNavigation = () => {
@@ -27,6 +29,25 @@ const Header = () => {
     enablePageScroll();
     setOpenNavigation(false);
   };
+
+  const { signedAccountId, wallet } = useContext(NearContext);
+  const [action, setAction] = useState<(_e: any) => void>(() => {});
+  const [label, setLabel] = useState('Loading...');
+
+  useEffect(() => {
+    if (!wallet) return;
+    console.log("WALLET", wallet);
+    console.log("SIGNEDACC", signedAccountId)
+
+    if (signedAccountId) {
+      setAction(() => wallet.signOut);
+      setLabel(`Logout`);
+      router.push("/create-bounty")
+    } else {
+      setAction(() => wallet.signIn);
+      setLabel('Login');
+    }
+  }, [signedAccountId, wallet]);
   return (
     <div
       className={`fixed top-0 left-0 w-full z-50  border-b border-n-6 ${
@@ -61,9 +82,8 @@ const Header = () => {
                 } lg:leading-5 `}
                 key={item.id}
                 href={item.url}
-                onClick={() => handleClick()}
-              >
-                {item.title}
+                >
+               {item.title}
               </a>
             ))}
           </div>
@@ -71,13 +91,14 @@ const Header = () => {
         </nav>
         <p
           // href=""
+          onClick={action} 
           className="button hidden mr-8 text-color-7 transistion-colors hover:text-n-1 lg:block"
-          onClick={() => modal.show()}
+   
         >
-          Login
+          {label} 
         </p>
         <Button
-          onClick={() => navigate("/signup")}
+          onClick={() => router.push("/signup")}
           className="hidden lg:flex "
           href="#login"
         >

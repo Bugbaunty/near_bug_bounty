@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/router';
 
 const AuthContext = React.createContext<{
   isAuthenticated: boolean;
@@ -61,7 +60,8 @@ export const useAuthClient = (options = defaultOptions) => {
   const [identity, setIdentity] = useState(null);
   const [principal, setPrincipal] = useState(null);
   const [whoamiActor, setWhoamiActor] = useState();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const pathname = router.pathname; 
 
   const loginII = async () => {
     // console.log("II url", iiCanId);

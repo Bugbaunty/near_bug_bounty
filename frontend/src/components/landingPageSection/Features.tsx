@@ -2,9 +2,10 @@ import React from "react";
 import Section from "./Section";
 import Heading from "../design/Heading";
 import { benefits } from "../../constants";
-import Arrow from "../../assets/svg/Arrow";
+import Arrow from "@/assets/svg/Arrow";
 import { GradientLight } from "../design/Benefits";
 import { Meteors } from "../ui/meteors";
+import Image from "next/image";
 
 const Features = () => {
   return (
@@ -30,7 +31,7 @@ const Features = () => {
                 <h5 className="text-[1.2rem] mb-5">{item.title}</h5>
                 <p className="text-[.85rem] mb-6 text-color-7">{item.text}</p>
                 <div className="flex  items-center mt-auto">
-                  <img
+                  <Image
                     src={item.iconUrl}
                     width={48}
                     height={48}

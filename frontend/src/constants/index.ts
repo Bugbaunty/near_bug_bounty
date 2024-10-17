@@ -1,44 +1,29 @@
+import benefitImage2 from "@/assets/benefits/image-2.png"
+import chromecast from "@/assets/chrome-cast.svg"
+import  disc02  from "@/assets/disc-02.svg";
 import {
-  benefitImage2,
-  chromecast,
-  disc02,
-  discord,
-  discordBlack,
-  facebook,
   figma,
   file02,
-  framer,
   homeSmile,
-  instagram,
   notification2,
   notification3,
   notification4,
   notion,
-  photoshop,
   plusSquare,
-  protopie,
-  raindrop,
   recording01,
   recording03,
-  roadmap1,
-  roadmap2,
-  roadmap3,
-  roadmap4,
   searchMd,
-  slack,
   sliders04,
-  telegram,
-  twitter,
   yourlogo,
 } from "../assets";
 
-import collaboration from "../assets/collaboration.png";
-import repo from "../assets/repo.png";
-import bounty from "../assets/bounty-system.png";
-import report from "../assets/bug-reporting.png";
-import reward from "../assets/reward.png";
-import debugging from "../assets/debugging.png";
-import git from "../assets/git.png";
+import collaboration from "@/assets/collaboration.png";
+import repo from "@/assets/repo.png";
+import bounty from "@/assets/bounty-system.png";
+import report from "@/assets/bug-reporting.png";
+import reward from "@/assets/reward.png";
+import debugging from "@/assets/debugging.png";
+import git from "@/assets/git.png";
 
 export const navigation = [
   {
@@ -136,42 +121,42 @@ export const collabApps = [
   {
     id: "2",
     title: "Discord",
-    icon: discord,
+    icon: '/assets/collaboration/discord.png',
     width: 36,
     height: 28,
   },
   {
     id: "3",
     title: "Slack",
-    icon: slack,
+    icon: '/assets/collaboration/slack.png',
     width: 34,
     height: 35,
   },
   {
     id: "4",
     title: "Photoshop",
-    icon: photoshop,
+    icon: '/assets/collaboration/photoshop.png',
     width: 34,
     height: 34,
   },
   {
     id: "5",
     title: "Protopie",
-    icon: protopie,
+    icon: '/assets/collaboration/protopie.png',
     width: 34,
     height: 34,
   },
   {
     id: "6",
     title: "Framer",
-    icon: framer,
+    icon: '/assets/collaboration/framer.png',
     width: 26,
     height: 34,
   },
   {
     id: "7",
     title: "Raindrop",
-    icon: raindrop,
+    icon: '/assets/collaboration/raindrop.png',
     width: 38,
     height: 32,
   },
@@ -182,7 +167,7 @@ export const benefits = [
     id: "0",
     title: "Reward System",
     text: "Reward developers who successfully identify and fix bugs, encouraging participation and engagement within the BugBounty community.",
-    backgroundUrl: "./src/assets/benefits/card-1.svg",
+    backgroundUrl: "/assets/benefits/card-1.svg",
     iconUrl: reward,
     imageUrl: benefitImage2,
   },
@@ -190,7 +175,7 @@ export const benefits = [
     id: "1",
     title: "Collaborative Debugging",
     text: "Foster collaboration among developers by allowing them to work together to solve bugs and errors",
-    backgroundUrl: "./src/assets/benefits/card-2.svg",
+    backgroundUrl: "/assets/benefits/card-2.svg",
     iconUrl: debugging,
     imageUrl: benefitImage2,
     light: true,
@@ -199,7 +184,7 @@ export const benefits = [
     id: "2",
     title: "Version Control",
     text: "Utilize version control features to track changes and updates made to your codebase, ensuring transparency and accountability.",
-    backgroundUrl: "./src/assets/benefits/card-3.svg",
+    backgroundUrl: "/assets/benefits/card-3.svg",
     iconUrl: git,
     imageUrl: benefitImage2,
   },
@@ -209,31 +194,31 @@ export const socials = [
   {
     id: "0",
     title: "Discord",
-    iconUrl: discordBlack,
+    iconUrl: '/assets/socials/discord.svg',
     url: "#",
   },
   {
     id: "1",
     title: "Twitter",
-    iconUrl: twitter,
+    iconUrl:'/assets/socials/twitter.svg',
     url: "#",
   },
   {
     id: "2",
     title: "Instagram",
-    iconUrl: instagram,
+    iconUrl: '/assets/socials/instagram.svg',
     url: "#",
   },
   {
     id: "3",
     title: "Telegram",
-    iconUrl: telegram,
+    iconUrl: "/assets/socials/telegram.svg",
     url: "#",
   },
   {
     id: "4",
     title: "Facebook",
-    iconUrl: facebook,
+    iconUrl: "/assets/socials/facebook.svg",
     url: "#",
   },
 ];

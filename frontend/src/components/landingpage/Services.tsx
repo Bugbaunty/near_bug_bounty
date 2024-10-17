@@ -3,10 +3,10 @@ import Section from "./Section";
 import Heading from "../design/Heading";
 import { PresentationControls, Stage, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import bounty from "../../assets/bounty.jpg";
 import { bugbountyServices, brainwaveServicesIcons } from "../../constants";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import Generating from "../design/Generating";
+import Image from 'next/image';
 
 const Services = () => {
   return (
@@ -20,12 +20,12 @@ const Services = () => {
         <div className="relative px-4 lg:px-8">
           <div className="relative z-1 flex items-center h-[39rem] mb-5 p-8 border border-n-1/10 rounded-3xl overflow-hidden lg:p-20 xl:h-[46rem]">
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none md:w-3/5 xl:w-[50%x]">
-              <img
+              <Image
                 className="w-full h-full object-cover md:object-right opacity-50"
-                src={bounty}
+                src={'/assets/bounty.jpg"'}
                 width={800}
                 height={730}
-                alt="bounty "
+                alt="bounty"
               />
             </div>
             <div className="relative z-1 max-w-[17rem] ml-auto">

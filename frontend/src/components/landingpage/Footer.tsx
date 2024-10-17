@@ -16,7 +16,7 @@ import Heading from "../design/Heading";
 import Button from "../utils/Button";
 import { socials } from "../../constants";
 import { BackgroundBeams } from "../ui/background-beams";
-import { useNavigate } from "react-router-dom";
+import {useRouter} from "next/router";
 
 const BugModel = (props: any) => {
   const { scene, animations } = useGLTF(`/hunter2.glb`);
@@ -49,7 +49,7 @@ const BugModel = (props: any) => {
 };
 
 const Footer = () => {
-  const navigate = useNavigate();
+  const router = useRouter()
   return (
     <div className="relative">
       <div className=" relative flex justify-center items-center -mt-[15rem] md:-mt-[4rem] lg:mt-[3rem]">
@@ -82,7 +82,7 @@ const Footer = () => {
         />
         <div className="  md:mt-[2rem] flex items-center">
           <Button
-            onClick={() => navigate("")}
+            onClick={() => router.push("")}
             className="z-10 right  font-bold uppercase"
             href=""
             // white
