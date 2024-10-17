@@ -42,7 +42,7 @@ const Header = () => {
     if (signedAccountId) {
       setAction(() => wallet.signOut);
       setLabel(`Logout`);
-      router.push("/create-bounty")
+      // router.push("/create-bounty")
     } else {
       setAction(() => wallet.signIn);
       setLabel('Login');
