@@ -13,7 +13,7 @@ echo ">> Deploying contract"
 # rm -rf neardev &&
 near contract deploy dunsinabisuwa.testnet use-file ./target/wasm32-unknown-unknown/release/contract.wasm without-init-call network-config testnet sign-with-keychain send
 
-
+# near dev-deploy ./target/wasm32-unknown-unknown/release/contract.wasm
 # steps to crate account
 # near create-account <accountId> --useFaucet
 # if it couldn't save password to keychain, then sudo apt install gnome-keyring
