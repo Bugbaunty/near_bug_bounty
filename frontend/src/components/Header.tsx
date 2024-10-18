@@ -5,6 +5,7 @@ import Button from "./utils/Button";
 import MenuSvg from "@/assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
+import { BugBountyContract } from '@/config';
 
 
 import { NearContext } from '../wallets/near';
@@ -34,15 +35,33 @@ const Header = () => {
   const [action, setAction] = useState<(_e: any) => void>(() => {});
   const [label, setLabel] = useState('Loading...');
 
+  const readData = async () => {
+
+    const data  = await wallet.viewMethod({
+      contractId: BugBountyContract,
+			method: "get_user",
+			args: { account_id: signedAccountId },
+    })
+    if (!data) {
+      router.push("/welcome");
+    } else {
+      router.push("/dashboard");
+    }
+  }
+
   useEffect(() => {
     if (!wallet) return;
     console.log("WALLET", wallet);
     console.log("SIGNEDACC", signedAccountId)
-
+    
     if (signedAccountId) {
       setAction(() => wallet.signOut);
       setLabel(`Logout`);
-      router.push("/create-bounty")
+     if(wallet) {
+        readData()
+      }
+
+      // router.push("/create-bounty")
     } else {
       setAction(() => wallet.signIn);
       setLabel('Login');

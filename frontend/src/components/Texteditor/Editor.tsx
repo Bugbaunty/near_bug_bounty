@@ -1,13 +1,13 @@
 "use client";
 import { useMemo, useRef, useState } from "react";
 
-import QuillEditor from "react-quill";
+// import QuillEditor from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "@/styles/editor.module.css";
 import React from "react";
-// import dynamic from 'next/dynamic';
+import dynamic from 'next/dynamic';
 
-// const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
+const QuillEditor = dynamic(() => import('react-quill'), { ssr: false });
 
 interface props {
   handleContent: (e: any) => void;

@@ -26,7 +26,7 @@ const near = {
 };
 
 // Get your projectId at https://cloud.reown.com
-const projectId = '5bb0fe33763b3bea40b8d69e4269b4ae';
+const projectId = 'dbbe43be8020cfa2bb03a583ecb33863';
 
 export const wagmiConfig = createConfig({
   chains: [near],

@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import '@/styles/globals.css';
 
 import { Wallet, NearContext } from '@/wallets/near';
-import { NetworkId } from '@/config';
+import { NetworkId, BugBountyContract } from '@/config';
 
-const wallet = new Wallet({ networkId: NetworkId, createAccessKeyFor:undefined });
+const wallet = new Wallet({ networkId: NetworkId, createAccessKeyFor:BugBountyContract });
 
 export default function MyApp({ Component, pageProps }) {
   const [signedAccountId, setSignedAccountId] = useState('');
@@ -15,6 +15,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <NearContext.Provider value={{ wallet, signedAccountId }}>
       <Component {...pageProps} />
+    
     </NearContext.Provider>
   );
 }
