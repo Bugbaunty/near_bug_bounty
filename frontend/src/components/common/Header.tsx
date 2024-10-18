@@ -6,11 +6,12 @@ import ButtonGradient from "../../assets/svg/ButtonGradient";
 import { BackgroundCircles, BottomLine, Gradient } from "../design/Hero";
 import { IoBug } from "react-icons/io5";
 import { IoMdPerson } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useRouter} from "next/router";
 
 const Header = () => {
   const parallaxRef = useRef(null);
-  const navigate = useNavigate();
+  const router = useRouter(); // Provides access to the current route and more
+  
   const [openNavigation, setOpenNavigation] = useState<boolean>(false);
 
   const toggleNavigation = () => {
@@ -26,7 +27,7 @@ const Header = () => {
     <div className="fixed top-0 left-0 w-full z-50  border-b border-n-6 bg-n-8/90 backdrop-blur-sm">
       <div className="flex justify-between items-center py-5 px-5 lg:px-7.5 xl:px-10 max-lg:py-4">
         <p
-          onClick={() => navigate("/dashboard")}
+          onClick={() => router.push("/dashboard")}
           className="block w-[12rem] text-color-7 font-extrabold xl:mr-8 cursor-pointer"
         >
           Bug
@@ -43,7 +44,7 @@ const Header = () => {
         </Button>
         <div
           className="hidden lg:flex cursor-pointer"
-          onClick={() => navigate("/profile")}
+          onClick={() => router.push("/profile")}
         >
           <img src={`avatar.jpg`} className="rounded-full w-8 h-8" alt="" />
         </div>
@@ -53,7 +54,7 @@ const Header = () => {
           <div className="mt-16 flex flex-col justify-start items-center gap-16 z-50-">
             <div
               onClick={() => {
-                navigate("/dashboard");
+                router.push("/dashboard");
                 setOpenNavigation(false);
               }}
               className="flex"
@@ -63,7 +64,7 @@ const Header = () => {
             </div>
             <div
               onClick={() => {
-                navigate("/profile");
+                router.push("/profile");
                 setOpenNavigation(false);
               }}
               className="flex "

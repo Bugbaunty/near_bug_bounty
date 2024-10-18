@@ -3,7 +3,8 @@ import Heading from "../design/Heading";
 import Section from "./Section";
 import Tagline from "../design/TagLine";
 import { roadmap } from "../../constants";
-import { check2, grid, loading1 } from "../../assets";
+import { check2, grid, loading1 } from "@/assets";
+import Image from "next/image";
 
 const Roadmap = () => (
   <Section className="overflow-hidden mb-[2rem]" id="roadmap">
@@ -23,7 +24,7 @@ const Roadmap = () => (
             >
               <div className="relative p-8 bg-n-8 rounded-[2.4375rem] overflow-hidden xl:p-15">
                 <div className="absolute top-0 left-0 max-w-full">
-                  <img
+                  <Image
                     className="w-full"
                     src={grid}
                     width={550}
@@ -38,7 +39,7 @@ const Roadmap = () => (
                     </Tagline>
 
                     <div className="flex items-center px-4 py-1 bg-n-1 rounded text-n-8">
-                      <img
+                      <Image
                         className="mr-2.5"
                         src={item.status === "done" ? check2 : loading1}
                         width={16}
@@ -50,7 +51,7 @@ const Roadmap = () => (
                   </div>
 
                   <div className=" flex justify-center items-center mb-10 -my-10 -mx-15">
-                    <img
+                    <Image
                       className="w-[20rem] md:w-[25rem]"
                       src={item.imageUrl}
                       width={628}

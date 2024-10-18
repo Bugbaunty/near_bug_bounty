@@ -11,4 +11,9 @@ echo ">> Deploying contract"
 
 # https://docs.near.org/tools/near-cli#near-dev-deploy
 # rm -rf neardev &&
-near dev-deploy --wasmFile ./target/wasm32-unknown-unknown/release/hello_near.wasm
+near contract deploy dunsinabisuwa.testnet use-file ./target/wasm32-unknown-unknown/release/contract.wasm without-init-call network-config testnet sign-with-keychain send
+
+# near dev-deploy ./target/wasm32-unknown-unknown/release/contract.wasm
+# steps to crate account
+# near create-account <accountId> --useFaucet
+# if it couldn't save password to keychain, then sudo apt install gnome-keyring

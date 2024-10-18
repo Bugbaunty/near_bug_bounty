@@ -4,10 +4,10 @@ import { IoBug } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [open, setOpen] = useState<boolean>(false);
   const [openSubMenu, setOpenSubMenu] = useState<boolean>(false);
 
@@ -49,7 +49,7 @@ const Sidebar = () => {
                 () =>
                   // !menu.subMenu
                   // ?
-                  navigate(`${menu.link}`)
+                  router.push(`${menu.link}`)
                 // : setOpenSubMenu(!openSubMenu);
               }
             >
