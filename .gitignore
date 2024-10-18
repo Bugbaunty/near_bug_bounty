@@ -4,7 +4,6 @@
 node_modules
 /.pnp
 .pnp.js
-
 # build
 **/out
 **/dist
@@ -20,6 +19,7 @@ node_modules
 **/build
 
 # misc
+.history
 .DS_Store
 .env.local
 .env.development.local
