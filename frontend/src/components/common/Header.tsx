@@ -6,12 +6,12 @@ import ButtonGradient from "../../assets/svg/ButtonGradient";
 import { BackgroundCircles, BottomLine, Gradient } from "../design/Hero";
 import { IoBug } from "react-icons/io5";
 import { IoMdPerson } from "react-icons/io";
-import { useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const parallaxRef = useRef(null);
   const router = useRouter(); // Provides access to the current route and more
-  
+
   const [openNavigation, setOpenNavigation] = useState<boolean>(false);
 
   const toggleNavigation = () => {
