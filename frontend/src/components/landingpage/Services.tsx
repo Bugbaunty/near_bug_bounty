@@ -6,7 +6,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { bugbountyServices, brainwaveServicesIcons } from "../../constants";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import Generating from "../design/Generating";
-import Image from 'next/image';
+import Image from "next/image";
+import bounty from "@/assets/bounty.jpg";
 
 const Services = () => {
   return (
@@ -22,7 +23,7 @@ const Services = () => {
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none md:w-3/5 xl:w-[50%x]">
               <Image
                 className="w-full h-full object-cover md:object-right opacity-50"
-                src={'/assets/bounty.jpg"'}
+                src={bounty}
                 width={800}
                 height={730}
                 alt="bounty"
