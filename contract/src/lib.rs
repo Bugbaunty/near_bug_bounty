@@ -44,15 +44,15 @@ pub struct User {
     pub age: u8,
     pub date: String,
     pub status: Status,
-    pub bounties_wons: u8,
-    pub bountys_created: u8,
-    pub points: Option<u128>,
+    pub bounties_created: u8,
+    pub bounties_won: u128,
     pub username: String,
     pub is_mod: bool,
-    pub principal_id: String,
-    pub account_id: String,
-    pub canister_id: String,
+    pub named_account_id: String,
+    pub secret_account_key: String,
+    pub smart_contract_id: String,
     pub guild_badge: String,
+    pub github_link: String,
 }
 
 #[near(serializers = [json, borsh])]

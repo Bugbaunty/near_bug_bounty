@@ -13,108 +13,75 @@ macro_rules! pub_struct {
 pub_struct! ( BountyAccount {
      id_hash: String,
      creator: String,
-     creator_id: Option<String>,
+     creator_id: String,
      status: BountyStatus,
      idx: u8,
-     starting_date: String,
-     bounty_rules: String,
+     bounty_requrements: String,
      bounty_type: BountyType,
-     milestone: String,
      guild:Vec<Guild>,
-     guild_points: Option<Vec<(String,u128)>>,
-     messages: Option<Vec<Chat>>,
+     messages: Vec<Chat>,
      user: Vec<String>,
-     winers: Vec<String>,
-     entry_prize: u8,
-     total_prize: u128,
+     winners: Vec<String>,
+     total_fund: u128,
      no_of_winners: u8,
      no_of_participants: u128,
-     milestone_type: MilestonesType,
      end_date: String,
      title: String,
-     points: Option<Vec<(String,u128)>>,
-     milestones: Option<Vec<MilestonesAccount>>,
+     description: String,
+     milestones: Vec<MilestonesAccount>,
 });
 
 pub_struct! ( BuildAccount {
      id_hash: String,
      creator: String,
-     creator_id: Option<String>,
+     creator_id: String,
      status: BountyStatus,
      idx: u8,
-     starting_date: String,
-     build_rules: String,
+     build_requrements: String,
      build_type: BountyType,
-     milestone: String,
      guild:Vec<Guild>,
-     guild_points: Option<Vec<(String,u128)>>,
-     messages: Option<Vec<Chat>>,
+     messages: Vec<Chat>,
      user: Vec<String>,
-     winers: Vec<String>,
-     entry_prize: u8,
+     winners: Vec<String>,
      total_prize: u128,
-     no_of_winners: u8,
+     no_of_bounty_winners: u8,
      no_of_participants: u128,
-     milestone_type: MilestonesType,
      end_date: String,
      title: String,
-     points: Option<Vec<(String,u128)>>,
-     milestones: Option<Vec<MilestonesAccount>>,
+     description: String,
+     milestones: Vec<MilestonesAccount>,
+     bounties: Vec<BountyAccount>,
 });
 
-pub_struct! ( BugAccount {
-     id_hash: String,
-     creator: String,
-     creator_id: Option<String>,
-     status: BountyStatus,
-     idx: u8,
-     starting_date: String,
-     bug_rules: String,
-     bug_type: BountyType,
-     milestone: String,
-     guild:Vec<Guild>,
-     guild_points: Option<Vec<(String,u128)>>,
-     messages: Option<Vec<Chat>>,
-     user: Vec<String>,
-     winers: Vec<String>,
-     entry_prize: u8,
-     total_prize: u128,
-     no_of_winners: u8,
-     no_of_participants: u128,
-     milestone_type: MilestonesType,
-     end_date: String,
-     title: String,
-     points: Option<Vec<(String,u128)>>,
-     milestones: Option<Vec<MilestonesAccount>>,
-});
 
 pub_struct! (  MilestonesAccount {
      status: BountyStatus,
      milestone_status: MilestonesStatus,
      idx: u8,
-     starting_date: Option<String>,
-     milestone_rules: String,
+     claim_starting_date: String,
+     claim_ending_date: String,
+     milestone_requrements: String,
+     milestone_description: String,
      bounty_type: BountyType,
      milestone: String,
      guilds:Vec<Guild>,
-     messages: Option<Vec<Chat>>,
+     messages: Vec<Chat>,
      participants: Vec<String>,
-     winers: Vec<String>,
-     no_of_winners: Option<u8>,
+     winners: Vec<String>,
+     no_of_winners: u8,
      no_of_participants: u128,
-     milestone_type: MilestonesType,
-     name: Option<String>,
+     name: String,
 });
 
 pub_struct! ( Guild {
      id_hash: String,
      captain: String,
-     status: GuildType,
+     status: GuildStatus,
      name: String,
      tag: String,
      members: Vec<Member>,
      requests: Vec<String>,
-     points: Option<u128>,
+     bounties_won: u128,
 });
 
 pub_struct!(Member {
@@ -132,19 +99,9 @@ pub_struct!(Chat {
 ///enums
 #[near(serializers = [json, borsh])]
 #[derive(Clone, Default)]
-pub enum MilestonesType {
-    #[default]
-    TeamvTeam,
-    Single,
-    Duo,
-    Guild,
-}
-#[near(serializers = [json, borsh])]
-#[derive(Clone, Default)]
 pub enum BountyStatus {
     #[default]
     AcceptingHunters,
-    BountyHuntingInProgress,
     BountyHuntingCompleted,
     Archived,
 }
@@ -153,7 +110,7 @@ pub enum BountyStatus {
 #[derive(Clone, Default)]
 pub enum MilestonesStatus {
     #[default]
-    readyToStart,
+    ReadyToStart,
     MilestonesInProgress,
     MilestonesCompleted,
 }
@@ -162,8 +119,8 @@ pub enum MilestonesStatus {
 #[derive(Clone, Default)]
 pub enum BountyType {
     #[default]
-    OpenSource,
-    Reproduced,
+    Feature,
+    Bug,
 }
 
 #[near(serializers = [json, borsh])]
@@ -175,7 +132,7 @@ pub struct TokenState {
 
 #[near(serializers = [json, borsh])]
 #[derive(Clone, Default)]
-pub enum GuildType {
+pub enum GuildStatus {
     #[default]
     Open,
     Closed,
@@ -257,30 +214,6 @@ impl BugBounty {
             .collect()
     }
 
-    //bugs
-    pub fn insert_bug(&mut self, bug_id: String, value: BugAccount) {
-        self.bugs.insert(bug_id, value);
-    }
-
-    pub fn remove_bug(&mut self, bug_id: String) {
-        self.bugs.remove(&bug_id);
-    }
-
-    pub fn get_bug(&self, bug_id: String) -> BugAccount {
-        self.bugs[&bug_id].clone()
-    }
-
-    pub fn does_chat_bug(&self, bug_id: String) -> bool {
-        self.bugs.contains_key(&bug_id)
-    }
-
-    pub fn get_all_bugs(&self, from_index: i32, limit: i32) -> Vec<(&String, &BugAccount)> {
-        self.bugs
-            .iter()
-            .skip(from_index as usize)
-            .take(limit as usize)
-            .collect()
-    }
 
     //builds
     pub fn insert_build(&mut self, build_id: String, value: BuildAccount) {
