@@ -19,7 +19,7 @@ const Sidebar = () => {
       icon: IoBug,
     },
     {
-      name: "Teams",
+      name: "Guilds",
       link: "",
       icon: IoIosPeople,
     },
