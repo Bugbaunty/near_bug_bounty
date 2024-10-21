@@ -4,13 +4,14 @@ import React from "react";
 import { useRouter } from "next/router";
 
 const profileEntries = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   return (
     <div className="flex">
       <Header />
       <Sidebar />
       <div className="mt-[5rem] mx-[1rem] flex flex-col w-full mb-4">
-        <h1 className={`text-[1.5rem] text-center mb-6 mt-8`}>
+        <h1 className={`text-[1rem] text-center mb-6 mt-8`}>
           {" "}
           Update
           <span className="bg-gradient-to-r from-linear-1  to-linear-2  text-[transparent] bg-clip-text">
@@ -24,7 +25,7 @@ const profileEntries = () => {
           </p>
           {/* Profile Picture Upload */}
           <div className="flex-col  flex mt-3 rounded-tr-[1.5rem] rounded-br-[1.5rem]">
-            <div className="bg-black flex  cursor-pointer items-center h-[8rem] w-[30%] rounded-tl-full rounded-bl-full rounded-tr-[1.5rem] rounded-br-[1.5rem] ">
+            <div className="bg-black flex  cursor-pointer items-center h-[8rem] w-full lg:w-[30%] rounded-tl-full rounded-bl-full rounded-tr-[1.5rem] rounded-br-[1.5rem] ">
               <div className="flex cursor-pointer w-fit border-[4px] border-solid border-color-7 rounded-full ">
                 <img
                   src={`avatar.jpg`}
@@ -43,8 +44,8 @@ const profileEntries = () => {
         <p className="text-[0.8rem] mt-4 mb-[1rem] font-semibold sm:text-base  bg-gradient-to-r from-linear-1  to-linear-2  text-[transparent] bg-clip-text">
           Account Information
         </p>
-        <div className="flex flex-row gap-8 items-center ">
-          <div className="flex flex-col w-[50%]">
+        <div className="flex flex-col lg:flex-row gap-8 items-center ">
+          <div className="flex flex-col w-full lg:w-[50%]">
             <p className="mb-4 text-sm sm:text-[.85rem] mt-[1.5rem] font-normal text-white">
               Username
             </p>
@@ -56,7 +57,7 @@ const profileEntries = () => {
               />
             </div>
           </div>
-          <div className="flex flex-col w-[50%]">
+          <div className="flex flex-col w-full lg:w-[50%]">
             <p className="mb-4 text-sm sm:text-[.85rem] mt-[1.5rem] font-normal text-white">
               Age
             </p>
