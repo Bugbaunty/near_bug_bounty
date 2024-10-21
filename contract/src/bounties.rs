@@ -53,7 +53,6 @@ pub_struct! ( BuildAccount {
      bounties: Vec<BountyAccount>,
 });
 
-
 pub_struct! (  MilestonesAccount {
      status: BountyStatus,
      milestone_status: MilestonesStatus,
@@ -213,7 +212,6 @@ impl BugBounty {
             .take(limit as usize)
             .collect()
     }
-
 
     //builds
     pub fn insert_build(&mut self, build_id: String, value: BuildAccount) {
