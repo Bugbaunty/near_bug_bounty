@@ -33,7 +33,6 @@ pub struct BugBounty {
     guilds: IterableMap<String, bounties::Guild>,
     chats: IterableMap<String, bounties::Chat>,
     builds: IterableMap<String, bounties::BuildAccount>,
-    bugs: IterableMap<String, bounties::BugAccount>,
     bounty_ids: IterableSet<String>,
 }
 
@@ -74,7 +73,6 @@ impl Default for BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableSet),
         }
     }
 }
@@ -93,7 +91,6 @@ impl BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableMap),
         }
     }
 
