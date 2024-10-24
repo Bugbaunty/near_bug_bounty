@@ -99,22 +99,31 @@ impl BugBounty {
         self.beneficiary.clone()
     }
 
-    pub fn create_user(&mut self, account_id: AccountId, username: String, age: u8) {
-        self.users.insert(account_id, User{
-            id_hash: "".to_string(),
-            age: age,
-            date: "".to_string(),
-            status: Status::Online,
-            bounties_created: 0,
-            bounties_won: 0,
-            username: username.to_string(),
-            is_mod: false,
-            named_account_id: "".to_string(),
-            secret_account_key: "".to_string(),
-            smart_contract_id: "".to_string(),
-            guild_badge: "".to_string(),
-            github_link: "".to_string(),
-        });
+    pub fn create_user(
+        &mut self,
+        account_id: AccountId,
+        username: String,
+        age: u8,
+        id_hash: String,
+    ) {
+        self.users.insert(
+            account_id,
+            User {
+                id_hash: id_hash,
+                age: age,
+                date: "".to_string(),
+                status: Status::Online,
+                bounties_created: 0,
+                bounties_won: 0,
+                username: username.to_string(),
+                is_mod: false,
+                named_account_id: "".to_string(),
+                secret_account_key: "".to_string(),
+                smart_contract_id: "".to_string(),
+                guild_badge: "".to_string(),
+                github_link: "".to_string(),
+            },
+        );
     }
 
     pub fn remove_user(&mut self, account_id: AccountId) {
@@ -128,6 +137,15 @@ impl BugBounty {
     pub fn is_user_present(&self, account_id: AccountId) -> bool {
         self.users.contains_key(&account_id)
     }
+
+    pub fn get_all_user(&self, from_index: i32, limit: i32) -> Vec<(&AccountId, &User)> {
+        self.users
+            .iter()
+            .skip(from_index as usize)
+            .take(limit as usize)
+            .collect()
+    }
+
 
     // Public - but only callable by env::current_account_id(). Sets the beneficiary
     #[private]
