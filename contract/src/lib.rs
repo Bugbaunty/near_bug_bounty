@@ -102,8 +102,26 @@ impl BugBounty {
         self.beneficiary.clone()
     }
 
-    pub fn create_user(&mut self, account_id: AccountId, user: User) {
-        self.users.insert(account_id, user);
+    // pub fn create_user(&mut self, account_id: AccountId, user: User) {
+    //     self.users.insert(account_id, user);
+    // }
+
+    pub fn create_user(&mut self, account_id: AccountId, username: String, age: u8) {
+        self.users.insert(account_id, User{
+            canister_id: "".to_string(), 
+            id_hash: "".to_string(), 
+            age, 
+            date: "".to_string(), 
+            status: Status::Online, 
+            bounties_wons: 0, 
+            bountys_created: 0, 
+            points: Some(0), 
+            username, 
+            is_mod: false, 
+            principal_id: "".to_string(), 
+            account_id: "".to_string(), 
+            guild_badge:  "".to_string()
+        });
     }
 
     pub fn remove_user(&mut self, account_id: AccountId) {
