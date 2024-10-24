@@ -67,16 +67,16 @@ export const useCreateUser = () => {
     const jsonString = JSON.stringify(sendVal);
     try {
       setLoading(true);
-      const data = await wallet.viewMethod({
+      const data = await wallet.callMethod({
         contractId: BugBountyContract,
         method: "create_user",
-        args:
-          //  jsonString.replace(/"/g, '\\"'),
-          {
-            account_id: signedAccountId,
-            user: JSON.stringify(user),
-            //   user: new Map(Object.entries(user)),
-          },
+        args: {
+          account_id: signedAccountId,
+          username: user.username,
+          age: user.age,
+          // user: JSON.stringify(user),
+          //   user: new Map(Object.entries(user)),
+        },
       });
       if (data) {
         console.log("DATA", data);
@@ -104,7 +104,7 @@ export const useGetUser = () => {
         args: { account_id: signedAccountId },
       });
       if (data) {
-        console.log("DATA", data);
+        console.log("USER", data);
         return;
       }
     } catch (err) {

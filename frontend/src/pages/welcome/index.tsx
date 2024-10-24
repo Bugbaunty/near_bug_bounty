@@ -10,6 +10,7 @@ import {
   useCreateUser,
   useIsUserExist,
   useInitializeContract,
+  useGetUser,
 } from "@/functions";
 
 function SignUp() {
@@ -19,6 +20,7 @@ function SignUp() {
   const { createUser, loading } = useCreateUser();
   const { isUserExist, userExist } = useIsUserExist();
   const { initContract } = useInitializeContract();
+  const { getUser } = useGetUser();
 
   const profileData = {
     id_hash: "String",
@@ -28,7 +30,7 @@ function SignUp() {
     bounties_wons: 0,
     bountys_created: 0,
     points: "0",
-    username: "string",
+    username: "Dunsin",
     is_mod: false,
     principal_id: "string",
     account_id: "string",
@@ -48,6 +50,13 @@ function SignUp() {
     // }
     await createUser(profileData);
   };
+
+  const handleGetUser = async () => {
+    await getUser();
+  };
+  React.useEffect(() => {
+    handleGetUser();
+  }, []);
 
   return (
     <div className="">
