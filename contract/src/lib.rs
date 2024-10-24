@@ -33,7 +33,6 @@ pub struct BugBounty {
     guilds: IterableMap<String, bounties::Guild>,
     chats: IterableMap<String, bounties::Chat>,
     builds: IterableMap<String, bounties::BuildAccount>,
-    bugs: IterableMap<String, bounties::BugAccount>,
     bounty_ids: IterableSet<String>,
 }
 
@@ -44,15 +43,15 @@ pub struct User {
     pub age: u8,
     pub date: String,
     pub status: Status,
-    pub bounties_wons: u8,
-    pub bountys_created: u8,
-    pub points: Option<u128>,
+    pub bounties_created: u8,
+    pub bounties_won: u128,
     pub username: String,
     pub is_mod: bool,
-    pub principal_id: String,
-    pub account_id: String,
-    pub canister_id: String,
+    pub named_account_id: String,
+    pub secret_account_key: String,
+    pub smart_contract_id: String,
     pub guild_badge: String,
+    pub github_link: String,
 }
 
 #[near(serializers = [json, borsh])]
@@ -74,7 +73,6 @@ impl Default for BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableSet),
         }
     }
 }
@@ -93,7 +91,6 @@ impl BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableMap),
         }
     }
 
@@ -102,25 +99,21 @@ impl BugBounty {
         self.beneficiary.clone()
     }
 
-    // pub fn create_user(&mut self, account_id: AccountId, user: User) {
-    //     self.users.insert(account_id, user);
-    // }
-
     pub fn create_user(&mut self, account_id: AccountId, username: String, age: u8) {
         self.users.insert(account_id, User{
-            canister_id: "".to_string(), 
-            id_hash: "".to_string(), 
-            age, 
-            date: "".to_string(), 
-            status: Status::Online, 
-            bounties_wons: 0, 
-            bountys_created: 0, 
-            points: Some(0), 
-            username, 
-            is_mod: false, 
-            principal_id: "".to_string(), 
-            account_id: "".to_string(), 
-            guild_badge:  "".to_string()
+            id_hash: "".to_string(),
+            age: age,
+            date: "".to_string(),
+            status: Status::Online,
+            bounties_created: 0,
+            bounties_won: 0,
+            username: username.to_string(),
+            is_mod: false,
+            named_account_id: "".to_string(),
+            secret_account_key: "".to_string(),
+            smart_contract_id: "".to_string(),
+            guild_badge: "".to_string(),
+            github_link: "".to_string(),
         });
     }
 

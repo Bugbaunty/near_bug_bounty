@@ -322,7 +322,7 @@ const CreateBounty = () => {
           </div>
           <div className="mt-8 mb-4 border border-solid border-[#2E3438] w-full" />
           <p className="text-[0.8rem] mt-4 mb-[1rem] font-semibold sm:text-base  bg-gradient-to-r from-linear-1  to-linear-2  text-[transparent] bg-clip-text">
-            Funder's Details
+            Funder&#39;s Details
           </p>
 
           <div className="flex flex-col w-full">
@@ -356,7 +356,7 @@ const CreateBounty = () => {
           <div className="flex flex-row gap-8 items-center ">
             <div className="flex flex-col w-[50%]">
               <p className="mb-4 text-sm sm:text-[.85rem] mt-[1.5rem] font-normal text-white">
-                Sponsor's contact info
+                Sponsor&#39;s contact info
               </p>
               <ConfigProvider
                 theme={{
