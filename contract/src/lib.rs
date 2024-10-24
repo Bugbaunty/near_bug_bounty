@@ -33,7 +33,6 @@ pub struct BugBounty {
     guilds: IterableMap<String, bounties::Guild>,
     chats: IterableMap<String, bounties::Chat>,
     builds: IterableMap<String, bounties::BuildAccount>,
-    bugs: IterableMap<String, bounties::BugAccount>,
     bounty_ids: IterableSet<String>,
 }
 
@@ -74,7 +73,6 @@ impl Default for BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableSet),
         }
     }
 }
@@ -93,7 +91,6 @@ impl BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableMap),
         }
     }
 
@@ -102,8 +99,22 @@ impl BugBounty {
         self.beneficiary.clone()
     }
 
-    pub fn create_user(&mut self, account_id: AccountId, user: User) {
-        self.users.insert(account_id, user);
+    pub fn create_user(&mut self, account_id: AccountId, username: String, age: u8) {
+        self.users.insert(account_id, User{
+            id_hash: "".to_string(),
+            age: age,
+            date: "".to_string(),
+            status: Status::Online,
+            bounties_created: 0,
+            bounties_won: 0,
+            username: username.to_string(),
+            is_mod: false,
+            named_account_id: "".to_string(),
+            secret_account_key: "".to_string(),
+            smart_contract_id: "".to_string(),
+            guild_badge: "".to_string(),
+            github_link: "".to_string(),
+        });
     }
 
     pub fn remove_user(&mut self, account_id: AccountId) {
