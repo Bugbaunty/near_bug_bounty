@@ -6,14 +6,15 @@ import MenuSvg from "@/assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { BugBountyContract } from "@/config";
+import { useIsUserExist, useGetUser } from "@/functions";
 
-import { NearContext } from "../wallets/near";
+import { NearContext } from "@/wallets/near";
 
 const Header = () => {
   const router = useRouter();
   const pathname = router.pathname;
   const [openNavigation, setOpenNavigation] = useState<boolean>(false);
-
+  const { isUserExist, userExist, loading } = useIsUserExist();
   const toggleNavigation = () => {
     if (openNavigation) {
       setOpenNavigation(false);
@@ -31,41 +32,42 @@ const Header = () => {
   };
 
   const { signedAccountId, wallet } = useContext(NearContext);
-  const [action, setAction] = useState<(_e: any) => void>(() => {});
   const [label, setLabel] = useState("Loading...");
+  const [loadingAuth, setLoadingAuth] = useState(false);
+  const [loginBtnClicked, setLoginBtnClicked] = useState(false);
 
-  const readData = async () => {
-    const data = await wallet.viewMethod({
-      contractId: BugBountyContract,
-      method: "get_user",
-      args: { account_id: signedAccountId },
-    });
-    if (!data) {
-      router.push("/welcome");
-    } else {
-      console.log("User data: ", data);
-      router.push("/dashboard");
+  const handleAuth = () => {
+    if (wallet) {
+      console.log("first fnc");
+      setLoginBtnClicked(false);
+      wallet.signIn();
+    }
+  };
+
+  const handleAuth2 = () => {
+    if (wallet) {
+      console.log("second fnc");
+      setLoginBtnClicked(true);
+      wallet.signIn();
     }
   };
 
   useEffect(() => {
     if (!wallet) return;
-    console.log("WALLET", wallet);
-    console.log("SIGNEDACC", signedAccountId);
 
     if (signedAccountId) {
-      setAction(() => wallet.signOut);
-      setLabel(`Logout`);
       if (wallet) {
-        readData();
+        isUserExist();
+        if (!loading) {
+          if (userExist) {
+            router.push("/profile");
+          } else {
+            router.push("/create-profile");
+          }
+        }
       }
-
-      // router.push("/create-bounty")
-    } else {
-      setAction(() => wallet.signIn);
-      setLabel("Login");
     }
-  }, [signedAccountId, wallet]);
+  }, [signedAccountId]);
 
   return (
     <div
@@ -120,17 +122,17 @@ const Header = () => {
         </nav>
         <p
           // href=""
-          onClick={action}
+          onClick={handleAuth2}
           className="button hidden mr-8 cursor-pointer text-color-7 transistion-colors hover:text-n-1 lg:block"
         >
-          {label}
+          {loginBtnClicked && signedAccountId ? "loading..." : "Login"}
         </p>
         <Button
-          onClick={wallet.signIn}
+          onClick={() => handleAuth()}
           className="hidden lg:flex "
           href="#login"
         >
-          Sign up
+          {!loginBtnClicked && signedAccountId ? "loading..." : "Sign up"}
         </Button>
 
         <Button

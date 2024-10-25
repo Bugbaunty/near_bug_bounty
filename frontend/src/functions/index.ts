@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { NearContext } from "@/wallets/near";
 import { BugBountyContract } from "@/config";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 export const useInitializeContract = () => {
   const [loading, setLoading] = useState(false);
@@ -33,11 +34,11 @@ export const useIsUserExist = () => {
   const [loading, setLoading] = useState(false);
   const { wallet, signedAccountId } = useContext(NearContext);
   const [userExist, setUserExist] = useState(false);
+  const router = useRouter();
 
   const isUserExist = async () => {
     try {
       setLoading(true);
-      console.log("called");
       const user = await wallet.viewMethod({
         contractId: BugBountyContract,
         method: "is_user_present",
@@ -45,6 +46,7 @@ export const useIsUserExist = () => {
       });
 
       setUserExist(user);
+      console.log("user", user);
       return;
     } catch (err) {
       toast.error(err.message);
@@ -103,8 +105,8 @@ export const useGetUser = () => {
         method: "get_user",
         args: { account_id: signedAccountId },
       });
+      console.log("USER DATA", data);
       if (data) {
-        console.log("USER", data);
         return;
       }
     } catch (err) {

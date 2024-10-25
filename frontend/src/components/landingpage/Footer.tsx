@@ -16,7 +16,8 @@ import Heading from "../design/Heading";
 import Button from "../utils/Button";
 import { socials } from "../../constants";
 import { BackgroundBeams } from "../ui/background-beams";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
+import { NearContext } from "@/wallets/near";
 
 const BugModel = (props: any) => {
   const { scene, animations } = useGLTF(`/hunter2.glb`);
@@ -49,7 +50,9 @@ const BugModel = (props: any) => {
 };
 
 const Footer = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const { wallet } = React.useContext(NearContext);
+
   return (
     <div className="relative">
       <div className=" relative flex justify-center items-center -mt-[15rem] md:-mt-[4rem] lg:mt-[3rem]">
@@ -82,7 +85,7 @@ const Footer = () => {
         />
         <div className="  md:mt-[2rem] flex items-center">
           <Button
-            onClick={() => router.push("")}
+            onClick={() => wallet.signIn()}
             className="z-10 right  font-bold uppercase"
             href=""
             // white

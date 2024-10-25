@@ -20,7 +20,7 @@ const Profile = () => {
           </div>
           <div
             className="mt-[1rem] absolute bottom-0 right-2"
-            onClick={() => router.push("/profileEntries")}
+            onClick={() => router.push("/create-profile")}
           >
             <div className="flex cursor-pointer justify-center items-center hover:bg-white/80 bg-white px-3 h-fit my-2 rounded-md ">
               <p className=" my-2 text-[.85rem] text-black ">Edit Profile</p>
