@@ -9,47 +9,62 @@ import { ulid } from "ulid";
 import toast from "react-hot-toast";
 import { NearContext } from "@/wallets/near";
 import { BugBountyContract } from "@/config";
+import Modal from "@/components/profile/Modal";
+import { useInitializeContract } from "@/functions";
 
 const profileEntries = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const range = dayjs().subtract(18, "years").format("YYYY-MM-DD");
   const [date, setDate] = React.useState(dayjs(range));
-  const [image, setImage] = useState(null);
   const [base64String, setBase64String] = useState("");
   const labelRef = React.useRef(null);
   const { wallet, signedAccountId } = React.useContext(NearContext);
   const [loading, setLoading] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { initContract } = useInitializeContract();
 
-  const onSubmit = async (data) => {
+  const onClose = () => {
+    setIsOpen(false);
+  };
+
+  const onSubmit = async (data: any) => {
     if (base64String.length < 10) {
       toast.error("upload an avatar");
       return;
     }
     const data_ = {
       id_hash: ulid(),
+      account_id: signedAccountId,
       username: data.username,
-      dob: dayjs(date).valueOf(),
+      dob: dayjs(date).valueOf().toString(),
       github: data.github,
       picture: base64String,
     };
-
-    console.log(data_);
+    // console.log(data_);
     try {
       setLoading(true);
-
-      const submit = await wallet.callMethod({
-        contractId: BugBountyContract,
-        method: "aaa",
-        args: {},
-      });
-      if (submit) {
+      // await initContract();
+      if (wallet && signedAccountId) {
+        const submit = await wallet.callMethod({
+          contractId: BugBountyContract,
+          method: "create_user",
+          args: {
+            account_id: signedAccountId,
+            username: data.username,
+            dob: dayjs(date).valueOf().toString(),
+            github_link: data.github,
+            image_url: "",
+            id_hash: ulid(),
+          },
+        });
         toast.success("Profile Created Successfully");
+        setIsOpen(true);
       }
     } catch (err) {
       toast.error("Error creating profile");
@@ -65,12 +80,13 @@ const profileEntries = () => {
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        setBase64String(reader.result);
-        setImage(URL.createObjectURL(file));
+        setBase64String(reader.result as any);
+        // setImage(URL.createObjectURL(file));
       };
 
       // Read the file as a data URL (Base64)
       reader.readAsDataURL(file);
+      console.log(base64String);
     }
   };
 
@@ -208,16 +224,23 @@ const profileEntries = () => {
               >
                 Cancel
               </p>
-              <input
-                type="submit"
-                className="ml-8 text-color-7 hover:text-[#3DB569]   py-2 px-[.9rem] text-[0.85rem] border border-solid border-[#3DB569]/40 sm:text-sm cursor-pointer hover:bg-[#111E18] rounded-lg"
-              />
+              {loading ? (
+                <p className="text-color-7 hover:text-[#3DB569]">
+                  submitting...
+                </p>
+              ) : (
+                <input
+                  type="submit"
+                  className="ml-8 text-color-7 hover:text-[#3DB569]   py-2 px-[.9rem] text-[0.85rem] border border-solid border-[#3DB569]/40 sm:text-sm cursor-pointer hover:bg-[#111E18] rounded-lg"
+                />
+              )}
               {/* Save Changes
               </button> */}
             </div>
           </div>
         </form>
       </div>
+      {<Modal isOpen={isOpen} onClose={onClose} />}
     </div>
   );
 };

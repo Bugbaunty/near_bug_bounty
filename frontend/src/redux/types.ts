@@ -158,16 +158,15 @@ export interface TokenState {
 
 export interface User {
   id_hash: string;
-  age: number; // u8
-  date: string;
-  status: Status;
+  dob: string; // u8
+  status: string;
   bounties_wons: number; // u8
   bountys_created: number; // u8
-  points?: bigint | null; // Option<u128>
   username: string;
   is_mod: boolean;
-  principal_id: string;
-  account_id: string;
-  canister_id: string;
+  secret_account_key: string;
+  named_account_id: string;
+  smart_contract_id: string;
   guild_badge: string;
+  github_link: string;
 }
