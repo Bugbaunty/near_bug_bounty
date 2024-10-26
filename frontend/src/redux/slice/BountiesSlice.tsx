@@ -1,23 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { CampaignT } from "../types";
+import { BountyAccount } from "../types";
 
 // Define the initial state using that type
-const initialState: CampaignT[] = [];
+const initialState: BountyAccount[] = [];
 
-export const MyCampaignSlice = createSlice({
-  name: "campaign",
+export const BountiesSlice = createSlice({
+  name: "bounties",
   initialState,
   reducers: {
-    addCampaign: (state, { payload }: PayloadAction<CampaignT>) => {
+    addBounty: (state, { payload }: PayloadAction<BountyAccount>) => {
       state.push(payload);
     },
-    clearMyCampaigns: () => {
+    clearBounties: () => {
       return initialState;
     },
   },
 });
 
-export const { clearMyCampaigns, addCampaign } = MyCampaignSlice.actions;
+export const { clearBounties, addBounty } = BountiesSlice.actions;
 
-export default MyCampaignSlice.reducer;
+export default BountiesSlice.reducer;

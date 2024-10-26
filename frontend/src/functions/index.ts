@@ -4,8 +4,9 @@ import { BugBountyContract } from "@/config";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "@/redux/hook";
-import { User } from "@/redux/types";
+import { BountyAccount, User } from "@/redux/types";
 import { addProfile } from "@/redux/slice/ProfileSlice";
+import { addBounty } from "@/redux/slice/BountiesSlice";
 
 export const useInitializeContract = () => {
   const [loading, setLoading] = useState(false);
@@ -122,4 +123,33 @@ export const useGetUser = () => {
     }
   };
   return { getUser, loading };
+};
+
+export const useGetAllBounties = () => {
+  const [loading, setLoading] = useState(false);
+  const { wallet, signedAccountId } = useContext(NearContext);
+  const dispatch = useAppDispatch();
+
+  const getBounties = async () => {
+    try {
+      setLoading(true);
+      const data: BountyAccount = await wallet.viewMethod({
+        contractId: BugBountyContract,
+        method: "get_all_bounties",
+        args: { from_index: 1, limit: 5 },
+      });
+
+      console.log("FROM ACC", data);
+      if (data) {
+        dispatch(addBounty(data));
+        return;
+      }
+    } catch (err) {
+      console.log("ERROR", err);
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { getBounties, loading };
 };
