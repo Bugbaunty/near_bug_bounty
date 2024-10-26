@@ -143,11 +143,11 @@ pub enum GuildStatus {
 #[near]
 impl BugBounty {
     //bounties
-    pub fn insert_bounty(&mut self, bounty_id: String, value: BountyAccount) {
+    pub fn insert_bounty(&mut self, bounty_id: String, title: String) {
         self.bounties.insert(
-            bounty_id,
+            bounty_id.clone(),
             BountyAccount {
-                id_hash: "".to_string(),
+                id_hash:  bounty_id,
                 creator: "".to_string(),
                 creator_id: "".to_string(),
                 status: Default::default(),
@@ -162,7 +162,7 @@ impl BugBounty {
                 no_of_winners: 0,
                 no_of_participants: 0,
                 end_date: "".to_string(),
-                title: "".to_string(),
+                title,
                 description: "".to_string(),
                 milestones: vec![],
             },
@@ -233,7 +233,7 @@ impl BugBounty {
     }
 
     //guilds
-    pub fn insert_guild(&mut self, guild_id: String, value: Guild) {
+    pub fn insert_guild(&mut self, guild_id: String, name: String, id_hash: String,) {
         self.guilds.insert(
             guild_id,
             Guild {
@@ -286,12 +286,7 @@ impl BugBounty {
     pub fn send_chat(&mut self, chat_id: String, value: Chat) {
         self.chats.insert(
             chat_id,
-            Chat {
-                name: "".to_string(),
-                id: "".to_string(),
-                time: "".to_string(),
-                message: "".to_string(),
-            },
+            value,
         );
     }
 
@@ -315,7 +310,7 @@ impl BugBounty {
     }
 
     //builds
-    pub fn insert_build(&mut self, build_id: String, value: BuildAccount) {
+    pub fn insert_build(&mut self, build_id: String, no_of_participants: u128, title: String, description: String,) {
         self.builds.insert(
             build_id,
             BuildAccount {
@@ -332,10 +327,10 @@ impl BugBounty {
                 winners: vec![],
                 total_prize: 0,
                 no_of_bounty_winners: 0,
-                no_of_participants: 0,
+                no_of_participants,
                 end_date: "".to_string(),
-                title: "".to_string(),
-                description: "".to_string(),
+                title,
+                description,
                 milestones: vec![],
                 bounties: vec![],
             },
