@@ -27,6 +27,7 @@ pub_struct! ( BountyAccount {
      total_fund: u128,
      no_of_winners: u8,
      no_of_participants: u128,
+     start_date: String,
      end_date: String,
      title: String,
      description: String,
@@ -143,12 +144,12 @@ pub enum GuildStatus {
 #[near]
 impl BugBounty {
     //bounties
-    pub fn insert_bounty(&mut self, bounty_id: String, title: String) {
+    pub fn create_bounty(&mut self, bounty_id: String, creator:String, description: String, start_date: String, end_date: String, title: String, total_prize: u128) {
         self.bounties.insert(
             bounty_id.clone(),
             BountyAccount {
-                id_hash:  bounty_id,
-                creator: "".to_string(),
+                id_hash: bounty_id,
+                creator,
                 creator_id: "".to_string(),
                 status: Default::default(),
                 idx: 0,
@@ -158,12 +159,13 @@ impl BugBounty {
                 messages: vec![],
                 users: vec![],
                 winners: vec![],
-                total_fund: 0,
+                total_fund: total_prize,
                 no_of_winners: 0,
                 no_of_participants: 0,
-                end_date: "".to_string(),
+                start_date,
+                end_date,
                 title,
-                description: "".to_string(),
+                description,
                 milestones: vec![],
             },
         );
@@ -233,7 +235,7 @@ impl BugBounty {
     }
 
     //guilds
-    pub fn insert_guild(&mut self, guild_id: String, name: String, id_hash: String,) {
+    pub fn insert_guild(&mut self, guild_id: String, name: String, id_hash: String) {
         self.guilds.insert(
             guild_id,
             Guild {
@@ -284,10 +286,7 @@ impl BugBounty {
 
     //chats
     pub fn send_chat(&mut self, chat_id: String, value: Chat) {
-        self.chats.insert(
-            chat_id,
-            value,
-        );
+        self.chats.insert(chat_id, value);
     }
 
     pub fn remove_chat(&mut self, chat_id: String) {
@@ -310,7 +309,13 @@ impl BugBounty {
     }
 
     //builds
-    pub fn insert_build(&mut self, build_id: String, no_of_participants: u128, title: String, description: String,) {
+    pub fn insert_build(
+        &mut self,
+        build_id: String,
+        no_of_participants: u128,
+        title: String,
+        description: String,
+    ) {
         self.builds.insert(
             build_id,
             BuildAccount {
