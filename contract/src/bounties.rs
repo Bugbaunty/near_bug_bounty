@@ -24,7 +24,7 @@ pub_struct! ( BountyAccount {
      messages: Vec<Chat>,
      users: Vec<String>,
      winners: Vec<String>,
-     total_fund: u128,
+     total_fund: u64,
      no_of_winners: u8,
      no_of_participants: u128,
      start_date: String,
@@ -144,7 +144,7 @@ pub enum GuildStatus {
 #[near]
 impl BugBounty {
     //bounties
-    pub fn create_bounty(&mut self, bounty_id: String, creator:String, description: String, start_date: String, end_date: String, title: String, total_prize: u128) {
+    pub fn create_bounty(&mut self, bounty_id: String, creator:String, description: String, start_date: String, end_date: String, title: String, total_prize: u64) {
         self.bounties.insert(
             bounty_id.clone(),
             BountyAccount {
