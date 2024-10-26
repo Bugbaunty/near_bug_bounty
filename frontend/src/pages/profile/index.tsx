@@ -1,8 +1,10 @@
 import React from "react";
 import Sidebar from "@/components/common/Sidebar";
 import Header from "@/components/common/Header";
+import { useRouter } from "next/router";
 
 const Profile = () => {
+  const router = useRouter();
   return (
     <div className="flex">
       <Header />
@@ -16,6 +18,14 @@ const Profile = () => {
               alt=""
             />
           </div>
+          <div
+            className="mt-[1rem] absolute bottom-0 right-2"
+            onClick={() => router.push("/create-profile")}
+          >
+            <div className="flex cursor-pointer justify-center items-center hover:bg-white/80 bg-white px-3 h-fit my-2 rounded-md ">
+              <p className=" my-2 text-[.85rem] text-black ">Edit Profile</p>
+            </div>
+          </div>
         </div>
         <div className="mx-4  sm:mx-8 flex flex-col">
           <div className="flex justify-between items-center ">
@@ -24,7 +34,7 @@ const Profile = () => {
               <p className=" my-2 text-sm text-color-7 ">Software Engineer</p>
               <p className=" my-2 text-[1rem] text-color-7 ">Lagos, Nigeria</p>
             </div>
-            <div className="flex flex-col mt-[-3rem] ">
+            <div className="flex flex-col mt-[-3rem] lg:mt-[1rem] ">
               <h3 className="flex justify-center text-white text-sm font-bold">
                 Current role
               </h3>
