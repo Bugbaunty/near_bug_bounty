@@ -24,9 +24,10 @@ pub_struct! ( BountyAccount {
      messages: Vec<Chat>,
      users: Vec<String>,
      winners: Vec<String>,
-     total_fund: u128,
+     total_fund: u64,
      no_of_winners: u8,
      no_of_participants: u128,
+     start_date: String,
      end_date: String,
      title: String,
      description: String,
@@ -87,7 +88,7 @@ pub_struct! ( Guild {
 
 pub_struct!(Member {
     name: String,
-    principal_id: String,
+    account_id: String,
 });
 
 pub_struct!(Chat {
@@ -103,6 +104,7 @@ pub_struct!(Chat {
 pub enum BountyStatus {
     #[default]
     AcceptingHunters,
+    BountyHuntingInProgress,
     BountyHuntingCompleted,
     Archived,
 }
@@ -142,12 +144,12 @@ pub enum GuildStatus {
 #[near]
 impl BugBounty {
     //bounties
-    pub fn insert_bounty(&mut self, bounty_id: String, value: BountyAccount) {
+    pub fn create_bounty(&mut self, bounty_id: String, creator:String, description: String, start_date: String, end_date: String, title: String, total_prize: u64) {
         self.bounties.insert(
-            bounty_id,
+            bounty_id.clone(),
             BountyAccount {
-                id_hash: "".to_string(),
-                creator: "".to_string(),
+                id_hash: bounty_id,
+                creator,
                 creator_id: "".to_string(),
                 status: Default::default(),
                 idx: 0,
@@ -157,12 +159,13 @@ impl BugBounty {
                 messages: vec![],
                 users: vec![],
                 winners: vec![],
-                total_fund: 0,
+                total_fund: total_prize,
                 no_of_winners: 0,
                 no_of_participants: 0,
-                end_date: "".to_string(),
-                title: "".to_string(),
-                description: "".to_string(),
+                start_date,
+                end_date,
+                title,
+                description,
                 milestones: vec![],
             },
         );
@@ -192,9 +195,15 @@ impl BugBounty {
         let mut bounty = self.bounties[&bounty_id].clone();
 
         bounty.status = match bounty.clone().status {
-            _ => AcceptingHunters,
+            AcceptingHunters => BountyStatus::BountyHuntingInProgress,
+            BountyStatus::BountyHuntingInProgress => BountyStatus::BountyHuntingInProgress,
+            BountyStatus::BountyHuntingCompleted => {
+                panic!("bounty completed")
+            }
+            BountyStatus::Archived => {
+                panic!("bounty archived")
+            }
         };
-
         // Reinsert the tournament back in after we modified the status:
         self.bounties.insert(bounty_id, bounty.clone());
         bounty.clone().status;
@@ -226,7 +235,7 @@ impl BugBounty {
     }
 
     //guilds
-    pub fn insert_guild(&mut self, guild_id: String, value: Guild) {
+    pub fn insert_guild(&mut self, guild_id: String, name: String, id_hash: String) {
         self.guilds.insert(
             guild_id,
             Guild {
@@ -242,7 +251,7 @@ impl BugBounty {
         );
     }
 
-    pub fn remove_guild(&mut self, guild_id: String) {
+    pub fn close_guild(&mut self, guild_id: String) {
         self.guilds.remove(&guild_id);
     }
 
@@ -262,69 +271,22 @@ impl BugBounty {
             .collect()
     }
 
-    // pub fn start_guild(&mut self, tournament_id: String) -> () {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .expect("ERR_NOT_CORRECT_USER");
-    //
-    //     tournament.status = match tournament.status {
-    //         TournamentStatus::AcceptingPlayers => TournamentStatus::GameInProgress,
-    //         _ => {
-    //             env::panic_str("ERR_GAME_IN_PROGRESS");
-    //         }
-    //     };
-    //
-    //     // Reinsert the tournament back in after we modified the status:
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     tournament.status;
-    // }
-    //
-    // pub fn join_guild(&mut self, user_id: AccountId, tournament_id: String) -> Tournament {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .unwrap_or_else(|| env::panic_str("ERR_JOINING_TOURNAMENT"));
-    //
-    //     tournament.user.push(user_id);
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     return tournament;
-    // }
-    //
-    // pub fn end_guild(&mut self, tournament_id: String) {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .expect("ERR_NOT_CORRECT_USER");
-    //
-    //     tournament.status = match tournament.status {
-    //         TournamentStatus::GameInProgress => TournamentStatus::GameCompleted,
-    //         _ => {
-    //             env::panic_str("ERR_GAME_COMPLETED");
-    //         }
-    //     };
-    //
-    //     // Reinsert the tournament back in after we modified the status:
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     tournament.status;
-    //
-    //     log!("Tournament with tournament_id hash {} completed successfully");
-    //
-    //     // Transfer the prize money to the winner
-    //     Promise::new(env::predecessor_account_id()).transfer(tournament.total_prize.into());
-    // }
+    pub fn join_guild(&mut self, user_id: AccountId, guild_id: String) -> Guild {
+        let mut guild = self.guilds[&guild_id].clone();
+        let mut user = self.users[&user_id].clone();
+        let member = Member {
+            name: user.username,
+            account_id: user.named_account_id.to_string(),
+        };
+
+        guild.members.push(member);
+        self.guilds.insert(guild_id, guild.clone());
+        return guild;
+    }
 
     //chats
-    pub fn insert_chat(&mut self, chat_id: String, value: Chat) {
-        self.chats.insert(
-            chat_id,
-            Chat {
-                name: "".to_string(),
-                id: "".to_string(),
-                time: "".to_string(),
-                message: "".to_string(),
-            },
-        );
+    pub fn send_chat(&mut self, chat_id: String, value: Chat) {
+        self.chats.insert(chat_id, value);
     }
 
     pub fn remove_chat(&mut self, chat_id: String) {
@@ -346,60 +308,14 @@ impl BugBounty {
             .collect()
     }
 
-    // pub fn start_chat(&mut self, tournament_id: String) -> () {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .expect("ERR_NOT_CORRECT_USER");
-    //
-    //     tournament.status = match tournament.status {
-    //         TournamentStatus::AcceptingPlayers => TournamentStatus::GameInProgress,
-    //         _ => {
-    //             env::panic_str("ERR_GAME_IN_PROGRESS");
-    //         }
-    //     };
-    //
-    //     // Reinsert the tournament back in after we modified the status:
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     tournament.status;
-    // }
-    //
-    // pub fn join_chat(&mut self, user_id: AccountId, tournament_id: String) -> Tournament {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .unwrap_or_else(|| env::panic_str("ERR_JOINING_TOURNAMENT"));
-    //
-    //     tournament.user.push(user_id);
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     return tournament;
-    // }
-    //
-    // pub fn end_chat(&mut self, tournament_id: String) {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .expect("ERR_NOT_CORRECT_USER");
-    //
-    //     tournament.status = match tournament.status {
-    //         TournamentStatus::GameInProgress => TournamentStatus::GameCompleted,
-    //         _ => {
-    //             env::panic_str("ERR_GAME_COMPLETED");
-    //         }
-    //     };
-    //
-    //     // Reinsert the tournament back in after we modified the status:
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     tournament.status;
-    //
-    //     log!("Tournament with tournament_id hash {} completed successfully");
-    //
-    //     // Transfer the prize money to the winner
-    //     Promise::new(env::predecessor_account_id()).transfer(tournament.total_prize.into());
-    // }
-
     //builds
-    pub fn insert_build(&mut self, build_id: String, value: BuildAccount) {
+    pub fn insert_build(
+        &mut self,
+        build_id: String,
+        no_of_participants: u128,
+        title: String,
+        description: String,
+    ) {
         self.builds.insert(
             build_id,
             BuildAccount {
@@ -416,10 +332,10 @@ impl BugBounty {
                 winners: vec![],
                 total_prize: 0,
                 no_of_bounty_winners: 0,
-                no_of_participants: 0,
+                no_of_participants,
                 end_date: "".to_string(),
-                title: "".to_string(),
-                description: "".to_string(),
+                title,
+                description,
                 milestones: vec![],
                 bounties: vec![],
             },
@@ -446,55 +362,46 @@ impl BugBounty {
             .collect()
     }
 
-    // pub fn start_builds(&mut self, tournament_id: String) -> () {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .expect("ERR_NOT_CORRECT_USER");
-    //
-    //     tournament.status = match tournament.status {
-    //         TournamentStatus::AcceptingPlayers => TournamentStatus::GameInProgress,
-    //         _ => {
-    //             env::panic_str("ERR_GAME_IN_PROGRESS");
-    //         }
-    //     };
-    //
-    //     // Reinsert the tournament back in after we modified the status:
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     tournament.status;
-    // }
-    //
-    // pub fn join_builds(&mut self, user_id: AccountId, tournament_id: String) -> Tournament {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .unwrap_or_else(|| env::panic_str("ERR_JOINING_TOURNAMENT"));
-    //
-    //     tournament.user.push(user_id);
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     return tournament;
-    // }
-    //
-    // pub fn end_builds(&mut self, tournament_id: String) {
-    //     let mut tournament = self
-    //         .tournaments
-    //         .get(&tournament_id)
-    //         .expect("ERR_NOT_CORRECT_USER");
-    //
-    //     tournament.status = match tournament.status {
-    //         TournamentStatus::GameInProgress => TournamentStatus::GameCompleted,
-    //         _ => {
-    //             env::panic_str("ERR_GAME_COMPLETED");
-    //         }
-    //     };
-    //
-    //     // Reinsert the tournament back in after we modified the status:
-    //     self.tournaments.insert(&tournament_id, &tournament);
-    //     tournament.status;
-    //
-    //     log!("Tournament with tournament_id hash {} completed successfully");
-    //
-    //     // Transfer the prize money to the winner
-    //     Promise::new(env::predecessor_account_id()).transfer(tournament.total_prize.into());
-    // }
+    pub fn start_build(&mut self, build_id: String) -> () {
+        let mut build = self.bounties[&build_id].clone();
+
+        build.status = match build.clone().status {
+            AcceptingHunters => BountyStatus::BountyHuntingInProgress,
+            BountyStatus::BountyHuntingInProgress => BountyStatus::BountyHuntingInProgress,
+            BountyStatus::BountyHuntingCompleted => {
+                panic!("bounty completed")
+            }
+            BountyStatus::Archived => {
+                panic!("bounty archived")
+            }
+        };
+        // Reinsert the tournament back in after we modified the status:
+        self.bounties.insert(build_id, build.clone());
+        build.clone().status;
+    }
+
+    pub fn join_build(&mut self, user_id: AccountId, build_id: String) -> BuildAccount {
+        let mut build = self.builds[&build_id].clone();
+
+        build.users.push(user_id.as_str().parse().unwrap());
+        self.builds.insert(build_id, build.clone());
+        return build;
+    }
+
+    pub fn end_build(&mut self, build_id: String) {
+        let mut build = self.builds[&build_id].clone();
+
+        build.status = match build.status {
+            _ => BountyStatus::BountyHuntingCompleted,
+        };
+
+        // Reinsert the tournament back in after we modified the status:
+        self.builds.insert(build_id, build.clone());
+        build.status;
+
+        // log!("Tournament with tournament_id hash {} completed successfully");
+
+        // Transfer the prize money to the winner
+        // Promise::new(env::predecessor_account_id()).transfer(bounty.total_fund);
+    }
 }

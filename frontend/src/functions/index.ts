@@ -2,6 +2,10 @@ import React, { useState, useContext } from "react";
 import { NearContext } from "@/wallets/near";
 import { BugBountyContract } from "@/config";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
+import { useAppDispatch } from "@/redux/hook";
+import { User } from "@/redux/types";
+import { addProfile } from "@/redux/slice/ProfileSlice";
 
 export const useInitializeContract = () => {
   const [loading, setLoading] = useState(false);
@@ -33,21 +37,22 @@ export const useIsUserExist = () => {
   const [loading, setLoading] = useState(false);
   const { wallet, signedAccountId } = useContext(NearContext);
   const [userExist, setUserExist] = useState(false);
+  const router = useRouter();
 
   const isUserExist = async () => {
     try {
       setLoading(true);
-      console.log("called");
       const user = await wallet.viewMethod({
         contractId: BugBountyContract,
         method: "is_user_present",
-        args: { account_id: signedAccountId },
+        args: { account_id: signedAccountId.toString() },
       });
 
       setUserExist(user);
+      console.log("user", user);
       return;
     } catch (err) {
-      toast.error(err.message);
+      // toast.error(err.message);
       console.log(err);
     } finally {
       setLoading(false);
@@ -95,16 +100,18 @@ export const useCreateUser = () => {
 export const useGetUser = () => {
   const [loading, setLoading] = useState(false);
   const { wallet, signedAccountId } = useContext(NearContext);
+  const dispatch = useAppDispatch();
+
   const getUser = async () => {
     try {
       setLoading(true);
-      const data = await wallet.viewMethod({
+      const data: User = await wallet.viewMethod({
         contractId: BugBountyContract,
         method: "get_user",
         args: { account_id: signedAccountId },
       });
       if (data) {
-        console.log("USER", data);
+        dispatch(addProfile(data));
         return;
       }
     } catch (err) {

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useRef } from "react";
 import Section from "./Section";
 import Heading from "../design/Heading";
@@ -22,7 +23,7 @@ const Services = () => {
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none md:w-3/5 xl:w-[50%x]">
               <img
                 className="w-full h-full object-cover md:object-right opacity-50"
-                src={bounty}
+                src={bounty.src}
                 width={800}
                 height={730}
                 alt="bounty "

@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { CampaignT } from "../types";
-
+// import { CampaignT } from "../types";
+type CampaignT = {
+  jj: string
+}
 // Define the initial state using that type
 const initialState: CampaignT[] = [];
 
