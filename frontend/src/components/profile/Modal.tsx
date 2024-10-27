@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 
 // Modal Component
 const Modal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
   const router = useRouter();
+  if (!isOpen) return null;
+  
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

@@ -12,7 +12,7 @@ import { BugBountyContract } from "@/config";
 import Modal from "@/components/profile/Modal";
 import { useInitializeContract } from "@/functions";
 
-const profileEntries = () => {
+const ProfileEntries = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
   const range = dayjs().subtract(18, "years").format("YYYY-MM-DD");
@@ -245,4 +245,4 @@ const profileEntries = () => {
   );
 };
 
-export default profileEntries;
+export default ProfileEntries;

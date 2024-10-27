@@ -1,4 +1,6 @@
-import { gradient } from "../../assets";
+/* eslint-disable @next/next/no-img-element */
+// import { gradient } from "../../assets";
+import gradient from "../../assets/gradient.png";
 
 export const Gradient = () => {
   return (
@@ -6,7 +8,7 @@ export const Gradient = () => {
       <div className="absolute top-1/2 left-1/2 w-[58.85rem] h-[58.85rem] -translate-x-3/4 -translate-y-1/2">
         <img
           className="w-full"
-          src={gradient}
+          src={gradient.src}
           width={942}
           height={942}
           alt="Gradient"
