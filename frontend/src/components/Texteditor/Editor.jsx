@@ -8,12 +8,12 @@ import dynamic from "next/dynamic";
 
 const QuillEditor = dynamic(() => import("react-quill"), { ssr: false });
 
-interface props {
-  handleContent: (e: any) => void;
-  content: string;
-}
+// interface props {
+//   handleContent: (e: any) => void;
+//   content: string;
+// }
 
-const Editor = ({ handleContent, content }: props) => {
+const Editor = ({ handleContent, content }) => {
   const quill = useRef(null);
 
   const modules = useMemo(

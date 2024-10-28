@@ -62,7 +62,7 @@ const Header = () => {
           if (userExist) {
             router.push("/profile");
           } else {
-            initContract();                     
+            initContract();
             router.push("/create-profile");
           }
         }
