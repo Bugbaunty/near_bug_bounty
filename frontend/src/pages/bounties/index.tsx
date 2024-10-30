@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BountyCard from "@/components/bounty/BountyCard";
 import { useRouter } from "next/router";
+import { useGetAllBounties } from "@/functions";
+import { useAppSelector } from "@/redux/hook";
 
 const Bounties = () => {
   const router = useRouter();
+
+  const { getBounties } = useGetAllBounties();
+  const bounties = useAppSelector((state) => state.bounties);
+  // console.log("REDUX BOUNTIES", bounties);
+
+  useEffect(() => {
+    getBounties();
+  }, []);
   return (
     <div className="mx-4  sm:mx-8 mt-[5rem]  flex flex-col w-full mb-4">
       <div className="flex justify-between items-center">
