@@ -114,6 +114,7 @@ export const useGetUser = () => {
   const [loading, setLoading] = useState(false);
   const { wallet, signedAccountId } = useContext(NearContext);
   const dispatch = useAppDispatch();
+  const isInitialLoad = useRef(true);
 
   const getUser = async () => {
     try {

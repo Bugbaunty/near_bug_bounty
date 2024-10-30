@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import BountyCard from "@/components/bounty/BountyCard";
 import { useRouter } from "next/router";
-import { useGetAllBounties } from "@/functions";
+import { useGetAllBounties, useGetUser } from "@/functions";
 import { useAppSelector } from "@/redux/hook";
 import { NearContext } from "@/wallets/near";
 
@@ -10,12 +10,17 @@ const Bounties = () => {
   const { wallet, signedAccountId } = React.useContext(NearContext);
 
   const bounties = useAppSelector((state) => state.bounties);
-  // // console.log("REDUX BOUNTIES", bounties);
+  const { getUser } = useGetUser();
 
-  const { getBounties } = useGetAllBounties();
+  const { getBounties, loading } = useGetAllBounties();
   useEffect(() => {
     getBounties();
   }, []);
+
+  React.useEffect(() => {
+    getUser();
+  }, [signedAccountId]);
+
   return (
     <div className="mx-4  sm:mx-8 mt-[5rem]  flex flex-col w-full mb-4">
       <div className="flex justify-between items-center">
@@ -33,6 +38,7 @@ const Bounties = () => {
           </div>
         </div>
       </div>
+      {loading && <h1>fetching bounties...</h1>}
       <div className=" grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
         {bounties?.map((bounty) => (
           <BountyCard key={bounty.id_hash} bounty={bounty} />
