@@ -154,13 +154,14 @@ export const useGetAllBounties = () => {
       });
 
       console.log("FROM ACC", data);
-      // if (data) {
-      //   for (let i = 1; i < data.length, i++; ) {
-      //     // console.log(data[i][1]);
-      //     // dispatch(addBounty(data[i][1]));
-      //   }
-      //   return;
-      // }
+      if (data) {
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i][1]);
+          dispatch(addBounty(data[i][1]));
+        }
+
+        return;
+      }
     } catch (err) {
       console.log("ERROR", err);
       console.log(err);

@@ -38,7 +38,7 @@ const CreateBounty = () => {
   const [bountyDetails, setBountyDetails] = useState<string>("");
   const inputRef = useRef<InputRef>(null);
   const [loading, setLoading] = useState(false);
-  const range = dayjs().subtract(18, "years").format("YYYY-MM-DD");
+  const range = dayjs().add(1, "months").format("YYYY-MM-DD");
   const router = useRouter();
 
   const {

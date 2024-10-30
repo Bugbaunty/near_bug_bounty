@@ -2,25 +2,30 @@ import React from "react";
 import { GlareCard } from "../ui/glare-card";
 import { IoBug } from "react-icons/io5";
 import { FcClock } from "react-icons/fc";
+import dayjs from "dayjs";
 
-const BountyCard = () => {
+const BountyCard = ({ bounty }) => {
   return (
     <GlareCard className="flex flex-col p-8">
       <div className="flex flex-row items-center ">
         <div className="flex justify-center items-center p-2 bg-white/10 rounded-[12px]  w-fit">
           <IoBug className=" text-color-7 w-6 h-6" />
         </div>
-        <p className=" ml-4 text-[1rem] text-white font-bold">Deonorla</p>
+        <p className=" ml-4 text-[1rem] text-white font-bold">
+          {bounty.creator}
+        </p>
       </div>
       <div className="flex flex-col mt-4">
         <p className=" text-[1rem] text-color-7">Price</p>
         <p className="mt-2 bg-gradient-to-r text-[1.5rem]  from-linear-1 to-linear-2 bg-clip-text text-[transparent]">
-          $5000{" "}
+          ${bounty.total_fund.toLocaleString()}{" "}
         </p>
         <div className="mt-8">
           <div className="flex flex-row items-center ">
             <FcClock className="text-color-7 w-6 h-6" />
-            <p className="ml-4 text-sm text-white ">10 days left</p>
+            <p className="ml-4 text-sm text-white ">
+              {dayjs(bounty.end_date as string).diff(dayjs(), "day")}days left
+            </p>
           </div>
           {/* TAGS */}
           <div className="flex flex-wrap gap-4 my-3">
@@ -34,9 +39,7 @@ const BountyCard = () => {
               <p className="text-[.7rem] text-[#2497D0]">Crypto</p>
             </div>
           </div>
-          <h3 className="mt-4">
-            Verify testnest smart contracts with white paper calculation
-          </h3>
+          <h3 className="mt-4">{bounty.description.slice(3, 200)}...</h3>
         </div>
       </div>
     </GlareCard>

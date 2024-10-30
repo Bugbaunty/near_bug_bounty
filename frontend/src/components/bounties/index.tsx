@@ -14,7 +14,9 @@ const Bounties = () => {
   // // console.log("REDUX BOUNTIES", bounties);
 
   useEffect(() => {
-    getBounties();
+    if (bounties.length < 1) {
+      getBounties();
+    }
   }, []);
   return (
     <div className="mx-4  sm:mx-8 mt-[5rem]  flex flex-col w-full mb-4">
@@ -34,13 +36,9 @@ const Bounties = () => {
         </div>
       </div>
       <div className=" grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-        <BountyCard />
-        <BountyCard />
-        <BountyCard />
-        <BountyCard />
-        <BountyCard />
-        <BountyCard />
-        <BountyCard />
+        {bounties?.map((bounty) => (
+          <BountyCard key={bounty.id_hash} bounty={bounty} />
+        ))}
       </div>
     </div>
   );
