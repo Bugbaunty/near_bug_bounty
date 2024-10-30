@@ -37,10 +37,10 @@ const Profile = () => {
             </div>
             <div
               className="mt-[1rem] absolute bottom-0 right-2"
-              onClick={() => router.push("/create-profile")}
+              onClick={() => router.push("/dashboard")}
             >
               <div className="flex cursor-pointer justify-center items-center hover:bg-white/80 bg-white px-3 h-fit my-2 rounded-md ">
-                <p className=" my-2 text-[.85rem] text-black ">Edit Profile</p>
+                <p className=" my-2 text-[.85rem] text-black ">Join Bounty</p>
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@ const Profile = () => {
                 <div className="flex justify-center items-center bg-[#1E1E21] px-3 h-fit my-2 rounded-full ">
                   <p
                     onClick={handleLogout}
-                    className=" my-2 text-[.85rem] text-color-7 "
+                    className=" my-2 text-[.85rem] cursor-pointer text-color-7 "
                   >
                     Logout
                   </p>

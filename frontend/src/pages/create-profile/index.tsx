@@ -34,19 +34,6 @@ const ProfileEntries = () => {
   };
 
   const onSubmit = async (data: any) => {
-    if (base64String.length < 10) {
-      toast.error("upload an avatar");
-      return;
-    }
-    const data_ = {
-      id_hash: ulid(),
-      account_id: signedAccountId,
-      username: data.username,
-      dob: dayjs(date).valueOf().toString(),
-      github: data.github,
-      picture: base64String,
-    };
-    // console.log(data_);
     try {
       setLoading(true);
       // await initContract();
@@ -90,14 +77,6 @@ const ProfileEntries = () => {
     }
   };
 
-  React.useEffect(() => {
-    // Check if the label reference is set
-    if (labelRef.current) {
-      // Set the background image
-      labelRef.current.style.backgroundImage = `url('${base64String}')`;
-    }
-  }, [base64String]);
-
   return (
     <div className="flex">
       <Header />
@@ -112,12 +91,12 @@ const ProfileEntries = () => {
               Profile
             </span>
           </h1>
-          <div className="flex mt-4 mx-4 flex-col">
+          {/*   <div className="flex mt-4 mx-4 flex-col">
             <p className="text-[0.8rem] mt-4 mb-[1rem] font-semibold sm:text-base  bg-gradient-to-r from-linear-1  to-linear-2  text-[transparent] bg-clip-text">
               Profile Picture
             </p>
-            {/* Profile Picture Upload */}
-            <div className="flex-col  flex mt-3 rounded-tr-[1.5rem] rounded-br-[1.5rem]">
+       
+               <div className="flex-col  flex mt-3 rounded-tr-[1.5rem] rounded-br-[1.5rem]">
               <div className="bg-black flex  cursor-pointer items-center h-[8rem] w-full lg:w-[30%] rounded-tl-full rounded-bl-full rounded-tr-[1.5rem] rounded-br-[1.5rem] ">
                 <div className="flex cursor-pointer w-fit border-[4px] border-solid border-color-7 rounded-full ">
                   <label
@@ -138,10 +117,10 @@ const ProfileEntries = () => {
                   accept="image/*"
                   className="hidden text-[0.85rem] ml-4 text-white"
                 />
-                {/* </input> */}
+               
               </div>
-            </div>
-          </div>
+            </div> 
+          </div> */}
           <div className="mt-8 mb-4 border border-solid border-[#2E3438] w-full" />
           <p className="text-[0.8rem] mt-4 mb-[1rem] font-semibold sm:text-base  bg-gradient-to-r from-linear-1  to-linear-2  text-[transparent] bg-clip-text">
             Account Information
