@@ -218,21 +218,23 @@ export const useGetCreatedBounties = () => {
   const profile = useAppSelector((state) => state.profile);
 
   const getCreatedBounties = async () => {
-    if (hasFetchedCreated.current) return; // Prevent multiple calls
-    hasFetchedCreated.current = true; // Mark as fetched
     try {
-      setLoading(true);
-      const data = await wallet.viewMethod({
-        contractId: BugBountyContract,
-        method: "get_all_bounties",
-        args: { from_index: 0, limit: 2 },
-      });
+      if (profile) {
+        if (hasFetchedCreated.current) return;
+        hasFetchedCreated.current = true;
+        setLoading(true);
+        const data = await wallet.viewMethod({
+          contractId: BugBountyContract,
+          method: "get_all_bounties",
+          args: { from_index: 0, limit: 30 },
+        });
 
-      console.log("FROM ACC", data);
-      if (data) {
-        for (let i = 0; i < data.length; i++) {
-          if (profile.username === data[i][1].creator) {
-            dispatch(addCreatedBounty(data[i][1]));
+        console.log("FROM ACC", data);
+        if (data) {
+          for (let i = 0; i < data.length; i++) {
+            if (profile.username === data[i][1].creator) {
+              dispatch(addCreatedBounty(data[i][1]));
+            }
           }
         }
       }

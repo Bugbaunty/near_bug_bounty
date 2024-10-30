@@ -4,16 +4,50 @@ import { IoBug } from "react-icons/io5";
 import { FcClock } from "react-icons/fc";
 import dayjs from "dayjs";
 import BountyDetailsModal from "./BountyDetailsModal";
+import CreatedBountyDetailsModal from "./CreatedBountyDetailsModal";
+import JoinedBountyDetailsModal from "./JoinedBountyDetailsModal";
+import { useAppSelector } from "@/redux/hook";
+import { useRouter } from "next/router";
 
 const BountyCard = ({ bounty }) => {
+  const user = useAppSelector((state) => state.profile);
+  const router = useRouter();
+  const pathname = router.pathname;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreatedModalOpen, setIsCreatedModalOpen] = useState(false);
+  const [isJoinedModalOpen, setIsJoinedModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
+  const openCreatedModal = () => setIsCreatedModalOpen(true);
+  const openJoinedModal = () => setIsJoinedModalOpen(true);
+
   const closeModal = () => setIsModalOpen(false);
+  const closeCreatedModal = () => setIsCreatedModalOpen(false);
+  const closeJoinedModal = () => setIsJoinedModalOpen(false);
+
+  const handleOnClick = () => {
+    if (user.username === bounty.creator) {
+      closeModal();
+      closeJoinedModal();
+      openCreatedModal();
+    } else if (
+      user.username != bounty.creator &&
+      pathname.includes("/dashboard")
+    ) {
+      openModal();
+      closeCreatedModal();
+      closeJoinedModal();
+    } else {
+      openJoinedModal();
+      closeModal();
+      closeCreatedModal();
+    }
+  };
 
   return (
     <>
-      <div onClick={openModal}>
+      <div onClick={handleOnClick}>
         <GlareCard className="flex flex-col p-8">
           <div className="flex flex-row items-center ">
             <div className="flex justify-center items-center p-2 bg-white/10 rounded-[12px]  w-fit">
@@ -56,6 +90,16 @@ const BountyCard = ({ bounty }) => {
       <BountyDetailsModal
         isOpen={isModalOpen}
         onClose={closeModal}
+        bounty={bounty}
+      />
+      <CreatedBountyDetailsModal
+        isOpen={isCreatedModalOpen}
+        onClose={closeCreatedModal}
+        bounty={bounty}
+      />
+      <JoinedBountyDetailsModal
+        isOpen={isJoinedModalOpen}
+        onClose={closeJoinedModal}
         bounty={bounty}
       />
     </>
