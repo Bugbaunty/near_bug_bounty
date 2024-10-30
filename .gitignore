@@ -35,4 +35,5 @@ yarn-debug.log*
 yarn-error.log*
 
 contract/target/** 
-frontend/.next/** 
+contract/.idea/**
+frontend/.next/**
