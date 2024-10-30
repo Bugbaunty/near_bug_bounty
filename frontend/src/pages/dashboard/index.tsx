@@ -12,7 +12,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="flex ">
+    <div className="flex bg-n-8/90">
       <Header />
       <Sidebar />
       <Bounties />

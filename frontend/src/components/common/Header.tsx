@@ -51,14 +51,14 @@ const Header = () => {
         </div>
       </div>
       {openNavigation && (
-        <div className="absolute top-[4rem] w-full h-screen bg-linear-3 ">
+        <div className="absolute z-50 top-[4rem] w-full h-screen bg-linear-3 ">
           <div className="mt-16 flex flex-col  items-center gap-16 z-50-">
             <div
               onClick={() => {
                 router.push("/profile");
                 setOpenNavigation(false);
               }}
-              className="flex "
+              className="flex cursor-pointer"
             >
               <IoMdPerson className="w-6 h-6 text-color-7" />
               <p className="text-[1rem] text-color-7 ml-4">Profile</p>
@@ -68,7 +68,7 @@ const Header = () => {
               //   router.push("/profile");
               //   setOpenNavigation(false);
               // }}
-              className="flex "
+              className="flex cursor-pointer"
             >
               <IoIosPeople className="w-6 h-6 text-color-7" />
               <p className="text-[1rem] text-color-7 ml-4">Guilds</p>
@@ -78,14 +78,14 @@ const Header = () => {
                 router.push("/dashboard");
                 setOpenNavigation(false);
               }}
-              className="flex"
+              className="flex cursor-pointer"
             >
               <IoBug className="w-6 h-6 text-color-7" />
               <p className="text-[1rem] text-color-7 ml-4">Bounties</p>
             </div>
           </div>
-          <div className="h-full flex sm:justify-end justify-center items-center">
-            <BackgroundCircles parallaxRef={parallaxRef} />
+          <div className="h-full z-[-100] flex sm:justify-end justify-center items-center">
+            {/* <BackgroundCircles parallaxRef={parallaxRef} /> */}
           </div>
         </div>
       )}
