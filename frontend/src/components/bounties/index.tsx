@@ -3,13 +3,15 @@ import BountyCard from "@/components/bounty/BountyCard";
 import { useRouter } from "next/router";
 import { useGetAllBounties } from "@/functions";
 import { useAppSelector } from "@/redux/hook";
+import { NearContext } from "@/wallets/near";
 
 const Bounties = () => {
   const router = useRouter();
+  const { wallet, signedAccountId } = React.useContext(NearContext);
 
   const { getBounties } = useGetAllBounties();
   const bounties = useAppSelector((state) => state.bounties);
-  // console.log("REDUX BOUNTIES", bounties);
+  // // console.log("REDUX BOUNTIES", bounties);
 
   useEffect(() => {
     getBounties();
@@ -25,7 +27,9 @@ const Bounties = () => {
         </div>
         <div className="mr-4  " onClick={() => router.push("/create-bounty")}>
           <div className="flex cursor-pointer justify-center items-center hover:bg-white/80 bg-white px-3 h-fit my-2 rounded-md ">
-            <p className=" my-2 text-[.85rem] text-black ">Create Bounty</p>
+            <p className="my-2 text-[.85rem] text-black cursor-pointer">
+              Create Bounty
+            </p>
           </div>
         </div>
       </div>
