@@ -7,13 +7,13 @@ import { useAppSelector } from "@/redux/hook";
 const Bounties = () => {
   const router = useRouter();
 
-  const { getBounties } = useGetAllBounties();
+  // const { getBounties } = useGetAllBounties();
   const bounties = useAppSelector((state) => state.bounties);
-  // console.log("REDUX BOUNTIES", bounties);
+  // // console.log("REDUX BOUNTIES", bounties);
 
-  useEffect(() => {
-    getBounties();
-  }, []);
+  // useEffect(() => {
+  //   getBounties();
+  // }, []);
   return (
     <div className="mx-4  sm:mx-8 mt-[5rem]  flex flex-col w-full mb-4">
       <div className="flex justify-between items-center">
@@ -25,7 +25,9 @@ const Bounties = () => {
         </div>
         <div className="mr-4  " onClick={() => router.push("/create-bounty")}>
           <div className="flex cursor-pointer justify-center items-center hover:bg-white/80 bg-white px-3 h-fit my-2 rounded-md ">
-            <p className=" my-2 text-[.85rem] text-black ">Create Bounty</p>
+            <p className="my-2 text-[.85rem] text-black cursor-pointer">
+              Create Bounty
+            </p>
           </div>
         </div>
       </div>

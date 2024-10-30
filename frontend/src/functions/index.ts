@@ -150,7 +150,7 @@ export const useGetAllBounties = () => {
       const data = await wallet.viewMethod({
         contractId: BugBountyContract,
         method: "get_all_bounties",
-        args: { from_index: 0, limit: 2 },
+        args: { from_index: 1, limit: 2 },
       });
 
       console.log("FROM ACC", data);

@@ -138,7 +138,6 @@ const CreateBounty = () => {
         description: bountyDetails,
       };
 
-      console.log(query);
       const create_bounty = await wallet.callMethod({
         contractId: BugBountyContract,
         method: "create_bounty",
