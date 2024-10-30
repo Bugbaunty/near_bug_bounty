@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { NearContext } from "@/wallets/near";
 import { BugBountyContract } from "@/config";
 import toast from "react-hot-toast";
@@ -143,8 +143,11 @@ export const useGetAllBounties = () => {
   const [loading, setLoading] = useState(false);
   const { wallet, signedAccountId } = useContext(NearContext);
   const dispatch = useAppDispatch();
+  const hasFetched = useRef(false); // Tracks if getBounties has already been called
 
   const getBounties = async () => {
+    if (hasFetched.current) return; // Prevent multiple calls
+    hasFetched.current = true; // Mark as fetched
     try {
       setLoading(true);
       const data = await wallet.viewMethod({
@@ -159,15 +162,13 @@ export const useGetAllBounties = () => {
           console.log(data[i][1]);
           dispatch(addBounty(data[i][1]));
         }
-
-        return;
       }
     } catch (err) {
       console.log("ERROR", err);
-      console.log(err);
     } finally {
       setLoading(false);
     }
   };
+
   return { getBounties, loading };
 };
