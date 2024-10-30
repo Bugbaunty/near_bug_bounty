@@ -150,17 +150,17 @@ export const useGetAllBounties = () => {
       const data = await wallet.viewMethod({
         contractId: BugBountyContract,
         method: "get_all_bounties",
-        args: { from_index: 1, limit: 2 },
+        args: { from_index: 0, limit: 2 },
       });
 
       console.log("FROM ACC", data);
-      if (data) {
-        for (let i = 1; i < data.length, i++; ) {
-          // console.log(data[i][1]);
-          // dispatch(addBounty(data[i][1]));
-        }
-        return;
-      }
+      // if (data) {
+      //   for (let i = 1; i < data.length, i++; ) {
+      //     // console.log(data[i][1]);
+      //     // dispatch(addBounty(data[i][1]));
+      //   }
+      //   return;
+      // }
     } catch (err) {
       console.log("ERROR", err);
       console.log(err);

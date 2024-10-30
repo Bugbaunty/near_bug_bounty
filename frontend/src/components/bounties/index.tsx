@@ -3,17 +3,19 @@ import BountyCard from "@/components/bounty/BountyCard";
 import { useRouter } from "next/router";
 import { useGetAllBounties } from "@/functions";
 import { useAppSelector } from "@/redux/hook";
+import { NearContext } from "@/wallets/near";
 
 const Bounties = () => {
   const router = useRouter();
+  const { wallet, signedAccountId } = React.useContext(NearContext);
 
-  // const { getBounties } = useGetAllBounties();
+  const { getBounties } = useGetAllBounties();
   const bounties = useAppSelector((state) => state.bounties);
   // // console.log("REDUX BOUNTIES", bounties);
 
-  // useEffect(() => {
-  //   getBounties();
-  // }, []);
+  useEffect(() => {
+    getBounties();
+  }, []);
   return (
     <div className="mx-4  sm:mx-8 mt-[5rem]  flex flex-col w-full mb-4">
       <div className="flex justify-between items-center">
