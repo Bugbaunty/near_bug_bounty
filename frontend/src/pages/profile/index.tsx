@@ -17,7 +17,6 @@ const Profile = () => {
   const CLIENT_SECRET_KEY =
     process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_CLIENT_SECRET_KEY;
 
-  console.log("client", process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_CLIENT_ID);
   const { getUser } = useGetUser();
 
   React.useEffect(() => {
