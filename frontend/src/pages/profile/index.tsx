@@ -64,11 +64,11 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex bg-n-8/90">
       <Header />
       <Sidebar />
       {user && (
-        <div className=" mt-[5rem] flex flex-col w-full mb-4">
+        <div className=" mt-[5rem] flex flex-col w-full mb-4 ">
           <div className="flex relative bg-gradient-to-r from-linear-1/40 to bg-linear-2/30 w-full h-[10rem] rounded-t-[1.5rem] mt-4 ">
             <div className="absolute bottom-[-4rem] left-4 flex cursor-pointer border-[4px] border-solid border-color-7 rounded-full ">
               <img

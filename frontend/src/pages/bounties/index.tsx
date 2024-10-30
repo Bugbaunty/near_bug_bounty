@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 const Bounties = () => {
   const router = useRouter();
   return (
-    <div className="mx-4  sm:mx-8 mt-[5rem] flex flex-col w-full mb-4">
+    <div className="mx-4  sm:mx-8 mt-[5rem]  flex flex-col w-full mb-4">
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
           <h2 className="text-white text-xl mt-4">Bounties</h2>
