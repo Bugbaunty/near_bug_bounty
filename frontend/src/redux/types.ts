@@ -1,27 +1,23 @@
 export interface BountyAccount {
   id_hash: string;
   creator: string;
-  creator_id?: string | null;
-  status: BountyStatus;
+  creator_id: string;
+  status: string;
   idx: number;
-  starting_date: string;
-  bounty_rules: string;
-  bounty_type: BountyType;
-  milestone: string;
+  bounty_requrements: string;
+  bounty_type: string;
   guild: Guild[];
-  guild_points?: Array<[string, bigint]> | null;
-  messages?: Chat[] | null;
-  user: string[];
-  winers: string[];
-  entry_prize: number;
-  total_prize: bigint;
+  messages?: Chat[];
+  users: string[];
+  winners: string[];
+  total_fund: number;
   no_of_winners: number;
   no_of_participants: bigint;
-  milestone_type: MilestonesType;
+  start_date: string;
   end_date: string;
   title: string;
-  points?: Array<[string, bigint]> | null;
-  milestones?: MilestonesAccount[] | null;
+  description: string;
+  milestones: MilestonesAccount[];
 }
 
 export interface BuildAccount {
