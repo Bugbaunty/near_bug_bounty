@@ -25,7 +25,7 @@ export const useInitializeContract = () => {
         return;
       }
     } catch (err) {
-      toast.error(err.message);
+      // toast.error(err.message);
       console.log(err);
     } finally {
       setLoading(false);
