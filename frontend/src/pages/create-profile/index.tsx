@@ -34,19 +34,6 @@ const ProfileEntries = () => {
   };
 
   const onSubmit = async (data: any) => {
-    // if (base64String.length < 10) {
-    //   toast.error("upload an avatar");
-    //   return;
-    // }
-    // const data_ = {
-    //   id_hash: ulid(),
-    //   account_id: signedAccountId,
-    //   username: data.username,
-    //   dob: dayjs(date).valueOf().toString(),
-    //   github: data.github,
-    //   picture: base64String,
-    // };
-    // console.log(data_);
     try {
       setLoading(true);
       // await initContract();
@@ -89,14 +76,6 @@ const ProfileEntries = () => {
       console.log(base64String);
     }
   };
-
-  // React.useEffect(() => {
-  //   // Check if the label reference is set
-  //   if (labelRef.current) {
-  //     // Set the background image
-  //     labelRef.current.style.backgroundImage = `url('${base64String}')`;
-  //   }
-  // }, [base64String]);
 
   return (
     <div className="flex">
