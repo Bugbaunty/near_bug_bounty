@@ -6,7 +6,7 @@ import MenuSvg from "@/assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
 import { BugBountyContract } from "@/config";
-import { useIsUserExist, useInitializeContract } from "@/functions";
+import { useIsUserExist } from "@/functions";
 import { NearContext } from "@/wallets/near";
 
 const Header = () => {
@@ -34,7 +34,6 @@ const Header = () => {
   const [label, setLabel] = useState("Loading...");
   const [loadingAuth, setLoadingAuth] = useState(false);
   const [loginBtnClicked, setLoginBtnClicked] = useState(false);
-  const { initContract } = useInitializeContract();
 
   const handleAuth = () => {
     if (wallet) {
@@ -52,21 +51,14 @@ const Header = () => {
     }
   };
 
+  const check = async () => {
+    await isUserExist();
+  };
+
   useEffect(() => {
     if (!wallet) return;
-
     if (signedAccountId) {
-      if (wallet) {
-        isUserExist();
-        if (!loading) {
-          if (userExist) {
-            router.push("/profile");
-          } else {
-            initContract();
-            router.push("/create-profile");
-          }
-        }
-      }
+      check();
     }
   }, [signedAccountId]);
 

@@ -51,6 +51,18 @@ export const useIsUserExist = () => {
 
       setUserExist(user);
       console.log("user", user);
+
+      if (user) {
+        router.push("/profile");
+      } else {
+        // await wallet.callMethod({
+        //   contractId: BugBountyContract,
+        //   method: "new",
+        //   args: {},
+        // });
+        router.push("/create-profile");
+      }
+
       return;
     } catch (err) {
       // toast.error(err.message);
@@ -133,15 +145,18 @@ export const useGetAllBounties = () => {
   const getBounties = async () => {
     try {
       setLoading(true);
-      const data: BountyAccount = await wallet.viewMethod({
+      const data = await wallet.viewMethod({
         contractId: BugBountyContract,
         method: "get_all_bounties",
-        args: { from_index: 1, limit: 5 },
+        args: { from_index: 0, limit: 2 },
       });
 
       console.log("FROM ACC", data);
       if (data) {
-        dispatch(addBounty(data));
+        for (let i = 1; i < data.length, i++; ) {
+          // console.log(data[i][1]);
+          // dispatch(addBounty(data[i][1]));
+        }
         return;
       }
     } catch (err) {

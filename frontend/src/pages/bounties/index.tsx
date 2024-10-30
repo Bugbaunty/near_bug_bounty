@@ -9,7 +9,7 @@ const Bounties = () => {
 
   const { getBounties } = useGetAllBounties();
   const bounties = useAppSelector((state) => state.bounties);
-  console.log("REDUX BOUNTIES", bounties);
+  // console.log("REDUX BOUNTIES", bounties);
 
   useEffect(() => {
     getBounties();

@@ -183,7 +183,7 @@ impl BugBounty {
         self.bounties.contains_key(&bounty_id)
     }
 
-    pub fn get_all_bounties(&self, from_index: i32, limit: i32) -> Vec<(&String, &BountyAccount)> {
+    pub fn get_all_bounties(&self, from_index: u32, limit: u32) -> Vec<(&String, &BountyAccount)> {
         self.bounties
             .iter()
             .skip(from_index as usize)
