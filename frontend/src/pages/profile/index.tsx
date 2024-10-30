@@ -21,7 +21,7 @@ const Profile = () => {
 
   React.useEffect(() => {
     getUser();
-  }, []);
+  }, [signedAccountId]);
 
   const handleLogout = () => {
     wallet.signOut();

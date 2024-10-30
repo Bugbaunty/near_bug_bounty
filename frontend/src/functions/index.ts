@@ -25,7 +25,7 @@ export const useInitializeContract = () => {
         return;
       }
     } catch (err) {
-      toast.error(err.message);
+      // toast.error(err.message);
       console.log(err);
     } finally {
       setLoading(false);
@@ -117,15 +117,17 @@ export const useGetUser = () => {
 
   const getUser = async () => {
     try {
-      setLoading(true);
-      const data: User = await wallet.viewMethod({
-        contractId: BugBountyContract,
-        method: "get_user",
-        args: { account_id: signedAccountId },
-      });
-      if (data) {
-        dispatch(addProfile(data));
-        return;
+      if (signedAccountId) {
+        setLoading(true);
+        const data: User = await wallet.viewMethod({
+          contractId: BugBountyContract,
+          method: "get_user",
+          args: { account_id: signedAccountId },
+        });
+        if (data) {
+          dispatch(addProfile(data));
+          return;
+        }
       }
     } catch (err) {
       console.log("ERROR", err);
