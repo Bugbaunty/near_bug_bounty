@@ -3,10 +3,11 @@ import { NearContext } from "@/wallets/near";
 import { BugBountyContract } from "@/config";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
-import { useAppDispatch } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { BountyAccount, User } from "@/redux/types";
 import { addProfile } from "@/redux/slice/ProfileSlice";
 import { addBounty } from "@/redux/slice/BountiesSlice";
+import { addCreatedBounty } from "@/redux/slice/CreatedBountySlice";
 
 export const useInitializeContract = () => {
   const [loading, setLoading] = useState(false);
@@ -172,4 +173,75 @@ export const useGetAllBounties = () => {
   };
 
   return { getBounties, loading };
+};
+
+export const useGetJoinedBounties = () => {
+  const [loading, setLoading] = useState(false);
+  const { wallet, signedAccountId } = useContext(NearContext);
+  const dispatch = useAppDispatch();
+  const hasFetched = useRef(false); // Tracks if getBounties has already been called
+
+  const getJoinedBounties = async () => {
+    if (hasFetched.current) return; // Prevent multiple calls
+    hasFetched.current = true; // Mark as fetched
+    try {
+      setLoading(true);
+      const data = await wallet.viewMethod({
+        contractId: BugBountyContract,
+        method: "get_all_bounties",
+        args: { from_index: 0, limit: 2 },
+      });
+
+      console.log("FROM ACC", data);
+      if (data) {
+        for (let i = 0; i < data.length; i++) {
+          console.log(data[i][1]);
+          // if (data[i][1].)
+          dispatch(addBounty(data[i][1]));
+        }
+      }
+    } catch (err) {
+      console.log("ERROR", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { getJoinedBounties, loading };
+};
+
+export const useGetCreatedBounties = () => {
+  const [loading, setLoading] = useState(false);
+  const { wallet, signedAccountId } = useContext(NearContext);
+  const dispatch = useAppDispatch();
+  const hasFetchedCreated = useRef(false); // Tracks if getBounties has already been called
+  const profile = useAppSelector((state) => state.profile);
+
+  const getCreatedBounties = async () => {
+    if (hasFetchedCreated.current) return; // Prevent multiple calls
+    hasFetchedCreated.current = true; // Mark as fetched
+    try {
+      setLoading(true);
+      const data = await wallet.viewMethod({
+        contractId: BugBountyContract,
+        method: "get_all_bounties",
+        args: { from_index: 0, limit: 2 },
+      });
+
+      console.log("FROM ACC", data);
+      if (data) {
+        for (let i = 0; i < data.length; i++) {
+          if (profile.username === data[i][1].creator) {
+            dispatch(addCreatedBounty(data[i][1]));
+          }
+        }
+      }
+    } catch (err) {
+      console.log("ERROR", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { getCreatedBounties, loading };
 };
