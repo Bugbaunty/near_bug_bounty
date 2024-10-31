@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import profile from "./slice/ProfileSlice";
 import bounties from "./slice/BountiesSlice";
+import joinedBounty from "./slice/JoinedBountiesSlice";
+import createdBounty from "./slice/CreatedBountySlice";
 
 export const store = configureStore({
   reducer: {
     profile,
     bounties,
+    joinedBounty,
+    createdBounty,
   },
 });
 

@@ -5,19 +5,20 @@ import { BountyAccount } from "../types";
 // Define the initial state using that type
 const initialState: BountyAccount[] = [];
 
-export const BountiesSlice = createSlice({
-  name: "bounties",
+export const JoinedBountySlice = createSlice({
+  name: "joinedBounty",
   initialState,
   reducers: {
-    addBounty: (state, { payload }: PayloadAction<BountyAccount>) => {
+    addJoinedBounty: (state, { payload }: PayloadAction<BountyAccount>) => {
       state.push(payload);
     },
-    clearBounties: () => {
+    clearJoinedBounties: () => {
       return initialState;
     },
   },
 });
 
-export const { clearBounties, addBounty } = BountiesSlice.actions;
+export const { addJoinedBounty, clearJoinedBounties } =
+  JoinedBountySlice.actions;
 
-export default BountiesSlice.reducer;
+export default JoinedBountySlice.reducer;

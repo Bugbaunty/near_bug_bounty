@@ -144,7 +144,16 @@ pub enum GuildStatus {
 #[near]
 impl BugBounty {
     //bounties
-    pub fn create_bounty(&mut self, bounty_id: String, creator:String, description: String, start_date: String, end_date: String, title: String, total_prize: u64) {
+    pub fn create_bounty(
+        &mut self,
+        bounty_id: String,
+        creator: String,
+        description: String,
+        start_date: String,
+        end_date: String,
+        title: String,
+        total_prize: u64,
+    ) {
         self.bounties.insert(
             bounty_id.clone(),
             BountyAccount {
@@ -183,7 +192,7 @@ impl BugBounty {
         self.bounties.contains_key(&bounty_id)
     }
 
-    pub fn get_all_bounties(&self, from_index: i32, limit: i32) -> Vec<(&String, &BountyAccount)> {
+    pub fn get_all_bounties(&self, from_index: u32, limit: u32) -> Vec<(&String, &BountyAccount)> {
         self.bounties
             .iter()
             .skip(from_index as usize)
@@ -204,7 +213,7 @@ impl BugBounty {
                 panic!("bounty archived")
             }
         };
-        // Reinsert the tournament back in after we modified the status:
+        // Reinsert the bounty back in after we modified the status:
         self.bounties.insert(bounty_id, bounty.clone());
         bounty.clone().status;
     }
@@ -224,14 +233,18 @@ impl BugBounty {
             _ => BountyStatus::BountyHuntingCompleted,
         };
 
-        // Reinsert the tournament back in after we modified the status:
-        self.bounties.insert(bounty_id, bounty.clone());
+        // Reinsert the bounty back in after we modified the status:
+        self.bounties.insert(bounty_id.clone(), bounty.clone());
         bounty.status;
 
-        // log!("Tournament with tournament_id hash {} completed successfully");
+        log!(
+            "Bounty with bounty_id hash {} completed successfully",
+            bounty_id
+        );
 
         // Transfer the prize money to the winner
-        // Promise::new(env::predecessor_account_id()).transfer(bounty.total_fund);
+        Promise::new(env::predecessor_account_id())
+            .transfer(NearToken::from_near(bounty.total_fund as u128));
     }
 
     //guilds
@@ -375,7 +388,7 @@ impl BugBounty {
                 panic!("bounty archived")
             }
         };
-        // Reinsert the tournament back in after we modified the status:
+        // Reinsert the bounty back in after we modified the status:
         self.bounties.insert(build_id, build.clone());
         build.clone().status;
     }
@@ -395,13 +408,17 @@ impl BugBounty {
             _ => BountyStatus::BountyHuntingCompleted,
         };
 
-        // Reinsert the tournament back in after we modified the status:
-        self.builds.insert(build_id, build.clone());
+        // Reinsert the build back in after we modified the status:
+        self.builds.insert(build_id.clone(), build.clone());
         build.status;
 
-        // log!("Tournament with tournament_id hash {} completed successfully");
+        log!(
+            "Build with build_id hash {} completed successfully",
+            build_id
+        );
 
         // Transfer the prize money to the winner
-        // Promise::new(env::predecessor_account_id()).transfer(bounty.total_fund);
+        Promise::new(env::predecessor_account_id())
+            .transfer(NearToken::from_near(build.total_prize));
     }
 }

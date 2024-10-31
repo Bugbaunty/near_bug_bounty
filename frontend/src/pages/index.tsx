@@ -8,7 +8,7 @@ import Footer from "../components/landingpage/Footer";
 import ButtonGradient from "../assets/svg/ButtonGradient";
 const LandingPage = () => {
   return (
-    <div className="pt-[4.75rem] lg:pt-[5.25rem] ">
+    <div className="pt-[4.75rem] lg:pt-[5.25rem] bg-n-8/90">
       <Header />
       <Hero />
       <Features />
