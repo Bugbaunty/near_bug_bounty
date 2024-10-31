@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-
+  images: {
+    domains: ["localhost", "avatars.githubusercontent.com"],
+  },
   // Add custom webpack configuration
   webpack: (config) => {
     config.resolve.alias["@"] = require("path").resolve(__dirname, "src");

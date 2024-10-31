@@ -5,23 +5,55 @@ import { useRouter } from "next/router";
 import { NearContext } from "@/wallets/near";
 import { useGetUser, useGetCreatedBounties } from "@/functions";
 import { useAppSelector } from "@/redux/hook";
-import BountyCard from "@/components/bounty/BountyCard";
+import { ConfigProvider, Tabs, TabsProps } from "antd";
+import MyBounties from "@/components/profile/MyBounties";
+import GithubProfile from "@/components/profile/GithubProfile";
 
 const Profile = () => {
   const router = useRouter();
   const [token, setToken] = useState(null);
-  const [githubProfile, setGithubProfile] = useState(null);
+  const [githubProfileData, setGithubProfile] = useState(null);
+  const [userRepos, setUserRepos] = useState([]);
   const [connected, setConnected] = useState(false);
   const [codeUsed, setCodeUsed] = useState(false);
   const { wallet, signedAccountId } = React.useContext(NearContext);
   const user = useAppSelector((state) => state.profile);
-  const createdBounties = useAppSelector((state) => state.createdBounty);
-  const joinedBounties = useAppSelector((state) => state.joinedBounty);
   const CLIENT_ID = process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_CLIENT_ID;
   const REDIRECT_URI = process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_REDIRECT_URI;
 
   const { getUser } = useGetUser();
   const { getCreatedBounties } = useGetCreatedBounties();
+
+  console.log("profileData", userRepos);
+  const connectToGithub = () => {
+    // const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user repo`;
+    // window.location.href = githubAuthURL;
+    console.log("working");
+  };
+
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: `Profile`,
+      children: (
+        <GithubProfile
+          connected={connected}
+          connectToGithub={connectToGithub}
+          githubProfileData={userRepos}
+        />
+      ),
+    },
+    {
+      key: "2",
+      label: `My Bounties`,
+      children: <MyBounties />,
+    },
+    {
+      key: "3",
+      label: `Guild`,
+      children: "Guild",
+    },
+  ];
 
   useEffect(() => {
     getUser();
@@ -30,6 +62,11 @@ const Profile = () => {
   React.useEffect(() => {
     getCreatedBounties();
   }, [user]);
+
+  useEffect(() => {
+    const userGithubData = fetchGithubProfile();
+    if (userGithubData != null || undefined) setConnected(true);
+  }, [connected]);
 
   const handleLogout = () => {
     wallet.signOut();
@@ -78,7 +115,6 @@ const Profile = () => {
           if (data.access_token) {
             setToken(data.access_token);
             localStorage.setItem("github_access_token", data.access_token);
-            setConnected(true);
           } else {
             console.error("Failed to retrieve access token:", data);
           }
@@ -91,13 +127,9 @@ const Profile = () => {
 
   const fetchGithubProfile = async () => {
     const profileData = await fetchFromGithub("/user");
+    const repos = await fetchFromGithub("/user/repos");
+    setUserRepos(repos);
     setGithubProfile(profileData);
-    console.log("profileData", profileData);
-  };
-
-  const connectToGithub = () => {
-    const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user repo`;
-    window.location.href = githubAuthURL;
   };
 
   return (
@@ -109,7 +141,11 @@ const Profile = () => {
           <div className="flex relative bg-gradient-to-r from-linear-1/40 to bg-linear-2/30 w-full h-[10rem] rounded-t-[1.5rem] mt-4">
             <div className="absolute bottom-[-4rem] left-4 flex cursor-pointer border-[4px] border-solid border-color-7 rounded-full">
               <img
-                src={`avatar.jpg`}
+                src={
+                  githubProfileData === null
+                    ? `avatar.jpg`
+                    : githubProfileData.avatar_url
+                }
                 className="rounded-full w-[8rem] h-[8rem]"
                 alt=""
               />
@@ -118,7 +154,7 @@ const Profile = () => {
               className="mt-[1rem] absolute bottom-0 right-2"
               onClick={() => router.push("/dashboard")}
             >
-              <div className="flex cursor-pointer justify-center items-center hover:bg-white/80 bg-white px-3 h-fit my-2 rounded-md">
+              <div className="flex cursor-pointer justify-center items-center hover:bg-white bg-white/95 px-3 h-fit my-2 rounded-md">
                 <p className="my-2 text-[.85rem] text-black">Join Bounty</p>
               </div>
             </div>
@@ -129,9 +165,27 @@ const Profile = () => {
                 <h3 className="text-white text-2xl font-bold">
                   {user.username}
                 </h3>
-                <p className="my-2 text-sm text-color-7">{user.status}</p>
-                <p className="my-2 text-[1rem] text-color-7">
-                  {user.github_link}
+                <p className="my-2 text-sm text-[#3DB569]">{user.status}</p>
+                <div className="flex gap-4">
+                  <div className="flex ">
+                    <p className="text-sm sm:text-[.85rem]  font-normal text-white">
+                      {githubProfileData?.followers}
+                    </p>
+                    <p className="ml-1 text-sm sm:text-[.85rem]  font-normal text-color-7">
+                      Followers
+                    </p>
+                  </div>
+                  <div className="flex ">
+                    <p className="text-sm sm:text-[.85rem]  font-normal text-white">
+                      {githubProfileData?.following}
+                    </p>
+                    <p className="ml-1 text-sm sm:text-[.85rem]  font-normal text-color-7">
+                      Following
+                    </p>
+                  </div>
+                </div>
+                <p className="text-sm sm:text-[.85rem] mt-3 font-normal text-color-7">
+                  {githubProfileData?.bio}
                 </p>
               </div>
               <div className="flex mt-[-3rem] justify-center items-center gap-4 lg:mt-[1rem]">
@@ -142,10 +196,10 @@ const Profile = () => {
                       : user?.named_account_id}
                     {user?.named_account_id.length > 20 && "..."}
                   </h3>
-                  <div className="flex justify-center cursor-pointer items-center bg-[#1E1E21] px-3 h-fit my-2 rounded-full">
+                  <div className="flex justify-center cursor-pointer items-center bg-[#211416] hover:bg-[#2f1c1f] px-3 h-fit my-2 rounded-full">
                     <p
                       onClick={handleLogout}
-                      className="my-2 text-[.85rem] text-color-7"
+                      className="my-2 text-[.85rem] text-[#EA4343]"
                     >
                       Logout
                     </p>
@@ -153,51 +207,39 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col mt-6">
+            <div className="flex items-center   mt-6">
               <h3 className="flex justify-start text-white text-sm font-bold">
                 Github Status
               </h3>
               <div
-                onClick={() => connectToGithub()}
-                className={`flex justify-center items-center ${
+                className={` ml-4 flex justify-center items-center ${
                   connected ? "bg-[#111E18]" : "bg-[#211416]"
-                } cursor-pointer w-fit mt-2 py-2 px-3 rounded-full`}
+                }  w-fit  py-2 px-3 rounded-full`}
               >
                 <p
                   className={`text-[.7rem] ${
                     connected ? "text-[#3DB569]" : "text-[#EA4343]"
                   }`}
                 >
-                  {connected ? "Disconnect" : "Connect"}
-                </p>
-              </div>
-              <div
-                onClick={() => fetchGithubProfile()}
-                className={`flex justify-center items-center bg-white cursor-pointer w-fit mt-2 py-2 px-3 rounded-full`}
-              >
-                <p
-                  className={`text-[.7rem] ${
-                    connected ? "text-[#3DB569]" : "text-[#EA4343]"
-                  }`}
-                >
-                  fetch
+                  {connected ? "Connected" : "Disconnected"}
                 </p>
               </div>
             </div>
           </div>
-
-          <div className="my-4 mx-4  sm:mx-8 mt-[5rem] ">Created Bounties</div>
-          <div className=" mx-4  sm:mx-8   grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-            {createdBounties?.map((bounty) => (
-              <BountyCard key={bounty.id_hash} bounty={bounty} />
-            ))}
-          </div>
-
-          <div className="my-4 mx-4  sm:mx-8 mt-[5rem] ">Joined Bounties</div>
-          <div className=" mx-4  sm:mx-8   grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
-            {joinedBounties?.map((bounty) => (
-              <BountyCard key={bounty.id_hash} bounty={bounty} />
-            ))}
+          <div className="mt-[2rem] mx-4 sm:mx-8">
+            <ConfigProvider
+              theme={{
+                token: {
+                  colorPrimaryActive: "#fc923b",
+                  colorPrimary: "#fc923b",
+                  colorPrimaryHover: "#fc923b",
+                  colorText: "#fff",
+                  colorBgContainer: "#000",
+                },
+              }}
+            >
+              <Tabs defaultActiveKey="1" items={items} />
+            </ConfigProvider>
           </div>
         </div>
       )}
