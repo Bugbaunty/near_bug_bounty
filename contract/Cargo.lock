@@ -1052,6 +1052,7 @@ name = "contract"
 version = "1.0.0"
 dependencies = [
  "near-sdk",
+ "near-sys 0.1.0",
  "near-workspaces",
  "serde_json",
  "tokio",
@@ -3415,7 +3416,7 @@ dependencies = [
  "near-primitives 0.26.0",
  "near-primitives-core 0.26.0",
  "near-sdk-macros",
- "near-sys",
+ "near-sys 0.2.2",
  "near-token 0.3.0",
  "near-vm-runner",
  "once_cell",
@@ -3491,6 +3492,12 @@ name = "near-structs-checker-macro"
 version = "0.26.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "66319954983ae164fd0b714ae9d8b09edc26c74d9b3a1f51e564bb14720adb8e"
+
+[[package]]
+name = "near-sys"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f6a7aa3f46fac44416d8a93d14f30a562c4d730a1c6bf14bffafab5f475c244a"
 
 [[package]]
 name = "near-sys"

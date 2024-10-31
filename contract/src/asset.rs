@@ -2,15 +2,15 @@ use crate::*;
 
 pub type AssetId = String;
 
-#[derive(BorshSerialize, BorshDeserialize, Serialize, Deserialize)]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct Asset {
     pub reports: Vec<Report>,
     pub emas: Vec<AssetEma>,
 }
 
-#[derive(BorshSerialize, BorshDeserialize, Serialize, Deserialize, Clone)]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct Report {
     pub oracle_id: AccountId,
     #[serde(with = "u64_dec_format")]
@@ -18,21 +18,22 @@ pub struct Report {
     pub price: Price,
 }
 
-#[derive(Serialize, Deserialize)]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct AssetPrice {
     pub asset_id: AssetId,
     pub price: Price,
 }
 
-#[derive(Serialize, Deserialize)]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct AssetOptionalPrice {
     pub asset_id: AssetId,
     pub price: Option<Price>,
 }
 
-#[derive(BorshSerialize, BorshDeserialize)]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub enum VAsset {
     V0(AssetV0),
     Current(Asset),
@@ -41,7 +42,7 @@ pub enum VAsset {
 impl From<VAsset> for Asset {
     fn from(v: VAsset) -> Self {
         match v {
-            VAsset::V0(c) => c.into(),
+            VAsset::V0(c) => Asset::from(c),
             VAsset::Current(c) => c,
         }
     }
@@ -86,16 +87,16 @@ impl Asset {
         }
         let index = recent_reports.len() / 2;
         recent_reports.select_nth_unstable_by(index, |a, b| a.price.cmp(&b.price));
-        recent_reports.get(index).map(|tp| tp.price)
+        recent_reports.get(index).map(|tp| tp.price.clone())
     }
 }
 
-impl Contract {
+impl BugBounty {
     pub fn internal_get_asset(&self, asset_id: &AssetId) -> Option<Asset> {
-        self.assets.get(asset_id).map(|v| v.into())
+        self.assets.get(asset_id).map(|v| Asset::from(v.to_owned()))
     }
 
     pub fn internal_set_asset(&mut self, asset_id: &AssetId, asset: Asset) {
-        self.assets.insert(asset_id, &asset.into());
+        self.assets.insert(asset_id.to_owned(), VAsset::from(asset));
     }
 }

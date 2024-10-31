@@ -1,40 +1,60 @@
+pub use crate::asset::*;
 use crate::bounties::*;
+pub use crate::ema::*;
+use crate::legacy::*;
+pub use crate::oracle::*;
 use crate::token_transfer::*;
+pub use crate::utils::*;
+
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::json_types::{U128, U64};
+use near_sdk::json_types::U128;
 use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::store::{IterableMap, IterableSet, LookupSet, Vector};
-use near_sdk::BorshStorageKey;
-use near_sdk::Promise;
-use near_sdk::{env, near, require, AccountId, Gas, NearToken, PanicOnDefault};
-
-pub use crate::asset::*;
-pub use crate::ema::*;
-pub use crate::oracle::*;
-pub use crate::utils::*;
 use near_sdk::{
-    assert_one_yocto, ext_contract, log, near_bindgen, Balance, Duration, Timestamp, ONE_NEAR,
+    assert_one_yocto, env, ext_contract, log, near, near_bindgen, AccountId, BorshStorageKey,
+    Duration, Gas, NearToken, PanicOnDefault, Promise, Timestamp,
 };
-
-const NO_DEPOSIT: Balance = 0;
-
-const GAS_FOR_PROMISE: Gas = Gas(Gas::ONE_TERA.0 * 10);
-
-const NEAR_CLAIM_DURATION: Duration = 24 * 60 * 60 * 10u64.pow(9);
-// This is a safety margin in NEAR for to cover potential extra storage.
-const SAFETY_MARGIN_NEAR_CLAIM: Balance = ONE_NEAR;
-
-pub type DurationSec = u32;
-
+// use near_sdk_sim::types::Balance;
 mod asset;
 mod bounties;
 mod ema;
+mod legacy;
 mod oracle;
 mod owner;
 mod token_transfer;
 mod upgrade;
 mod utils;
 
+const NO_DEPOSIT: NearToken = NearToken::from_near(1);
+
+const GAS_FOR_PROMISE: Gas = Gas::from_gas(10 * 10);
+
+const NEAR_CLAIM_DURATION: Duration = 24 * 60 * 60 * 10u64.pow(9);
+// This is a safety margin in NEAR for to cover potential extra storage.
+const SAFETY_MARGIN_NEAR_CLAIM: NearToken = NearToken::from_near(1);
+
+pub type DurationSec = u32;
+
+#[near(serializers = [json, borsh])]
+#[derive(Clone, BorshStorageKey)]
+enum StorageKey {
+    Oracles,
+    Assets,
+}
+
+#[near(serializers = [json, borsh])]
+pub struct PriceData {
+    #[serde(with = "u64_dec_format")]
+    pub timestamp: Timestamp,
+    pub recency_duration_sec: DurationSec,
+
+    pub prices: Vec<AssetOptionalPrice>,
+}
+
+#[ext_contract(ext_price_receiver)]
+pub trait ExtPriceReceiver {
+    fn oracle_on_call(&mut self, sender_id: AccountId, data: PriceData, msg: String);
+}
 #[near]
 #[derive(BorshStorageKey)]
 pub enum Prefix {
@@ -48,6 +68,7 @@ pub enum Prefix {
 }
 
 #[near(contract_state)]
+
 pub struct BugBounty {
     pub beneficiary: AccountId,
     pub payments: IterableMap<AccountId, NearToken>,
@@ -67,24 +88,8 @@ pub struct BugBounty {
 
     pub owner_id: AccountId,
 
-    pub near_claim_amount: Balance,
+    pub near_claim_amount: NearToken,
 }
-
-#[derive(Serialize, Deserialize)]
-#[serde(crate = "near_sdk::serde")]
-pub struct PriceData {
-    #[serde(with = "u64_dec_format")]
-    pub timestamp: Timestamp,
-    pub recency_duration_sec: DurationSec,
-
-    pub prices: Vec<AssetOptionalPrice>,
-}
-
-#[ext_contract(ext_price_receiver)]
-pub trait ExtPriceReceiver {
-    fn oracle_on_call(&mut self, sender_id: AccountId, data: PriceData, msg: String);
-}
-
 #[near(serializers = [json, borsh])]
 #[derive(Clone)]
 pub struct User {
@@ -123,6 +128,11 @@ impl Default for BugBounty {
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
             bugs: IterableMap::new(Prefix::IterableSet),
+            oracles: IterableMap::new(StorageKey::Oracles),
+            assets: IterableMap::new(StorageKey::Assets),
+            recency_duration_sec: 0,
+            owner_id: "v1.faucet.nonofficial.testnet".parse().unwrap(),
+            near_claim_amount: NearToken::from_near(0),
         }
     }
 }
@@ -150,7 +160,7 @@ impl BugBounty {
             assets: IterableMap::new(StorageKey::Assets),
             recency_duration_sec,
             owner_id,
-            near_claim_amount: near_claim_amount.into(),
+            near_claim_amount: NearToken::from_near(u128::from(near_claim_amount)),
         }
     }
 
@@ -205,11 +215,21 @@ impl BugBounty {
         from_index: Option<u64>,
         limit: Option<u64>,
     ) -> Vec<(AccountId, Oracle)> {
-        unordered_map_pagination(&self.oracles, from_index, limit)
+        self.oracles
+            .iter()
+            .skip(from_index.unwrap() as usize)
+            .take(limit.unwrap() as usize)
+            .map(|payload| (payload.0.to_owned(), Oracle::from(payload.1.to_owned())))
+            .collect()
     }
 
     pub fn get_assets(&self, from_index: Option<u64>, limit: Option<u64>) -> Vec<(AssetId, Asset)> {
-        unordered_map_pagination(&self.assets, from_index, limit)
+        self.assets
+            .iter()
+            .skip(from_index.unwrap() as usize)
+            .take(limit.unwrap() as usize)
+            .map(|payload| (payload.0.to_owned(), Asset::from(payload.1.to_owned())))
+            .collect()
     }
 
     pub fn get_asset(&self, asset_id: AssetId) -> Option<Asset> {
@@ -217,7 +237,12 @@ impl BugBounty {
     }
 
     pub fn get_price_data(&self, asset_ids: Option<Vec<AssetId>>) -> PriceData {
-        let asset_ids = asset_ids.unwrap_or_else(|| self.assets.keys().collect());
+        let mut temp_unwrapped_asset_ids: Vec<AssetId> = vec![];
+        let mut unwrapped_asset_ids: Vec<AssetId> = vec![];
+        for x in self.assets.keys() {
+            temp_unwrapped_asset_ids.push(x.to_owned())
+        }
+        unwrapped_asset_ids = asset_ids.unwrap_or_else(|| temp_unwrapped_asset_ids);
         let timestamp = env::block_timestamp();
         let timestamp_cut = timestamp.saturating_sub(to_nano(self.recency_duration_sec));
         let min_num_recent_reports = std::cmp::max(1, (self.oracles.len() + 1) / 2) as usize;
@@ -225,7 +250,7 @@ impl BugBounty {
         PriceData {
             timestamp,
             recency_duration_sec: self.recency_duration_sec,
-            prices: asset_ids
+            prices: unwrapped_asset_ids
                 .into_iter()
                 .map(|asset_id| {
                     // EMA for a specific asset, e.g. wrap.near#3600 is 1 hour EMA for wrap.near
@@ -267,7 +292,13 @@ impl BugBounty {
         asset_ids: Option<Vec<AssetId>>,
         recency_duration_sec: Option<DurationSec>,
     ) -> PriceData {
-        let asset_ids = asset_ids.unwrap_or_else(|| self.assets.keys().collect());
+        let mut temp_unwrapped_asset_ids: Vec<AssetId> = vec![];
+        let mut unwrapped_asset_ids: Vec<AssetId> = vec![];
+        for x in self.assets.keys() {
+            temp_unwrapped_asset_ids.push(x.to_owned())
+        }
+        unwrapped_asset_ids = asset_ids.unwrap_or_else(|| temp_unwrapped_asset_ids);
+
         let timestamp = env::block_timestamp();
         let recency_duration_sec = recency_duration_sec.unwrap_or(self.recency_duration_sec);
         let timestamp_cut = timestamp.saturating_sub(to_nano(recency_duration_sec));
@@ -276,7 +307,7 @@ impl BugBounty {
         PriceData {
             timestamp,
             recency_duration_sec,
-            prices: asset_ids
+            prices: unwrapped_asset_ids
                 .into_iter()
                 .map(|asset_id| {
                     let asset = self.internal_get_asset(&asset_id);
@@ -308,9 +339,15 @@ impl BugBounty {
 
         if claim_near.unwrap_or(false) && oracle.last_near_claim + NEAR_CLAIM_DURATION <= timestamp
         {
-            let liquid_balance = env::account_balance() + env::account_locked_balance()
-                - env::storage_byte_cost() * u128::from(env::storage_usage());
-            if liquid_balance > self.near_claim_amount + SAFETY_MARGIN_NEAR_CLAIM {
+            let liquid_balance = env::account_balance()
+                .saturating_add(env::account_locked_balance())
+                .saturating_sub(env::storage_byte_cost())
+                .saturating_mul(u128::from(env::storage_usage()));
+            if liquid_balance
+                > self
+                    .near_claim_amount
+                    .saturating_add(SAFETY_MARGIN_NEAR_CLAIM)
+            {
                 oracle.last_near_claim = timestamp;
                 Promise::new(oracle_id.clone()).transfer(self.near_claim_amount);
             }
@@ -337,7 +374,7 @@ impl BugBounty {
                         asset.median_price(timestamp_cut, min_num_recent_reports)
                     {
                         for ema in asset.emas.iter_mut() {
-                            ema.recompute(median_price, timestamp);
+                            ema.recompute(median_price.clone(), timestamp);
                         }
                     }
                 }
@@ -359,18 +396,19 @@ impl BugBounty {
 
         let sender_id = env::predecessor_account_id();
         let price_data = self.get_price_data(asset_ids);
-        let remaining_gas = env::prepaid_gas() - env::used_gas();
-        assert!(remaining_gas >= GAS_FOR_PROMISE);
+        // let remaining_gas = env::prepaid_gas() - env::used_gas();
+        // assert!(remaining_gas >= GAS_FOR_PROMISE);
 
-        ext_price_receiver::oracle_on_call(
-            sender_id,
-            price_data,
+        let ext_self = ext_price_receiver::ext(sender_id.clone());
+        ext_price_receiver::ExtPriceReceiverExt::oracle_on_call(
+            ext_self, sender_id, price_data,
             msg,
-            receiver_id,
-            NO_DEPOSIT,
-            remaining_gas - GAS_FOR_PROMISE,
+            // receiver_id,
+            // NO_DEPOSIT,
+            // remaining_gas - GAS_FOR_PROMISE,
         )
     }
+
     pub fn assert_well_paid(&self) {
         assert_one_yocto();
     }

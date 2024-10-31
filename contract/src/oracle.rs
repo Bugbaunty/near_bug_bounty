@@ -1,7 +1,7 @@
 use crate::*;
 
-#[derive(BorshSerialize, BorshDeserialize, Serialize, Deserialize)]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct Oracle {
     #[serde(with = "u64_dec_format")]
     pub last_report: Timestamp,
@@ -11,15 +11,16 @@ pub struct Oracle {
     pub last_near_claim: Timestamp,
 }
 
-#[derive(BorshSerialize, BorshDeserialize, Serialize, Deserialize)]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct OracleV0 {
     #[serde(with = "u64_dec_format")]
     pub last_report: Timestamp,
     pub price_reports: u64,
 }
 
-#[derive(BorshSerialize, BorshDeserialize)]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub enum VOracle {
     V0(OracleV0),
     Current(Oracle),
@@ -54,12 +55,14 @@ impl Oracle {
     }
 }
 
-impl Contract {
+impl BugBounty {
     pub fn internal_get_oracle(&self, account_id: &AccountId) -> Option<Oracle> {
-        self.oracles.get(account_id).map(|o| o.into())
+        self.oracles
+            .get(account_id)
+            .map(|o| Oracle::from(o.clone()))
     }
 
     pub fn internal_set_oracle(&mut self, account_id: &AccountId, oracle: Oracle) {
-        self.oracles.insert(account_id, &oracle.into());
+        self.oracles.insert(account_id.clone(), oracle.into());
     }
 }

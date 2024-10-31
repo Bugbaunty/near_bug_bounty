@@ -4,12 +4,11 @@ use std::cmp::Ordering;
 const MAX_U128_DECIMALS: u8 = 38;
 const MAX_VALID_DECIMALS: u8 = 77;
 
-#[derive(BorshSerialize, BorshDeserialize, Serialize, Deserialize, Clone, Copy)]
 #[cfg_attr(not(target_arch = "wasm32"), derive(Debug))]
-#[serde(crate = "near_sdk::serde")]
+#[near(serializers = [json, borsh])]
+#[derive(Clone)]
 pub struct Price {
-    #[serde(with = "u128_dec_format")]
-    pub multiplier: Balance,
+    pub multiplier: NearToken,
     pub decimals: u8,
 }
 
@@ -110,21 +109,38 @@ pub(crate) fn to_nano(ts: u32) -> Timestamp {
     Timestamp::from(ts) * 10u64.pow(9)
 }
 
-pub(crate) fn unordered_map_pagination<K, VV, V>(
-    m: &UnorderedMap<K, VV>,
-    from_index: Option<u64>,
-    limit: Option<u64>,
-) -> Vec<(K, V)>
-where
-    K: BorshSerialize + BorshDeserialize,
-    VV: BorshSerialize + BorshDeserialize,
-    V: From<VV>,
-{
-    let keys = m.keys_as_vector();
-    let values = m.values_as_vector();
-    let from_index = from_index.unwrap_or(0);
-    let limit = limit.unwrap_or(keys.len());
-    (from_index..std::cmp::min(keys.len(), from_index + limit))
-        .map(|index| (keys.get(index).unwrap(), values.get(index).unwrap().into()))
-        .collect()
-}
+// pub(crate) fn iterable_map_pagination<K, V>(
+//     m: &IterableMap<&AccountId, &VOracle>,
+//     from_index: Option<u64>,
+//     limit: Option<u64>,
+// ) -> Vec<(AccountId, VOracle)>
+// where
+//     K: BorshSerialize + BorshDeserialize,
+//     V: BorshSerialize + BorshDeserialize,
+//     V: From<V> ,
+//     K: Ord,
+//     K: Clone
+// {
+//     m.iter()
+//     .skip(from_index.unwrap() as usize)
+//         .take(limit.unwrap() as usize)
+//         .collect()
+// }
+//
+// pub(crate) fn iterable_asset_map_pagination<K, V>(
+//     m: &IterableMap<AssetId, VAsset>,
+//     from_index: Option<u64>,
+//     limit: Option<u64>,
+// ) -> Vec<(&String,&VAsset)>
+//     where
+//         K: BorshSerialize + BorshDeserialize,
+//         V: BorshSerialize + BorshDeserialize,
+//         V: From<V> ,
+//         K: Ord,
+//         K: Clone
+// {
+//     m.iter()
+//         .skip(from_index.unwrap() as usize)
+//         .take(limit.unwrap() as usize)
+//         .collect()
+// }

@@ -268,7 +268,7 @@ impl BugBounty {
 
     pub fn get_bug(&self, bug_id: String) -> BugAccount {
         self.bugs[&bug_id].clone()
-    }a
+    }
 
     pub fn does_chat_bug(&self, bug_id: String) -> bool {
         self.bugs.contains_key(&bug_id)
