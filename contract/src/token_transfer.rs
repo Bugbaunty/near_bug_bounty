@@ -1,5 +1,6 @@
 use crate::*;
-use near_sdk::{env, log, Promise};
+use near_sdk::json_types::U64;
+use near_sdk::{env, log, require, Promise};
 
 pub const STORAGE_COST: NearToken = NearToken::from_millinear(1);
 
@@ -13,50 +14,50 @@ pub struct Payment {
 #[near]
 impl BugBounty {
     #[payable]
-    pub fn donate(&mut self) -> String {
+    pub fn pay(&mut self) -> String {
         // Get who is calling the method and how much NEAR they attached
-        let donor: AccountId = env::predecessor_account_id();
-        let payment_amount = env::attached_deposit();
+        let payer: AccountId = env::predecessor_account_id();
+        let payable_amount = env::attached_deposit();
 
         require!(
-            payment_amount > STORAGE_COST,
+            payable_amount > STORAGE_COST,
             format!(
                 "Attach at least {} yoctoNEAR to cover for the storage cost",
                 STORAGE_COST
             )
         );
 
-        let mut donated_so_far: NearToken = self
+        let mut payed_so_far: NearToken = self
             .payments
-            .get(&donor)
+            .get(&payer)
             .cloned()
             .unwrap_or(NearToken::from_near(0));
 
-        let to_transfer = if donated_so_far.is_zero() {
+        let to_transfer = if payed_so_far.is_zero() {
             // This is the user's first payment, lets register it, which increases storage
             // Subtract the storage cost to the amount to transfer
-            payment_amount.saturating_sub(STORAGE_COST).to_owned()
+            payable_amount.saturating_sub(STORAGE_COST).to_owned()
         } else {
-            payment_amount
+            payable_amount
         };
 
         // Persist in storage the amount donated so far
-        donated_so_far = donated_so_far.saturating_add(payment_amount);
+        payed_so_far = payed_so_far.saturating_add(payable_amount);
 
-        self.payments.insert(donor.clone(), donated_so_far);
+        self.payments.insert(payer.clone(), payed_so_far);
 
         log!(
             "Thank you {} for donating {}! You donated a total of {}",
-            donor.clone(),
-            payment_amount,
-            donated_so_far
+            payer.clone(),
+            payable_amount,
+            payed_so_far
         );
 
         // Send the NEAR to the beneficiary
         Promise::new(self.beneficiary.clone()).transfer(to_transfer);
 
         // Return the total amount donated so far
-        donated_so_far.to_string()
+        payed_so_far.to_string()
     }
 
     pub fn get_payment_for_account(&self, account_id: AccountId) -> Payment {
@@ -73,8 +74,8 @@ impl BugBounty {
         }
     }
 
-    // Public Method - get total number of donors
-    pub fn number_of_donors(&self) -> U64 {
+    // Public Method - get total number of payers
+    pub fn number_of_payments(&self) -> U64 {
         U64::from(self.payments.len() as u64)
     }
 
