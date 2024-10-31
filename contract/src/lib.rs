@@ -78,7 +78,6 @@ pub struct BugBounty {
     guilds: IterableMap<String, Guild>,
     chats: IterableMap<String, Chat>,
     builds: IterableMap<String, BuildAccount>,
-    bugs: IterableMap<String, BugAccount>,
     bounty_ids: IterableSet<String>,
     pub oracles: IterableMap<AccountId, VOracle>,
 
@@ -127,7 +126,6 @@ impl Default for BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableSet),
             oracles: IterableMap::new(StorageKey::Oracles),
             assets: IterableMap::new(StorageKey::Assets),
             recency_duration_sec: 0,
@@ -155,7 +153,6 @@ impl BugBounty {
             builds: IterableMap::new(Prefix::IterableMap),
             users: IterableMap::new(Prefix::IterableMap),
             bounty_ids: IterableSet::new(Prefix::IterableSet),
-            bugs: IterableMap::new(Prefix::IterableMap),
             oracles: IterableMap::new(StorageKey::Oracles),
             assets: IterableMap::new(StorageKey::Assets),
             recency_duration_sec,
