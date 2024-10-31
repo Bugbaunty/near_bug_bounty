@@ -11,6 +11,7 @@ import { NearContext } from "@/wallets/near";
 import { BugBountyContract } from "@/config";
 import Modal from "@/components/profile/Modal";
 import { useInitializeContract } from "@/functions";
+import { serializeError } from "@/utils/SerializeError";
 
 const ProfileEntries = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -54,7 +55,9 @@ const ProfileEntries = () => {
         setIsOpen(true);
       }
     } catch (err) {
-      toast.error("Error creating profile");
+      const readable = serializeError(err);
+      console.log(err);
+      toast.error(readable);
     } finally {
       setLoading(false);
     }

@@ -12,7 +12,7 @@ export interface BountyAccount {
   winners: string[];
   total_fund: number;
   no_of_winners: number;
-  no_of_participants: bigint;
+  no_of_participants: number;
   start_date: string;
   end_date: string;
   title: string;
