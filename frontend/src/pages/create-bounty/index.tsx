@@ -29,6 +29,9 @@ import { ulidToDate } from "@/utils/TimeStamp";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useAppSelector } from "@/redux/hook";
+import { useGetUser } from "@/functions";
+import { serializeError } from "@/utils/SerializeError";
 
 const CreateBounty = () => {
   const { token } = theme.useToken();
@@ -38,8 +41,10 @@ const CreateBounty = () => {
   const [bountyDetails, setBountyDetails] = useState<string>("");
   const inputRef = useRef<InputRef>(null);
   const [loading, setLoading] = useState(false);
-  const range = dayjs().subtract(18, "years").format("YYYY-MM-DD");
+  const range = dayjs().add(1, "months").format("YYYY-MM-DD");
   const router = useRouter();
+  const profile = useAppSelector((state) => state.profile);
+  const { wallet, signedAccountId } = useContext(NearContext);
 
   const {
     register,
@@ -50,7 +55,12 @@ const CreateBounty = () => {
     startDate: dayjs(Date.now()),
     endDate: dayjs(range),
   });
-  const { wallet, signedAccountId } = useContext(NearContext);
+
+  const { getUser } = useGetUser();
+
+  React.useEffect(() => {
+    getUser();
+  }, [signedAccountId]);
 
   const handleClearFields = () => {
     setBountyDetails("");
@@ -127,24 +137,12 @@ const CreateBounty = () => {
     }
     try {
       setLoading(true);
-      const query = {
-        bounty_id: ulid(),
-        creator: data.creator,
-        start_date: bounty.startDate.valueOf().toString(),
-        bounty_rules: bountyDetails,
-        total_prize: +data.prize,
-        end_date: bounty.endDate.valueOf().toString(),
-        title: data.title,
-        description: bountyDetails,
-      };
-
-      console.log(query);
       const create_bounty = await wallet.callMethod({
         contractId: BugBountyContract,
         method: "create_bounty",
         args: {
           bounty_id: ulid(),
-          creator: data.creator,
+          creator: profile.username,
           start_date: bounty.startDate.valueOf().toString(),
           bounty_rules: bountyDetails,
           total_prize: +data.prize,
@@ -157,7 +155,9 @@ const CreateBounty = () => {
       toast.success("Bounty Created Successfully");
       router.push("/dashboard");
     } catch (err) {
+      const readable = serializeError(err);
       console.log(err);
+      toast.error(readable);
     } finally {
       setLoading(false);
     }
@@ -336,7 +336,8 @@ const CreateBounty = () => {
                     className="border-none w-full text-white pl-0 focus:outline-none placeholder:text-[0.8rem] focus:ring-0 placeholder:text-[#595959] appearance-none text-[0.9rem] bg-[#141414] py-[.1rem]"
                     placeholder="name"
                     type="text"
-                    {...register("creator", { required: true })}
+                    value={profile.username}
+                    disabled={true}
                   />
                 </div>
               </ConfigProvider>
