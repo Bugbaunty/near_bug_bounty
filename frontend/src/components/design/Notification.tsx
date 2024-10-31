@@ -1,6 +1,7 @@
 import React from "react";
 import { notificationImages } from "../../constants";
 import { notification1 } from "../../assets";
+import Image from "next/image";
 
 interface Props {
   className?: String;
@@ -12,7 +13,7 @@ const Notification = ({ className, title }: Props) => {
     <div
       className={`${className} flex items-center p-4 pr-6 bg-linear-3 backdrop-blur bg-opacity-25 shadow-lg border border-n-1/10 rounded-2xl gap-5`}
     >
-      <img
+      <Image
         src={notification1}
         width={62}
         height={62}
@@ -28,7 +29,7 @@ const Notification = ({ className, title }: Props) => {
                 key={index}
                 className="flex w-6 h-6 border-2 border-n-12 rounded-full overflow-hidden"
               >
-                <img
+                <Image
                   src={item}
                   className="w-full"
                   width={20}

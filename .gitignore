@@ -4,6 +4,9 @@
 node_modules
 /.pnp
 .pnp.js
+.idea/**
+.vscode/**
+.env
 
 # build
 **/out
@@ -20,6 +23,7 @@ node_modules
 **/build
 
 # misc
+.history
 .DS_Store
 .env.local
 .env.development.local

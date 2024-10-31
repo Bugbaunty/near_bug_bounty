@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Heading from "../design/Heading";
 import Section from "./Section";
 import Tagline from "../design/TagLine";
@@ -52,7 +53,7 @@ const Roadmap = () => (
                   <div className=" flex justify-center items-center mb-10 -my-10 -mx-15">
                     <img
                       className="w-[20rem] md:w-[25rem]"
-                      src={item.imageUrl}
+                      src={item.imageUrl.src}
                       width={628}
                       height={426}
                       alt={item.title}

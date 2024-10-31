@@ -94,18 +94,18 @@ pub struct BugBounty {
 #[derive(Clone)]
 pub struct User {
     pub id_hash: String,
-    pub age: u8,
+    pub dob: String,
     pub date: String,
     pub status: Status,
-    pub bounties_wons: u8,
-    pub bountys_created: u8,
-    pub points: Option<u128>,
+    pub bounties_created: u8,
+    pub bounties_won: u128,
     pub username: String,
     pub is_mod: bool,
-    pub principal_id: String,
-    pub account_id: String,
-    pub canister_id: String,
+    pub named_account_id: AccountId,
+    pub secret_account_key: String,
+    pub smart_contract_id: String,
     pub guild_badge: String,
+    pub github_link: String,
 }
 
 #[near(serializers = [json, borsh])]
@@ -169,8 +169,33 @@ impl BugBounty {
         self.beneficiary.clone()
     }
 
-    pub fn create_user(&mut self, account_id: AccountId, user: User) {
-        self.users.insert(account_id, user);
+    pub fn create_user(
+        &mut self,
+        account_id: AccountId,
+        username: String,
+        dob: String,
+        github_link: String,
+        image_url: String,
+        id_hash: String,
+    ) {
+        self.users.insert(
+            account_id.clone(),
+            User {
+                id_hash,
+                dob,
+                date: "".to_string(),
+                status: Status::Online,
+                bounties_created: 0,
+                bounties_won: 0,
+                username: username.to_string(),
+                is_mod: false,
+                named_account_id: account_id,
+                secret_account_key: "".to_string(),
+                smart_contract_id: "".to_string(),
+                guild_badge: "".to_string(),
+                github_link,
+            },
+        );
     }
 
     pub fn remove_user(&mut self, account_id: AccountId) {
@@ -183,6 +208,14 @@ impl BugBounty {
 
     pub fn is_user_present(&self, account_id: AccountId) -> bool {
         self.users.contains_key(&account_id)
+    }
+
+    pub fn get_all_user(&self, from_index: i32, limit: i32) -> Vec<(&AccountId, &User)> {
+        self.users
+            .iter()
+            .skip(from_index as usize)
+            .take(limit as usize)
+            .collect()
     }
 
     // Public - but only callable by env::current_account_id(). Sets the beneficiary

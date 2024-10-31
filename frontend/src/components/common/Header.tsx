@@ -6,12 +6,13 @@ import ButtonGradient from "../../assets/svg/ButtonGradient";
 import { BackgroundCircles, BottomLine, Gradient } from "../design/Hero";
 import { IoBug } from "react-icons/io5";
 import { IoMdPerson } from "react-icons/io";
-import { useRouter} from "next/router";
+import { IoIosPeople } from "react-icons/io";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const parallaxRef = useRef(null);
   const router = useRouter(); // Provides access to the current route and more
-  
+
   const [openNavigation, setOpenNavigation] = useState<boolean>(false);
 
   const toggleNavigation = () => {
@@ -50,31 +51,41 @@ const Header = () => {
         </div>
       </div>
       {openNavigation && (
-        <div className="absolute top-[4rem] w-full h-screen bg-linear-3 ">
-          <div className="mt-16 flex flex-col justify-start items-center gap-16 z-50-">
-            <div
-              onClick={() => {
-                router.push("/dashboard");
-                setOpenNavigation(false);
-              }}
-              className="flex"
-            >
-              <IoBug className="w-6 h-6 text-color-7" />
-              <p className="text-[1rem] text-color-7 ml-4">Bounties</p>
-            </div>
+        <div className="absolute z-50 top-[4rem] w-full h-screen bg-linear-3 ">
+          <div className="mt-16 flex flex-col  items-center gap-16 z-50-">
             <div
               onClick={() => {
                 router.push("/profile");
                 setOpenNavigation(false);
               }}
-              className="flex "
+              className="flex cursor-pointer"
             >
               <IoMdPerson className="w-6 h-6 text-color-7" />
               <p className="text-[1rem] text-color-7 ml-4">Profile</p>
             </div>
+            <div
+              // onClick={() => {
+              //   router.push("/profile");
+              //   setOpenNavigation(false);
+              // }}
+              className="flex cursor-pointer"
+            >
+              <IoIosPeople className="w-6 h-6 text-color-7" />
+              <p className="text-[1rem] text-color-7 ml-4">Guilds</p>
+            </div>
+            <div
+              onClick={() => {
+                router.push("/dashboard");
+                setOpenNavigation(false);
+              }}
+              className="flex cursor-pointer"
+            >
+              <IoBug className="w-6 h-6 text-color-7" />
+              <p className="text-[1rem] text-color-7 ml-4">Bounties</p>
+            </div>
           </div>
-          <div className="h-full flex sm:justify-end justify-center items-center">
-            <BackgroundCircles parallaxRef={parallaxRef} />
+          <div className="h-full z-[-100] flex sm:justify-end justify-center items-center">
+            {/* <BackgroundCircles parallaxRef={parallaxRef} /> */}
           </div>
         </div>
       )}

@@ -1,9 +1,9 @@
 const contractPerNetwork = {
-  testsnet: 'dev-1669912619793-16888782138910',
-  mainnet: 'hello.near-examples.testnet',
+  testnet: "dunsin_bug_bounty.testnet",
+  mainnet: "hello.near-examples.testnet",
 };
 
-// Chains for EVM Wallets 
+// Chains for EVM Wallets
 const evmWalletChains = {
   mainnet: {
     chainId: 397,
@@ -17,8 +17,8 @@ const evmWalletChains = {
     explorer: "https://eth-explorer-testnet.near.org",
     rpc: "https://eth-rpc.testnet.near.org",
   },
-}
+};
 
-export const NetworkId = 'testnet';
-export const HelloNearContract = contractPerNetwork[NetworkId];
+export const NetworkId = "testnet";
+export const BugBountyContract = contractPerNetwork[NetworkId];
 export const EVMWalletChain = evmWalletChains[NetworkId];

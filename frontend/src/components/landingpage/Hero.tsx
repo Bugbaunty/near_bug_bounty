@@ -1,14 +1,16 @@
 import React, { useRef } from "react";
+import Image from "next/image";
 import Section from "./Section";
 import Button from "../utils/Button";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { heroIcons } from "../../constants";
 import { useGLTF, Stage, PresentationControls } from "@react-three/drei";
-import { BackgroundCircles, BottomLine, Gradient } from "../design/Hero";
+import { BackgroundCircles } from "../design/Hero";
 import { ScrollParallax } from "react-just-parallax";
 import Notification from "../design/Notification";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
+import { NearContext } from "@/wallets/near";
 
 const BugModel = (props: any) => {
   const { scene, animations } = useGLTF(`/bug.glb`);
@@ -42,10 +44,17 @@ const BugModel = (props: any) => {
 const Hero = () => {
   const parallaxRef = useRef(null);
   const router = useRouter();
+  const { wallet } = React.useContext(NearContext);
 
   // Ensure window is only accessed in the client-side
-  const width = typeof window !== 'undefined' && window.innerWidth >= 1200 ? "50rem" : "fit-content";
-  const height = typeof window !== 'undefined' && window.innerHeight >= 1200 ? "50rem" : "30rem";
+  const width =
+    typeof window !== "undefined" && window.innerWidth >= 1200
+      ? "50rem"
+      : "fit-content";
+  const height =
+    typeof window !== "undefined" && window.innerHeight >= 1200
+      ? "50rem"
+      : "30rem";
 
   return (
     <Section
@@ -96,7 +105,7 @@ const Hero = () => {
               <ul className="hidden absolute -right-[5.5rem] top-[11rem] px-1 py-1 bg-linear-3 backdrop-blur border border-n-1/10 rounded-2xl xl:flex ">
                 {heroIcons.map((icon, index) => (
                   <li key={index} className="p-5 ">
-                    <img src={icon} alt="" width={24} height={25} />
+                    <Image src={icon} alt="" width={24} height={25} />
                   </li>
                 ))}
               </ul>
@@ -113,7 +122,7 @@ const Hero = () => {
         <BackgroundCircles parallaxRef={parallaxRef} />
         <div className="justify-center relative mt-[23rem] lg:h-[10rem] flex items-end">
           <Button
-            onClick={() => router.push("/signup")}
+            onClick={() => wallet.signIn()}
             className="z-10 right  font-bold uppercase"
             href=""
           >

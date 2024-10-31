@@ -1,34 +1,19 @@
-import discord from "../assets/socials/discord.svg"
+import benefitImage2 from "@/assets/benefits/image-2.png";
+import chromecast from "@/assets/chrome-cast.svg";
+import disc02 from "@/assets/disc-02.svg";
 import {
-  benefitImage2,
-  chromecast,
-  disc02,
-  discordBlack,
-  facebook,
   figma,
   file02,
-  framer,
   homeSmile,
-  // instagram,
   notification2,
   notification3,
   notification4,
   notion,
-  photoshop,
   plusSquare,
-  protopie,
-  raindrop,
   recording01,
   recording03,
-  roadmap1,
-  roadmap2,
-  roadmap3,
-  roadmap4,
   searchMd,
-  slack,
   sliders04,
-  telegram,
-  // twitter,
   yourlogo,
 } from "../assets";
 
@@ -51,6 +36,9 @@ export const navigation = [
     title: "Roadmap",
     url: "#roadmap",
   },
+];
+
+export const sign_in = [
   {
     id: "3",
     title: "Sign in",
@@ -136,42 +124,42 @@ export const collabApps = [
   {
     id: "2",
     title: "Discord",
-    icon: '/assets/collaboration/discord.png',
+    icon: "/assets/collaboration/discord.png",
     width: 36,
     height: 28,
   },
   {
     id: "3",
     title: "Slack",
-    icon: '/assets/collaboration/slack.png',
+    icon: "/assets/collaboration/slack.png",
     width: 34,
     height: 35,
   },
   {
     id: "4",
     title: "Photoshop",
-    icon: '/assets/collaboration/photoshop.png',
+    icon: "/assets/collaboration/photoshop.png",
     width: 34,
     height: 34,
   },
   {
     id: "5",
     title: "Protopie",
-    icon: '/assets/collaboration/protopie.png',
+    icon: "/assets/collaboration/protopie.png",
     width: 34,
     height: 34,
   },
   {
     id: "6",
     title: "Framer",
-    icon: '/assets/collaboration/framer.png',
+    icon: "/assets/collaboration/framer.png",
     width: 26,
     height: 34,
   },
   {
     id: "7",
     title: "Raindrop",
-    icon: '/assets/collaboration/raindrop.png',
+    icon: "/assets/collaboration/raindrop.png",
     width: 38,
     height: 32,
   },
@@ -209,19 +197,19 @@ export const socials = [
   {
     id: "0",
     title: "Discord",
-    iconUrl: '/assets/socials/discord.svg',
+    iconUrl: "/assets/socials/discord.svg",
     url: "#",
   },
   {
     id: "1",
     title: "Twitter",
-    iconUrl:'/assets/socials/twitter.svg',
+    iconUrl: "/assets/socials/twitter.svg",
     url: "#",
   },
   {
     id: "2",
     title: "Instagram",
-    iconUrl: '/assets/socials/instagram.svg',
+    iconUrl: "/assets/socials/instagram.svg",
     url: "#",
   },
   {

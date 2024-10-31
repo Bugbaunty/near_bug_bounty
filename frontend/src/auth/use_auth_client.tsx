@@ -21,40 +21,8 @@ const AuthContext = React.createContext<{
   whoamiActor: null,
 });
 
-const network = "local";
-const APPLICATION_NAME = "BugBounty";
-const APPLICATION_LOGO_URL = "https://i.postimg.cc/zBMQpTJn/Asset-51.png";
-const iiCanId = "http://bkyz2-fmaaa-aaaaa-qaaaq-cai.localhost:4943";
 
-//127.0.0.1:4943/?canisterId=bkyz2-fmaaa-aaaaa-qaaaq-cai
-
-const AUTH_PATH =
-  "/authenticate/?applicationName=" +
-  APPLICATION_NAME +
-  "&applicationLogo=" +
-  APPLICATION_LOGO_URL +
-  "#authorize";
-
-const defaultOptions = {
-  createOptions: {
-    idleOptions: {
-      // Set to true if you do not want idle functionality
-      disableIdle: true,
-    },
-  },
-
-  loginOptions: {
-    identityProvider: network === "ic" ? "https://identity.ic0.app" : iiCanId,
-  },
-  loginNFID: {
-    identityProvider:
-      network === "ic"
-        ? "https://nfid.one" + AUTH_PATH
-        : "https://nfid.one" + AUTH_PATH,
-  },
-};
-
-export const useAuthClient = (options = defaultOptions) => {
+export const useAuthClient = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authClient, setAuthClient] = useState(null);
   const [identity, setIdentity] = useState(null);

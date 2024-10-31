@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { navigation } from "../constants/index";
-import {useRouter} from "next/router"
+import React, { useEffect, useState, useContext } from "react";
+import { navigation, sign_in } from "../constants/index";
+import { useRouter } from "next/router";
 import Button from "./utils/Button";
 import MenuSvg from "@/assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { disablePageScroll, enablePageScroll } from "scroll-lock";
-
-
-import { NearContext } from '../wallets/near';
+import { BugBountyContract } from "@/config";
+import { useIsUserExist } from "@/functions";
+import { NearContext } from "@/wallets/near";
 
 const Header = () => {
-  const router = useRouter()
-  const pathname = router.pathname
+  const router = useRouter();
+  const pathname = router.pathname;
   const [openNavigation, setOpenNavigation] = useState<boolean>(false);
-
+  const { isUserExist, userExist, loading } = useIsUserExist();
   const toggleNavigation = () => {
     if (openNavigation) {
       setOpenNavigation(false);
@@ -31,20 +31,37 @@ const Header = () => {
   };
 
   const { signedAccountId, wallet } = useContext(NearContext);
-  const [action, setAction] = useState<(_e: any) => void>(() => {});
-  const [label, setLabel] = useState('Loading...');
+  const [label, setLabel] = useState("Loading...");
+  const [loadingAuth, setLoadingAuth] = useState(false);
+  const [loginBtnClicked, setLoginBtnClicked] = useState(false);
+
+  const handleAuth = () => {
+    if (wallet) {
+      console.log("first fnc");
+      setLoginBtnClicked(false);
+      wallet.signIn();
+    }
+  };
+
+  const handleAuth2 = () => {
+    if (wallet) {
+      console.log("second fnc");
+      setLoginBtnClicked(true);
+      wallet.signIn();
+    }
+  };
+
+  const check = async () => {
+    await isUserExist();
+  };
 
   useEffect(() => {
     if (!wallet) return;
-
     if (signedAccountId) {
-      setAction(() => wallet.signOut);
-      setLabel(`Logout ${signedAccountId}`);
-    } else {
-      setAction(() => wallet.signIn);
-      setLabel('Login');
+      check();
     }
-  }, [signedAccountId, wallet]);
+  }, [signedAccountId]);
+
   return (
     <div
       className={`fixed top-0 left-0 w-full z-50  border-b border-n-6 ${
@@ -70,36 +87,45 @@ const Header = () => {
           >
             {navigation.map((item) => (
               <a
-                className={`block relative font-code text-sm lg:font-semibold  text-color-7 hover:text-n-1 transition-colors ${
-                  item.onlyMobile ? "lg:hidden" : ""
-                } px-6  lg:mr-0.25 lg:text-xs ${
-                  item.url === pathname.hash
-                    ? "z-2 lg:text-n-1"
-                    : "lg:text-n-1/50"
+                onClick={() => toggleNavigation()}
+                className={`block relative font-code text-sm lg:font-semibold  text-color-7 hover:text-n-1 transition-colors  px-6  lg:mr-0.25 lg:text-xs ${
+                  item.url === pathname ? "z-2 lg:text-n-1" : "lg:text-n-1/50"
                 } lg:leading-5 `}
                 key={item.id}
                 href={item.url}
-                onClick={action} 
               >
-                {label} 
+                {item.title}
               </a>
+            ))}
+            {sign_in.map((item) => (
+              <p
+                onClick={wallet.signIn}
+                key={item.id}
+                className={`block relative font-code text-sm lg:font-semibold  text-color-7 hover:text-n-1 transition-colors ${
+                  item.onlyMobile ? "lg:hidden" : ""
+                } px-6  lg:mr-0.25 lg:text-xs ${
+                  item.url === pathname ? "z-2 lg:text-n-1" : "lg:text-n-1/50"
+                } lg:leading-5 `}
+              >
+                {item.title}
+              </p>
             ))}
           </div>
           <HamburgerMenu />
         </nav>
         <p
           // href=""
-          className="button hidden mr-8 text-color-7 transistion-colors hover:text-n-1 lg:block"
-   
+          onClick={handleAuth2}
+          className="button hidden mr-8 cursor-pointer text-color-7 transistion-colors hover:text-n-1 lg:block"
         >
-          Login
+          {loginBtnClicked && signedAccountId ? "loading..." : "Login"}
         </p>
         <Button
-          onClick={() => router.push("/signup")}
+          onClick={() => handleAuth()}
           className="hidden lg:flex "
           href="#login"
         >
-          Sign in
+          {!loginBtnClicked && signedAccountId ? "loading..." : "Sign up"}
         </Button>
 
         <Button
