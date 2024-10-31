@@ -3,8 +3,9 @@ import Sidebar from "@/components/common/Sidebar";
 import Header from "@/components/common/Header";
 import { useRouter } from "next/router";
 import { NearContext } from "@/wallets/near";
-import { useGetUser } from "@/functions";
+import { useGetUser, useGetCreatedBounties } from "@/functions";
 import { useAppSelector } from "@/redux/hook";
+import BountyCard from "@/components/bounty/BountyCard";
 
 const Profile = () => {
   const router = useRouter();
@@ -14,14 +15,21 @@ const Profile = () => {
   const [codeUsed, setCodeUsed] = useState(false);
   const { wallet, signedAccountId } = React.useContext(NearContext);
   const user = useAppSelector((state) => state.profile);
+  const createdBounties = useAppSelector((state) => state.createdBounty);
+  const joinedBounties = useAppSelector((state) => state.joinedBounty);
   const CLIENT_ID = process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_CLIENT_ID;
   const REDIRECT_URI = process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_REDIRECT_URI;
 
   const { getUser } = useGetUser();
+  const { getCreatedBounties } = useGetCreatedBounties();
 
   useEffect(() => {
     getUser();
   }, [signedAccountId]);
+
+  React.useEffect(() => {
+    getCreatedBounties();
+  }, [user]);
 
   const handleLogout = () => {
     wallet.signOut();
@@ -129,7 +137,10 @@ const Profile = () => {
               <div className="flex mt-[-3rem] justify-center items-center gap-4 lg:mt-[1rem]">
                 <div className="flex flex-col">
                   <h3 className="flex justify-center text-white text-sm font-bold">
-                    {user?.named_account_id}
+                    {user?.named_account_id.length > 20
+                      ? user?.named_account_id.slice(0, 20)
+                      : user?.named_account_id}
+                    {user?.named_account_id.length > 20 && "..."}
                   </h3>
                   <div className="flex justify-center cursor-pointer items-center bg-[#1E1E21] px-3 h-fit my-2 rounded-full">
                     <p
@@ -173,6 +184,20 @@ const Profile = () => {
                 </p>
               </div>
             </div>
+          </div>
+
+          <div className="my-4 mx-4  sm:mx-8 mt-[5rem] ">Created Bounties</div>
+          <div className=" mx-4  sm:mx-8   grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            {createdBounties?.map((bounty) => (
+              <BountyCard key={bounty.id_hash} bounty={bounty} />
+            ))}
+          </div>
+
+          <div className="my-4 mx-4  sm:mx-8 mt-[5rem] ">Joined Bounties</div>
+          <div className=" mx-4  sm:mx-8   grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            {joinedBounties?.map((bounty) => (
+              <BountyCard key={bounty.id_hash} bounty={bounty} />
+            ))}
           </div>
         </div>
       )}
