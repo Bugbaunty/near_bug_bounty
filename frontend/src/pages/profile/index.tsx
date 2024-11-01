@@ -8,27 +8,72 @@ import { useAppSelector } from "@/redux/hook";
 import { ConfigProvider, Tabs, TabsProps } from "antd";
 import MyBounties from "@/components/profile/MyBounties";
 import GithubProfile from "@/components/profile/GithubProfile";
+import not_signed from "@/assets/not_signed.jpg";
+import toast from "react-hot-toast";
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "white",
+};
 
 const Profile = () => {
   const router = useRouter();
   const [token, setToken] = useState(null);
-  const [githubProfileData, setGithubProfile] = useState(null);
   const [userRepos, setUserRepos] = useState([]);
   const [connected, setConnected] = useState(false);
   const [codeUsed, setCodeUsed] = useState(false);
-  const { wallet, signedAccountId } = React.useContext(NearContext);
+  const [color, setColor] = useState("#ffffff");
   const user = useAppSelector((state) => state.profile);
+  const [connecting, setConnecting] = useState(false);
+  const [signingOut, setSigningOut] = useState(false);
+  const [disconnecting, setDisconnecting] = useState(false);
+  const [githubProfileData, setGithubProfile] = useState(null);
+  const { wallet, signedAccountId } = React.useContext(NearContext);
+  const [initialLoginAttempted, setInitialLoginAttempted] = useState(false);
   const CLIENT_ID = process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_CLIENT_ID;
   const REDIRECT_URI = process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_REDIRECT_URI;
+  const CLIENT_SECRET =
+    process.env.NEXT_PUBLIC_BUGBOUNTY_GITHUB_CLIENT_SECRET_KEY;
 
   const { getUser } = useGetUser();
   const { getCreatedBounties } = useGetCreatedBounties();
 
-  console.log("profileData", userRepos);
+  // console.log("profileData", userRepos);
   const connectToGithub = () => {
-    // const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user repo`;
-    // window.location.href = githubAuthURL;
+    setInitialLoginAttempted(true);
+    setConnecting(true);
+    const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user repo`;
+    window.location.href = githubAuthURL;
     console.log("working");
+  };
+
+  const revokeGithubAccess = async (token) => {
+    await fetch(`https://api.github.com/applications/${CLIENT_ID}/token`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Basic ${btoa(`${CLIENT_ID}:${CLIENT_SECRET}`)}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ access_token: token }),
+    });
+  };
+
+  const handleDisconnect = () => {
+    const storedToken = localStorage.getItem("github_access_token");
+    if (storedToken) {
+      setDisconnecting(true);
+      revokeGithubAccess(storedToken)
+        .then(() => {
+          localStorage.removeItem("github_access_token");
+          setConnected(false);
+          console.log("Disconnected from GitHub");
+          console.log("connected state", connected);
+          setDisconnecting(false);
+          window.location.reload();
+        })
+        .catch((error) => console.error("Failed to disconnect:", error));
+    }
   };
 
   const items: TabsProps["items"] = [
@@ -40,6 +85,9 @@ const Profile = () => {
           connected={connected}
           connectToGithub={connectToGithub}
           githubProfileData={userRepos}
+          handleDisconnect={handleDisconnect}
+          connecting={connecting}
+          disconnecting={disconnecting}
         />
       ),
     },
@@ -64,19 +112,23 @@ const Profile = () => {
   }, [user]);
 
   useEffect(() => {
-    const userGithubData = fetchGithubProfile();
-    if (userGithubData != null || undefined) setConnected(true);
-  }, [connected]);
+    fetchGithubProfile();
+    if (githubProfileData?.id) {
+      setConnected(true);
+    }
+  }, [githubProfileData]);
 
   const handleLogout = () => {
     wallet.signOut();
+    setSigningOut(true);
     router.push("/");
   };
 
   const fetchFromGithub = async (endpoint) => {
     const storedToken = localStorage.getItem("github_access_token");
+
     if (!storedToken) {
-      connectToGithub();
+      if (initialLoginAttempted) connectToGithub();
       return;
     }
 
@@ -90,7 +142,9 @@ const Profile = () => {
     if (response.status === 401) {
       console.log("Token expired. Restarting OAuth.");
       localStorage.removeItem("github_access_token");
-      connectToGithub();
+      setConnected(false);
+      toast.error("Token expired. Connect to github again");
+      window.location.reload();
     } else {
       return await response.json();
     }
@@ -115,6 +169,9 @@ const Profile = () => {
           if (data.access_token) {
             setToken(data.access_token);
             localStorage.setItem("github_access_token", data.access_token);
+            setConnecting(false);
+            // if (data.access_token !== undefined)
+            fetchGithubProfile();
           } else {
             console.error("Failed to retrieve access token:", data);
           }
@@ -142,9 +199,9 @@ const Profile = () => {
             <div className="absolute bottom-[-4rem] left-4 flex cursor-pointer border-[4px] border-solid border-color-7 rounded-full">
               <img
                 src={
-                  githubProfileData === null
-                    ? `avatar.jpg`
-                    : githubProfileData.avatar_url
+                  githubProfileData == null
+                    ? not_signed
+                    : githubProfileData?.avatar_url
                 }
                 className="rounded-full w-[8rem] h-[8rem]"
                 alt=""
