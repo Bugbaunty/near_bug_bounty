@@ -10,7 +10,7 @@ import { useAppSelector } from "@/redux/hook";
 import { serializeError } from "@/utils/SerializeError";
 
 const CreatedBountyDetailsModal = ({ isOpen, onClose, bounty }) => {
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   const { wallet, signedAccountId } = useContext(NearContext);
   const [loading, setLoading] = useState(false);

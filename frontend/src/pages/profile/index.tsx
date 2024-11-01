@@ -26,8 +26,8 @@ const Profile = () => {
 
   console.log("profileData", userRepos);
   const connectToGithub = () => {
-    // const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user repo`;
-    // window.location.href = githubAuthURL;
+    const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=read:user repo`;
+    window.location.href = githubAuthURL;
     console.log("working");
   };
 
@@ -144,7 +144,7 @@ const Profile = () => {
                 src={
                   githubProfileData === null
                     ? `avatar.jpg`
-                    : githubProfileData.avatar_url
+                    : githubProfileData?.avatar_url
                 }
                 className="rounded-full w-[8rem] h-[8rem]"
                 alt=""

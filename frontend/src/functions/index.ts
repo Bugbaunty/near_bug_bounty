@@ -6,8 +6,8 @@ import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { BountyAccount, User } from "@/redux/types";
 import { addProfile } from "@/redux/slice/ProfileSlice";
-import { addBounty } from "@/redux/slice/BountiesSlice";
-import { addCreatedBounty } from "@/redux/slice/CreatedBountySlice";
+import { addBounty, clearBounties } from "@/redux/slice/BountiesSlice";
+import { addCreatedBounty, clearCreatedBounties } from "@/redux/slice/CreatedBountySlice";
 
 export const useInitializeContract = () => {
   const [loading, setLoading] = useState(false);
@@ -160,6 +160,7 @@ export const useGetAllBounties = () => {
 
       console.log("FROM ACC", data);
       if (data) {
+        dispatch(clearBounties())
         for (let i = 0; i < data.length; i++) {
           console.log(data[i][1]);
           dispatch(addBounty(data[i][1]));
@@ -231,6 +232,7 @@ export const useGetCreatedBounties = () => {
 
         console.log("FROM ACC", data);
         if (data) {
+          dispatch(clearCreatedBounties())
           for (let i = 0; i < data.length; i++) {
             if (profile.username === data[i][1].creator) {
               dispatch(addCreatedBounty(data[i][1]));

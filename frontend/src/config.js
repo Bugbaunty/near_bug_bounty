@@ -1,5 +1,5 @@
 const contractPerNetwork = {
-  testnet: "dunsin_bug_bounty.testnet",
+  testnet: "ferari-good.testnet",
   mainnet: "hello.near-examples.testnet",
 };
 
