@@ -17,7 +17,7 @@ To set up and run the BugBounty platform locally, please follow the instructions
 1. **Clone the Repository**  
    Clone the BugBounty repository from GitHub and navigate into the project directory:
    ```bash
-   git clone https://github.com/your-username/bugbounty.git
+   https://github.com/marvincd/near_bug_bounty.git
    cd bugbounty
 2. **Navigate to the Contract Directory**
    Change to the contract directory to access the smart contract files.
@@ -41,14 +41,10 @@ To set up and run the BugBounty platform locally, please follow the instructions
     ```bash
     npm install
     npm run dev
+    
+**ScreenShot**
+<img width="1920" alt="Screenshot 2024-10-31 at 19 19 35" src="https://github.com/user-attachments/assets/249428dc-a360-4105-bc5d-d79c4a4680a6">
 
-**Authentication**
-Users must sign in using a NEAR wallet. This wallet will be used for authentication and to interact with the blockchain directly. I
-
-**Project Structure**
-  *contract/: Contains the Rust-based smart contract logic for the NEAR blockchain.
-  *pages/: Frontend pages built with Next.js.
-  *components/: Reusable UI components.
 
 
 
