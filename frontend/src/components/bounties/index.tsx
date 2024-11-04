@@ -31,8 +31,8 @@ const Bounties = () => {
           </p>
         </div>
         <div className="mr-4  " onClick={() => router.push("/create-bounty")}>
-          <div className="flex cursor-pointer justify-center items-center hover:bg-white/80 bg-white px-3 h-fit my-2 rounded-md ">
-            <p className="my-2 text-[.85rem] text-black cursor-pointer">
+          <div className="flex justify-center mt-2 cursor-pointer items-center bg-[#1E1E21] hover:bg-[#34343b] px-3 h-fit my-2 rounded-full">
+            <p className="my-2 text-[.85rem] text-color-7 cursor-pointer">
               Create Bounty
             </p>
           </div>

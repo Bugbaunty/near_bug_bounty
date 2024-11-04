@@ -79,7 +79,7 @@ const Profile = () => {
   const items: TabsProps["items"] = [
     {
       key: "1",
-      label: `Profile`,
+      label: `Repositories`,
       children: (
         <GithubProfile
           connected={connected}
