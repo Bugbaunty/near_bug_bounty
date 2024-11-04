@@ -211,8 +211,8 @@ const Profile = () => {
               className="mt-[1rem] absolute bottom-0 right-2"
               onClick={() => router.push("/dashboard")}
             >
-              <div className="flex cursor-pointer justify-center items-center hover:bg-white bg-white/95 px-3 h-fit my-2 rounded-md">
-                <p className="my-2 text-[.85rem] text-black">Join Bounty</p>
+              <div className="flex justify-center mt-2 cursor-pointer items-center bg-[#382612] hover:bg-[#452f15] px-3 h-fit my-2 rounded-full">
+                <p className="my-2 text-[.85rem] text-[#F59E0D]">Join Bounty</p>
               </div>
             </div>
           </div>
