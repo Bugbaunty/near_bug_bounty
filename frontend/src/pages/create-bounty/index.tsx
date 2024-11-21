@@ -336,7 +336,7 @@ const CreateBounty = () => {
                     className="border-none w-full text-white pl-0 focus:outline-none placeholder:text-[0.8rem] focus:ring-0 placeholder:text-[#595959] appearance-none text-[0.9rem] bg-[#141414] py-[.1rem]"
                     placeholder="name"
                     type="text"
-                    value={profile.username}
+                    value={profile?.username}
                     disabled={true}
                   />
                 </div>

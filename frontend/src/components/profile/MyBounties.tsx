@@ -66,7 +66,7 @@ const MyBounties = () => {
                 No Bounty Joined{" "}
               </p>
               <div
-                onClick={() => router.push("/create-bounty")}
+                onClick={() => router.push("/dashboard")}
                 className="flex justify-center mt-2 cursor-pointer items-center bg-[#1E1E21] hover:bg-[#34343b] px-3 h-fit my-2 rounded-full"
               >
                 <p className="my-2  text-[.85rem] text-[#A1A1AA]">Join One</p>
